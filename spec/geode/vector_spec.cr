@@ -1,0 +1,33 @@
+require "../spec_helper"
+
+Spectator.describe Geode::Vector do
+  subject(vector) { Geode::Vector(Int32, 3).new { |i| i + 1 } }
+
+  it "stores values for components" do
+    aggregate_failures do
+      expect(vector[0]).to eq(1)
+      expect(vector[1]).to eq(2)
+      expect(vector[2]).to eq(3)
+    end
+  end
+
+  describe ".zero" do
+    subject(zero) { Geode::Vector(Int32, 3).zero }
+
+    it "returns a zero vector" do
+      aggregate_failures do
+        expect(zero[0]).to eq(0)
+        expect(zero[1]).to eq(0)
+        expect(zero[2]).to eq(0)
+      end
+    end
+  end
+
+  describe "#size" do
+    subject { vector.size }
+
+    it "is the correct value" do
+      is_expected.to eq(3)
+    end
+  end
+end
