@@ -14,6 +14,10 @@ module Geode
     #
     # The value of each component should be returned from the block.
     # The block will be given the index of each component as an argument.
+    #
+    # ```
+    # Geode::Vector(Int32, 3).new { |i| i * 5 } # => (0, 5, 10)
+    # ```
     def initialize(& : Int32 -> T)
       @vec = StaticArray(T, N).new { |i| yield i }
     end
@@ -23,6 +27,10 @@ module Geode
     # Each component will have a scalar value equal to the type's'zero value.
     # This is done by calling `T.zero` for each component.
     # The type *T* must have a class method
+    #
+    # ```
+    # Geode::Vector(Float32, 3).zero # => (0.0, 0.0, 0.0)
+    # ```
     def self.zero : self
       new { T.zero }
     end
