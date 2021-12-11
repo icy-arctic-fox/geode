@@ -22,7 +22,7 @@ module Geode
     #
     # Each component will have a scalar value equal to the type's'zero value.
     # This is done by calling `T.zero` for each component.
-    # The type *T* must have a class method 
+    # The type *T* must have a class method
     def self.zero : self
       new { T.zero }
     end
