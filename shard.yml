@@ -1,0 +1,15 @@
+name: Geode
+version: 0.1.0
+license: MIT
+description: |
+  Mathematics library supporting vectors, matrices, quaternions, and more.
+
+authors:
+  - Michael Miller <icy.arctic.fox@gmail.com>
+
+development_dependencies:
+  spectator:
+    gitlab: arctic-fox/spectator
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.14.3
