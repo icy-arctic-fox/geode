@@ -10,6 +10,22 @@ module Geode
     # Storage for the vector is implemented with a static array.
     @vec : StaticArray(T, N)
 
+    # Constructs the vector with existing components.
+    #
+    # The type of the components is derived from the type of the components.
+    # The size of the vector is determined by the number of components.
+    #
+    # ```
+    # Geode::Vector[1, 2, 3] # => (1, 2, 3)
+    # ```
+    macro [](*components)
+      {{@type.name(generic_args: false)}}.new(StaticArray[{{*components}}])
+    end
+
+    # Constructs the vector with pre-existing values.
+    def initialize(@vec : StaticArray(T, N))
+    end
+
     # Constructs the vector by yielding for each component.
     #
     # The value of each component should be returned from the block.

@@ -1,7 +1,7 @@
 require "../spec_helper"
 
 Spectator.describe Geode::Vector do
-  subject(vector) { Geode::Vector(Int32, 3).new { |i| i + 1 } }
+  subject(vector) { Geode::Vector[1, 2, 3] }
 
   it "stores values for components" do
     aggregate_failures do
