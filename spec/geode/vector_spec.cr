@@ -31,6 +31,47 @@ Spectator.describe Geode::Vector do
     end
   end
 
+  describe "#map" do
+    it "creates a Vector" do
+      mapped = vector.map(&.itself)
+      expect(mapped).to be_a(Geode::Vector(Int32, 3))
+    end
+
+    it "uses the new values" do
+      mapped = vector.map { |v| v.to_f * 2 }
+      aggregate_failures do
+        expect(mapped[0]).to eq(2.0)
+        expect(mapped[1]).to eq(4.0)
+        expect(mapped[2]).to eq(6.0)
+      end
+    end
+  end
+
+  describe "#map_with_index" do
+    it "creates a Vector" do
+      mapped = vector.map_with_index(&.itself)
+      expect(mapped).to be_a(Geode::Vector(Int32, 3))
+    end
+
+    it "uses the new values" do
+      mapped = vector.map_with_index { |v, i| v * i }
+      aggregate_failures do
+        expect(mapped[0]).to eq(0)
+        expect(mapped[1]).to eq(2)
+        expect(mapped[2]).to eq(6)
+      end
+    end
+
+    it "adds the offset" do
+      mapped = vector.map_with_index(3) { |v, i| v * i }
+      aggregate_failures do
+        expect(mapped[0]).to eq(3)
+        expect(mapped[1]).to eq(8)
+        expect(mapped[2]).to eq(15)
+      end
+    end
+  end
+
   describe "#to_s" do
     subject { vector.to_s }
 
