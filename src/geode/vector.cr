@@ -12,7 +12,7 @@ module Geode
 
     # Constructs the vector with existing components.
     #
-    # The type of the components is derived from the type of the components.
+    # The type of the components is derived from the type of each argument.
     # The size of the vector is determined by the number of components.
     #
     # ```
@@ -56,16 +56,6 @@ module Geode
       N
     end
 
-    # Produces a string representation of the vector.
-    #
-    # The format is: `(x, y, z)`
-    # but with the corresponding number of components.
-    def to_s(io : IO) : Nil
-      io << '('
-      join(io, ", ")
-      io << ')'
-    end
-
     # Retrieves the scalar value of the component at the given *index*,
     # without checking size boundaries.
     #
@@ -76,6 +66,36 @@ module Geode
     @[AlwaysInline]
     def unsafe_fetch(index : Int)
       @vec.unsafe_fetch(index)
+    end
+
+    # Produces a string representation of the vector.
+    #
+    # The format is: `(x, y, z)`
+    # but with the corresponding number of components.
+    def to_s(io : IO) : Nil
+      io << '('
+      join(io, ", ")
+      io << ')'
+    end
+
+    # Returns a slice that points to the components in this vector.
+    #
+    # NOTE: The returned slice is only valid for the caller's scope and sub-calls.
+    #   The slice points to memory on the stack, it will be invalid after the caller returns.
+    @[AlwaysInline]
+    def to_slice : Slice(T)
+      @vec.to_slice
+    end
+
+    # Returns a pointer to the data for this vector.
+    #
+    # The components are tightly packed and ordered consecutively in memory.
+    #
+    # NOTE: The returned pointer is only valid for the caller's scope and sub-calls.
+    #   The pointer refers to memory on the stack, it will be invalid after the caller returns.
+    @[AlwaysInline]
+    def to_unsafe : Pointer(T)
+      @vec.to_unsafe
     end
   end
 end

@@ -46,4 +46,31 @@ Spectator.describe Geode::Vector do
       is_expected.to match(/^\(\d+, \d+, \d+\)$/)
     end
   end
+
+  describe "#to_slice" do
+    it "is the size of the vector" do
+      slice = vector.to_slice
+      expect(slice.size).to eq(3)
+    end
+
+    it "contains the components" do
+      slice = vector.to_slice
+      aggregate_failures do
+        expect(slice[0]).to eq(1)
+        expect(slice[1]).to eq(2)
+        expect(slice[2]).to eq(3)
+      end
+    end
+  end
+
+  describe "#to_unsafe" do
+    it "references the components" do
+      pointer = vector.to_unsafe
+      aggregate_failures do
+        expect(pointer[0]).to eq(1)
+        expect(pointer[1]).to eq(2)
+        expect(pointer[2]).to eq(3)
+      end
+    end
+  end
 end
