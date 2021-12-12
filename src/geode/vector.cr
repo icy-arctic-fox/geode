@@ -56,6 +56,16 @@ module Geode
       N
     end
 
+    # Produces a string representation of the vector.
+    #
+    # The format is: `(x, y, z)`
+    # but with the corresponding number of components.
+    def to_s(io : IO) : Nil
+      io << '('
+      join(io, ", ")
+      io << ')'
+    end
+
     # Retrieves the scalar value of the component at the given *index*,
     # without checking size boundaries.
     #

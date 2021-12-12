@@ -30,4 +30,20 @@ Spectator.describe Geode::Vector do
       is_expected.to eq(3)
     end
   end
+
+  describe "#to_s" do
+    subject { vector.to_s }
+
+    it "contains the components" do
+      aggregate_failures do
+        is_expected.to contain("1")
+        is_expected.to contain("2")
+        is_expected.to contain("3")
+      end
+    end
+
+    it "is formatted correctly" do
+      is_expected.to match(/^\(\d+, \d+, \d+\)$/)
+    end
+  end
 end
