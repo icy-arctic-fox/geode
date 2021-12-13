@@ -101,6 +101,14 @@ module Geode
       io << ')'
     end
 
+    # Produces a debugger-friendly string representation of the vector.
+    def inspect(io : IO) : Nil
+      io << self.class
+      io << "#<"
+      join(io, ", ")
+      io << '>'
+    end
+
     # Returns a slice that points to the components in this vector.
     #
     # NOTE: The returned slice is only valid for the caller's scope and sub-calls.
