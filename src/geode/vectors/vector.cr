@@ -16,7 +16,7 @@ module Geode
     # The size of the vector is determined by the number of components.
     #
     # ```
-    # Geode::Vector[1, 2, 3] # => (1, 2, 3)
+    # Vector[1, 2, 3] # => (1, 2, 3)
     # ```
     macro [](*components)
       {{@type.name(generic_args: false)}}.new(StaticArray[{{*components}}])
@@ -32,7 +32,7 @@ module Geode
     # The block will be given the index of each component as an argument.
     #
     # ```
-    # Geode::Vector(Int32, 3).new { |i| i * 5 } # => (0, 5, 10)
+    # Vector(Int32, 3).new { |i| i * 5 } # => (0, 5, 10)
     # ```
     def initialize(& : Int32 -> T)
       @vec = StaticArray(T, N).new { |i| yield i }
@@ -45,7 +45,7 @@ module Geode
     # The type *T* must have a class method
     #
     # ```
-    # Geode::Vector(Float32, 3).zero # => (0.0, 0.0, 0.0)
+    # Vector(Float32, 3).zero # => (0.0, 0.0, 0.0)
     # ```
     def self.zero : self
       new { T.zero }
@@ -72,7 +72,7 @@ module Geode
     #
     # ```
     # vector = Vector[1, 2, 3]
-    # vector.map_with_index { |v, i| v * i } # => (0, 2, 6)
+    # vector.map_with_index { |v, i| v * i }    # => (0, 2, 6)
     # vector.map_with_index(3) { |v, i| v + i } # => (4, 6, 8)
     # ```
     def map_with_index(offset = 0, & : (T, Int32) -> U) : Vector(U, N) forall U
