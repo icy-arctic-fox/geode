@@ -15,11 +15,7 @@ Spectator.describe Geode::Vector do
     subject(zero) { Geode::Vector(Int32, 3).zero }
 
     it "returns a zero vector" do
-      aggregate_failures do
-        expect(zero[0]).to eq(0)
-        expect(zero[1]).to eq(0)
-        expect(zero[2]).to eq(0)
-      end
+      expect(zero).to eq(Geode::Vector[0, 0, 0])
     end
   end
 
@@ -39,11 +35,7 @@ Spectator.describe Geode::Vector do
 
     it "uses the new values" do
       mapped = vector.map { |v| v.to_f * 2 }
-      aggregate_failures do
-        expect(mapped[0]).to eq(2.0)
-        expect(mapped[1]).to eq(4.0)
-        expect(mapped[2]).to eq(6.0)
-      end
+      expect(mapped).to eq(Geode::Vector[2.0, 4.0, 6.0])
     end
   end
 
@@ -55,20 +47,12 @@ Spectator.describe Geode::Vector do
 
     it "uses the new values" do
       mapped = vector.map_with_index { |v, i| v * i }
-      aggregate_failures do
-        expect(mapped[0]).to eq(0)
-        expect(mapped[1]).to eq(2)
-        expect(mapped[2]).to eq(6)
-      end
+      expect(mapped).to eq(Geode::Vector[0, 2, 6])
     end
 
     it "adds the offset" do
       mapped = vector.map_with_index(3) { |v, i| v * i }
-      aggregate_failures do
-        expect(mapped[0]).to eq(3)
-        expect(mapped[1]).to eq(8)
-        expect(mapped[2]).to eq(15)
-      end
+      expect(mapped).to eq(Geode::Vector[3, 8, 15])
     end
   end
 
@@ -96,11 +80,7 @@ Spectator.describe Geode::Vector do
 
     it "contains the components" do
       slice = vector.to_slice
-      aggregate_failures do
-        expect(slice[0]).to eq(1)
-        expect(slice[1]).to eq(2)
-        expect(slice[2]).to eq(3)
-      end
+      expect(slice).to eq(Slice[1, 2, 3])
     end
   end
 
