@@ -1,3 +1,5 @@
+require "./operations"
+
 module Geode
   # Generic vector type.
   # Provides a collection of scalars of the same type.
@@ -6,6 +8,7 @@ module Geode
   # *N* is a positive integer indicating the number of components.
   struct Vector(T, N)
     include Indexable(T)
+    include VectorOperations(N)
 
     # Storage for the vector is implemented with a static array.
     @vec : StaticArray(T, N)

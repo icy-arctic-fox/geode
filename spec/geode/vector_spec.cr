@@ -94,4 +94,131 @@ Spectator.describe Geode::Vector do
       end
     end
   end
+
+  context Geode::VectorOperations do
+    describe "#abs" do
+      it "returns the absolute value" do
+        expect(Geode::Vector[-5, 42, -20].abs).to eq(Geode::Vector[5, 42, 20])
+      end
+    end
+
+    describe "#abs2" do
+      it "returns the absolute value squared" do
+        expect(Geode::Vector[-5, 3, -2].abs2).to eq(Geode::Vector[25, 9, 4])
+      end
+    end
+
+    describe "#round" do
+      it "rounds the components" do
+        expect(Geode::Vector[1.2, -5.7, 3.0].round).to eq(Geode::Vector[1.0, -6.0, 3.0])
+      end
+
+      context "with digits" do
+        it "rounds the components" do
+          expect(Geode::Vector[1.25, -5.77, 3.01].round(1)).to eq(Geode::Vector[1.2, -5.8, 3.0])
+        end
+      end
+    end
+
+    describe "#sign" do
+      it "returns the sign of each component" do
+        expect(Geode::Vector[5, 0, -5].sign).to eq(Geode::Vector[1, 0, -1])
+      end
+    end
+
+    describe "#ceil" do
+      it "returns the components rounded up" do
+        expect(Geode::Vector[1.2, -5.7, 3.0].ceil).to eq(Geode::Vector[2.0, -5.0, 3.0])
+      end
+    end
+
+    describe "#floor" do
+      it "returns the components rounded down" do
+        expect(Geode::Vector[1.2, -5.7, 3.0].floor).to eq(Geode::Vector[1.0, -6.0, 3.0])
+      end
+    end
+
+    describe "#fraction" do
+      it "returns the fraction part of each component" do
+        fraction = Geode::Vector[1.2, -5.7, 3.0].fraction
+        aggregate_failures do
+          expect(fraction[0]).to be_within(0.000000000000001).of(0.2)
+          expect(fraction[1]).to be_within(0.000000000000001).of(0.3)
+          expect(fraction[2]).to be_within(0.000000000000001).of(0.0)
+        end
+      end
+    end
+
+    describe "#clamp" do
+      context "with a min and max vectors" do
+        it "restricts components" do
+          min = Geode::Vector[-1, -2, -3]
+          max = Geode::Vector[1, 2, 3]
+          expect(Geode::Vector[-2, 3, 0].clamp(min, max)).to eq(Geode::Vector[-1, 2, 0])
+        end
+      end
+
+      context "with a range of vectors" do
+        it "restricts components" do
+          min = Geode::Vector[-1, -2, -3]
+          max = Geode::Vector[1, 2, 3]
+          expect(Geode::Vector[-2, 3, 0].clamp(min..max)).to eq(Geode::Vector[-1, 2, 0])
+        end
+      end
+
+      context "with a min and max" do
+        it "restricts components" do
+          expect(Geode::Vector[-2, 3, 0].clamp(-1, 1)).to eq(Geode::Vector[-1, 1, 0])
+        end
+      end
+
+      context "with a range" do
+        it "restricts components" do
+          expect(Geode::Vector[-2, 3, 0].clamp(-1..1)).to eq(Geode::Vector[-1, 1, 0])
+        end
+      end
+    end
+
+    describe "#- (negation)" do
+      it "negates the vector" do
+        expect(-Geode::Vector[-2, 3, 0]).to eq(Geode::Vector[2, -3, 0])
+      end
+    end
+
+    describe "#+" do
+      it "adds two vectors" do
+        v1 = Geode::Vector[5, -2, 0]
+        v2 = Geode::Vector[2, -1, 4]
+        expect(v1 + v2).to eq(Geode::Vector[7, -3, 4])
+      end
+    end
+
+    describe "#-" do
+      it "subtracts two vectors" do
+        v1 = Geode::Vector[5, -2, 0]
+        v2 = Geode::Vector[2, -1, 4]
+        expect(v1 - v2).to eq(Geode::Vector[3, -1, -4])
+      end
+    end
+
+    describe "#*" do
+      it "scales a vector" do
+        expect(vector * 3).to eq(Geode::Vector[3, 6, 9])
+      end
+    end
+
+    describe "#/" do
+      it "scales a vector" do
+        vector = Geode::Vector[6.0, 4.0, 2.0]
+        expect(vector / 2).to eq(Geode::Vector[3.0, 2.0, 1.0])
+      end
+    end
+
+    describe "#//" do
+      it "scales the vector" do
+        vector = Geode::Vector[6, 4, 2]
+        expect(vector // 2).to eq(Geode::Vector[3, 2, 1])
+      end
+    end
+  end
 end
