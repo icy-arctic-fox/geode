@@ -1,3 +1,4 @@
+require "./comparison"
 require "./operations"
 
 module Geode
@@ -8,6 +9,7 @@ module Geode
   # *N* is a positive integer indicating the number of components.
   struct Vector(T, N)
     include Indexable(T)
+    include VectorComparison(N)
     include VectorOperations(N)
 
     # Storage for the vector is implemented with a static array.

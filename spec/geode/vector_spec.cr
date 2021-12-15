@@ -223,4 +223,81 @@ Spectator.describe Geode::Vector do
       end
     end
   end
+
+  context Geode::VectorComparison do
+    let(v1) { Geode::Vector[1, 2, 3] }
+    let(v2) { Geode::Vector[3, 2, 1] }
+
+    describe "#compare" do
+      it "compares components" do
+        expect(v1.compare(v2)).to eq(Geode::Vector[-1, 0, 1])
+      end
+    end
+
+    describe "#eq?" do
+      it "compares components" do
+        expect(v1.eq?(v2)).to eq(Geode::Vector[false, true, false])
+      end
+    end
+
+    describe "#lt?" do
+      it "compares components" do
+        expect(v1.lt?(v2)).to eq(Geode::Vector[true, false, false])
+      end
+    end
+
+    describe "#le?" do
+      it "compares components" do
+        expect(v1.le?(v2)).to eq(Geode::Vector[true, true, false])
+      end
+    end
+
+    describe "#gt?" do
+      it "compares components" do
+        expect(v1.gt?(v2)).to eq(Geode::Vector[false, false, true])
+      end
+    end
+
+    describe "#ge?" do
+      it "compares components" do
+        expect(v1.ge?(v2)).to eq(Geode::Vector[false, true, true])
+      end
+    end
+
+    describe "#zero?" do
+      subject { vector.zero? }
+
+      context "with a zero vector" do
+        let(vector) { Geode::Vector(Int32, 3).zero }
+
+        it "returns true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with a non-zero vector" do
+        it "returns false" do
+          is_expected.to be_false
+        end
+      end
+    end
+
+    describe "#near_zero?" do
+      subject { vector.near_zero?(0.1) }
+
+      context "with components within tolerance of zero" do
+        let(vector) { Geode::Vector[0.1, 0.01, 0.0] }
+
+        it "returns true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with components not within tolerance of zero" do
+        it "returns false" do
+          is_expected.to be_false
+        end
+      end
+    end
+  end
 end
