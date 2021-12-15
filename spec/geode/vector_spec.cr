@@ -48,8 +48,8 @@ Spectator.describe Geode::Vector do
     end
 
     it "uses the new values" do
-      mapped = vector.map_with_index { |v, i| v * i }
-      expect(mapped).to eq(Geode::Vector[0, 2, 6])
+      mapped = vector.map_with_index { |v, i| v.to_f * i }
+      expect(mapped).to eq(Geode::Vector[0.0, 2.0, 6.0])
     end
 
     it "adds the offset" do

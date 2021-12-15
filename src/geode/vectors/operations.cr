@@ -91,38 +91,11 @@ module Geode
     # Returns a vector restricted to the minimum and maximum values from other vectors.
     #
     # ```
-    # min = Vector3.new(-1, -1, -1)
-    # max = Vector3.new(1, 1, 1)
-    # Vector3.new(5, -2, 0).clamp(min, max) # => (1, -1, 0)
-    # ```
-    def clamp(min : self?, max : self?) : self
-      map_with_index do |v, i|
-        lower = min.unsafe_fetch(i)
-        upper = max.unsafe_fetch(i)
-        v.clamp(lower, upper)
-      end
-    end
-
-    # Returns a vector restricted to the range from other vectors.
-    #
-    # ```
-    # min = Vector3.new(-1, -1, -1)
-    # max = Vector3.new(1, 1, 1)
-    # Vector3.new(5, -2, 0).clamp(min..max) # => (1, -1, 0)
-    # ```
-    def clamp(range : Range(self, self)) : self
-      raise ArgumentError.new("Can't clamp an exclusive range") if !range.end.nil? && range.exclusive?
-      clamp(range.begin, range.end)
-    end
-
-    # Returns a vector restricted to the minimum and maximum values from other vectors.
-    #
-    # ```
     # min = Vector[-1, -1, -1]
     # max = Vector[1, 1, 1]
     # Vector[5, -2, 0].clamp(min, max) # => (1, -1, 0)
     # ```
-    def clamp(min : Vector(T, N), max : Vector(T, N)) forall T
+    def clamp(min : CommonVector(T, N), max : CommonVector(T, N)) forall T
       map_with_index do |v, i|
         lower = min.unsafe_fetch(i)
         upper = max.unsafe_fetch(i)
@@ -137,7 +110,7 @@ module Geode
     # max = Vector[1, 1, 1]
     # Vector[5, -2, 0].clamp(min..max) # => (1, -1, 0)
     # ```
-    def clamp(range : Range(Vector(T, N), Vector(T, N))) forall T
+    def clamp(range : Range(CommonVector(T, N), CommonVector(T, N))) forall T
       raise ArgumentError.new("Can't clamp an exclusive range") if !range.end.nil? && range.exclusive?
       clamp(range.begin, range.end)
     end
@@ -179,33 +152,11 @@ module Geode
     # Adds two vectors together.
     #
     # ```
-    # Vector3.new(5, -2, 0) + Vector3.new(2, -1, 4) # => (7, -3, 4)
-    # ```
-    def +(other : self) : self
-      map_with_index do |v, i|
-        v + other.unsafe_fetch(i)
-      end
-    end
-
-    # Adds two vectors together.
-    #
-    # ```
     # Vector[5, -2, 0] + Vector[2, -1, 4] # => (7, -3, 4)
     # ```
-    def +(other : Vector(T, N)) forall T
+    def +(other : CommonVector(T, N)) forall T
       map_with_index do |v, i|
         v + other.unsafe_fetch(i)
-      end
-    end
-
-    # Subtracts another vector from this one.
-    #
-    # ```
-    # Vector3.new(5, -2, 0) - Vector3.new(2, -1, 4) # => (3, -1, -4)
-    # ```
-    def -(other : self) : self
-      map_with_index do |v, i|
-        v - other.unsafe_fetch(i)
       end
     end
 
@@ -214,7 +165,7 @@ module Geode
     # ```
     # Vector[5, -2, 0] - Vector[2, -1, 4] # => (3, -1, -4)
     # ```
-    def -(other : Vector(T, N)) forall T
+    def -(other : CommonVector(T, N)) forall T
       map_with_index do |v, i|
         v - other.unsafe_fetch(i)
       end
