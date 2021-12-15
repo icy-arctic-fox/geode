@@ -1,6 +1,8 @@
 require "../spec_helper"
 
 Spectator.describe Geode::Vector do
+  TOLERANCE = 0.000000000000001
+
   subject(vector) { Geode::Vector[1, 2, 3] }
 
   it "stores values for components" do
@@ -142,9 +144,9 @@ Spectator.describe Geode::Vector do
       it "returns the fraction part of each component" do
         fraction = Geode::Vector[1.2, -5.7, 3.0].fraction
         aggregate_failures do
-          expect(fraction[0]).to be_within(0.000000000000001).of(0.2)
-          expect(fraction[1]).to be_within(0.000000000000001).of(0.3)
-          expect(fraction[2]).to be_within(0.000000000000001).of(0.0)
+          expect(fraction[0]).to be_within(TOLERANCE).of(0.2)
+          expect(fraction[1]).to be_within(TOLERANCE).of(0.3)
+          expect(fraction[2]).to be_within(TOLERANCE).of(0.0)
         end
       end
     end
