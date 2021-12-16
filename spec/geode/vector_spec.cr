@@ -58,6 +58,15 @@ Spectator.describe Geode::Vector do
     end
   end
 
+  describe "#zip_map" do
+    it "iterates two vectors" do
+      v1 = Geode::Vector[5, 8, 9]
+      v2 = Geode::Vector[5, 4, 3]
+      result = v1.zip_map(v2) { |a, b| a // b }
+      expect(result).to eq(Geode::Vector[1, 2, 3])
+    end
+  end
+
   describe "#to_s" do
     subject { vector.to_s }
 

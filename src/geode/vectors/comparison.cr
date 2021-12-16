@@ -18,9 +18,7 @@ module Geode
     # Vector[1, 2, 3] <=> Vector[3, 2, 1] # => (-1, 0, 1)
     # ```
     def compare(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v <=> other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a <=> b }
     end
 
     # Checks if components between two vectors are equal.
@@ -34,9 +32,7 @@ module Geode
     # Vector[1, 2, 3] == Vector[3, 2, 1] # => (false, true, false)
     # ```
     def eq?(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v == other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a == b }
     end
 
     # Checks if components of this vector are less than those from another vector.
@@ -50,9 +46,7 @@ module Geode
     # Vector[1, 2, 3] < Vector[3, 2, 1] # => (true, false, false)
     # ```
     def lt?(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v < other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a < b }
     end
 
     # Checks if components of this vector are less than or equal to those from another vector.
@@ -66,9 +60,7 @@ module Geode
     # Vector[1, 2, 3] <= Vector[3, 2, 1] # => (true, true, false)
     # ```
     def le?(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v <= other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a <= b }
     end
 
     # Checks if components of this vector are greater than those from another vector.
@@ -82,9 +74,7 @@ module Geode
     # Vector[1, 2, 3] > Vector[3, 2, 1] # => (false, false, true)
     # ```
     def gt?(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v > other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a > b }
     end
 
     # Checks if components of this vector are greater than or equal to those from another vector.
@@ -98,9 +88,7 @@ module Geode
     # Vector[1, 2, 3] >= Vector[3, 2, 1] # => (false, true, true)
     # ```
     def ge?(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v >= other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a >= b }
     end
 
     # Checks if this is a zero-vector.

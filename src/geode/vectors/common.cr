@@ -34,6 +34,20 @@ module Geode
     # ```
     abstract def map_with_index(offset = 0, & : T, Int32 -> U) : CommonVector forall U
 
+    # Returns a new vector by iterating through each component of this vector and another.
+    #
+    # ```
+    # v1 = Vector[1, 2, 3]
+    # v2 = Vector[3, 2, 1]
+    # v1.zip_map { |a, b| Math.min(a, b) } # => (1, 2, 1)
+    # ```
+    def zip_map(other : CommonVector(U, N), & : T, U -> V) : CommonVector(V, N) forall U, V
+      map_with_index do |v, i|
+        u = other.unsafe_fetch(i)
+        yield v, u
+      end
+    end
+
     # Produces a string representation of the vector.
     #
     # The format is: `(x, y, z)`

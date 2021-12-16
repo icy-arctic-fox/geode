@@ -155,9 +155,7 @@ module Geode
     # Vector[5, -2, 0] + Vector[2, -1, 4] # => (7, -3, 4)
     # ```
     def +(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v + other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a + b }
     end
 
     # Subtracts another vector from this one.
@@ -166,9 +164,7 @@ module Geode
     # Vector[5, -2, 0] - Vector[2, -1, 4] # => (3, -1, -4)
     # ```
     def -(other : CommonVector(T, N)) forall T
-      map_with_index do |v, i|
-        v - other.unsafe_fetch(i)
-      end
+      zip_map(other) { |a, b| a - b }
     end
 
     # Scales each component by the specified amount.
