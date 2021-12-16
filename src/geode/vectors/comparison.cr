@@ -15,9 +15,9 @@ module Geode
     # - nil if the components can't be compared.
     #
     # ```
-    # Vector[1, 2, 3] <=> Vector[3, 2, 1] # => (-1, 0, 1)
+    # Vector[1, 2, 3].compare(Vector[3, 2, 1]) # => (-1, 0, 1)
     # ```
-    def compare(other : CommonVector(T, N)) forall T
+    def compare(other : CommonVector(T, N)) : CommonVector(Int32, N) forall T
       zip_map(other) { |a, b| a <=> b }
     end
 
@@ -29,9 +29,9 @@ module Geode
     # if the corresponding vector components were equal.
     #
     # ```
-    # Vector[1, 2, 3] == Vector[3, 2, 1] # => (false, true, false)
+    # Vector[1, 2, 3].eq?(Vector[3, 2, 1]) # => (false, true, false)
     # ```
-    def eq?(other : CommonVector(T, N)) forall T
+    def eq?(other : CommonVector(T, N)) : CommonVector(Bool, N) forall T
       zip_map(other) { |a, b| a == b }
     end
 
@@ -43,9 +43,9 @@ module Geode
     # if the corresponding component from this vector is less than the component from *other*.
     #
     # ```
-    # Vector[1, 2, 3] < Vector[3, 2, 1] # => (true, false, false)
+    # Vector[1, 2, 3].lt?(Vector[3, 2, 1]) # => (true, false, false)
     # ```
-    def lt?(other : CommonVector(T, N)) forall T
+    def lt?(other : CommonVector(T, N)) : CommonVector(Bool, N) forall T
       zip_map(other) { |a, b| a < b }
     end
 
@@ -57,9 +57,9 @@ module Geode
     # if the corresponding component from this vector is less than or equal to the component from *other*.
     #
     # ```
-    # Vector[1, 2, 3] <= Vector[3, 2, 1] # => (true, true, false)
+    # Vector[1, 2, 3].le?(Vector[3, 2, 1]) # => (true, true, false)
     # ```
-    def le?(other : CommonVector(T, N)) forall T
+    def le?(other : CommonVector(T, N)) : CommonVector(Bool, N) forall T
       zip_map(other) { |a, b| a <= b }
     end
 
@@ -71,9 +71,9 @@ module Geode
     # if the corresponding component from this vector is greater than the component from *other*.
     #
     # ```
-    # Vector[1, 2, 3] > Vector[3, 2, 1] # => (false, false, true)
+    # Vector[1, 2, 3].gt?(Vector[3, 2, 1]) # => (false, false, true)
     # ```
-    def gt?(other : CommonVector(T, N)) forall T
+    def gt?(other : CommonVector(T, N)) : CommonVector(Bool, N) forall T
       zip_map(other) { |a, b| a > b }
     end
 
@@ -85,9 +85,9 @@ module Geode
     # if the corresponding component from this vector is greater than or equal to the component from *other*.
     #
     # ```
-    # Vector[1, 2, 3] >= Vector[3, 2, 1] # => (false, true, true)
+    # Vector[1, 2, 3].ge?(Vector[3, 2, 1]) # => (false, true, true)
     # ```
-    def ge?(other : CommonVector(T, N)) forall T
+    def ge?(other : CommonVector(T, N)) : CommonVector(Bool, N) forall T
       zip_map(other) { |a, b| a >= b }
     end
 
