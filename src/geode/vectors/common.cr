@@ -32,7 +32,14 @@ module Geode
     # vector.map_with_index { |v, i| v * i }    # => (0, 2, 6)
     # vector.map_with_index(3) { |v, i| v + i } # => (4, 6, 8)
     # ```
-    abstract def map_with_index(offset = 0, & : T, Int32 -> U) : CommonVector forall U
+    def map_with_index(offset = 0, & : T, Int32 -> U) : CommonVector(U, N) forall U
+      i = offset
+      map do |v|
+        u = yield v, i
+        i += 1
+        u
+      end
+    end
 
     # Returns a new vector by iterating through each component of this vector and another.
     #

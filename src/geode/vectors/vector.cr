@@ -63,19 +63,6 @@ module Geode
       Vector(U, N).new { |i| yield unsafe_fetch(i) }
     end
 
-    # Like `#map`, but the block gets the component and its index as arguments.
-    #
-    # Accepts an optional *offset* parameter, which to start the index at.
-    #
-    # ```
-    # vector = Vector[1, 2, 3]
-    # vector.map_with_index { |v, i| v * i }    # => (0, 2, 6)
-    # vector.map_with_index(3) { |v, i| v + i } # => (4, 6, 8)
-    # ```
-    def map_with_index(offset = 0, & : (T, Int32) -> U) : CommonVector forall U
-      Vector(U, N).new { |i| yield unsafe_fetch(i), offset + i }
-    end
-
     # Retrieves the scalar value of the component at the given *index*,
     # without checking size boundaries.
     #
