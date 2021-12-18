@@ -309,4 +309,91 @@ Spectator.describe Geode::Vector do
       end
     end
   end
+
+  context Geode::VectorGeometry do
+    TOLERANCE = 0.000000001
+
+    describe "#mag" do
+      subject { vector.mag }
+
+      it "returns the magnitude" do
+        is_expected.to be_within(TOLERANCE).of(3.741657387)
+      end
+    end
+
+    describe "#mag2" do
+      subject { vector.mag2 }
+
+      it "returns the magnitude squared" do
+        is_expected.to eq(14)
+      end
+    end
+
+    describe "#length" do
+      subject { vector.length }
+
+      it "returns the magnitude" do
+        is_expected.to be_within(TOLERANCE).of(3.741657387)
+      end
+    end
+
+    describe "#normalize" do
+      subject { vector.normalize }
+
+      it "returns a unit vector" do
+        expect(&.mag).to be_within(TOLERANCE).of(1.0)
+      end
+
+      it "scales the components equally" do
+        scale = 3.741657387
+        aggregate_failures do
+          expect(vector[0] / subject[0]).to be_within(TOLERANCE).of(scale)
+          expect(vector[1] / subject[1]).to be_within(TOLERANCE).of(scale)
+          expect(vector[2] / subject[2]).to be_within(TOLERANCE).of(scale)
+        end
+      end
+    end
+
+    describe "#scale_to" do
+      subject { vector.scale_to(5.0) }
+
+      it "returns a vector of the given magnitude" do
+        expect(&.mag).to be_within(TOLERANCE).of(5.0)
+      end
+
+      it "scales the components equally" do
+        scale = 0.748331477
+        aggregate_failures do
+          expect(vector[0] / subject[0]).to be_within(TOLERANCE).of(scale)
+          expect(vector[1] / subject[1]).to be_within(TOLERANCE).of(scale)
+          expect(vector[2] / subject[2]).to be_within(TOLERANCE).of(scale)
+        end
+      end
+    end
+
+    describe "#dot" do
+      subject { vector.dot(other) }
+      let(other) { Geode::Vector[10, 20, 30] }
+
+      it "computes the dot-product" do
+        is_expected.to eq(140)
+      end
+    end
+
+    describe "#scale" do
+      context "with a vector" do
+        let(other) { Geode::Vector[2, 3, 4] }
+
+        it "scales each component separately" do
+          expect(vector.scale(other)).to eq(Geode::Vector[2, 6, 12])
+        end
+      end
+
+      context "with a scalar" do
+        it "scales each component by the same amount" do
+          expect(vector.scale(5)).to eq(Geode::Vector[5, 10, 15])
+        end
+      end
+    end
+  end
 end

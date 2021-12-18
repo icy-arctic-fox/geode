@@ -1,4 +1,5 @@
 require "./comparison"
+require "./geometry"
 require "./operations"
 
 module Geode
@@ -8,6 +9,7 @@ module Geode
   module CommonVector(T, N)
     include Indexable(T)
     include VectorComparison(N)
+    include VectorGeometry(N)
     include VectorOperations(N)
 
     # Returns the number of components in this vector.
