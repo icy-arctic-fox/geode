@@ -143,7 +143,7 @@ module Geode
     # Returns a negated vector.
     #
     # ```
-    # -Vector[5, -2, 0] # => (5, 2, 0)
+    # -Vector[5, -2, 0] # => (-5, 2, 0)
     # ```
     def - : self
       map &.-
