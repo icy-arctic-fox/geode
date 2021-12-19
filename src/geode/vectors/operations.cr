@@ -148,7 +148,7 @@ module Geode
     def edge(edge : T) : self forall T
       map { |v| v < edge ? T.zero : T.new(1) }
     end
-  
+
     # Returns a new vector where each component is 0 if it's less than the corresponding edge value, or 1 if it's greater.
     #
     # ```

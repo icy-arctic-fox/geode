@@ -245,7 +245,7 @@ Spectator.describe Geode::Vector2 do
     end
 
     describe "#/" do
-    let(vector) { Geode::Vector2[6.0, 4.0] }
+      let(vector) { Geode::Vector2[6.0, 4.0] }
 
       it "scales a vector" do
         expect(vector / 2).to eq(Geode::Vector2[3.0, 2.0])
@@ -253,7 +253,7 @@ Spectator.describe Geode::Vector2 do
     end
 
     describe "#//" do
-    let(vector) { Geode::Vector2[6, 4] }
+      let(vector) { Geode::Vector2[6, 4] }
 
       it "scales the vector" do
         expect(vector // 2).to eq(Geode::Vector2[3, 2])
