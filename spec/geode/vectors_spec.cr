@@ -4,7 +4,7 @@ Spectator.describe Geode do
   let(v1) { Geode::Vector[3, 5, 7] }
   let(v2) { Geode::Vector[7, 5, 3] }
 
-  describe "#min" do
+  describe ".min" do
     context "with two vectors" do
       it "returns the lesser components" do
         expect(Geode.min(v1, v2)).to eq(Geode::Vector[3, 5, 3])
@@ -18,7 +18,7 @@ Spectator.describe Geode do
     end
   end
 
-  describe "#max" do
+  describe ".max" do
     context "with two vectors" do
       it "returns the greater components" do
         expect(Geode.max(v1, v2)).to eq(Geode::Vector[7, 5, 7])
