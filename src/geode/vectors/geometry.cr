@@ -73,5 +73,42 @@ module Geode
       end
       sum
     end
+
+    # Orients a vector to point in the same direction as another.
+    #
+    # The *surface* is a vector to orient with.
+    def forward(surface : CommonVector(T, N)) : CommonVector forall T
+      dot(surface) < T.zero ? -self : self
+    end
+
+    # Computes a reflected vector on a surface.
+    #
+    # The *surface* is a normal vector for the surface to reflect against.
+    #
+    # ```
+    # Vector[-1, 1].reflect(Vector[0, 1]) # => (1, 1)
+    # ```
+    def reflect(surface : CommonVector(T, N)) : CommonVector forall T
+      norm = surface.normalize
+      self - norm * dot(norm) * T.new(2)
+    end
+
+    # Computes a refracted vector through a surface.
+    #
+    # The *surface* is a normal vector for the surface to travel through.
+    # *eta* is the ratio of refractive indices.
+    # Returns a zero vector for total internal reflection.
+    #
+    # ```
+    # Vector[-1, 1].refract(Vector[0, 1], 1.333) # => (-1.333, -1.0)
+    # ```
+    def refract(surface : CommonVector(T, N), eta : Number) : CommonVector forall T
+      norm = surface.normalize
+      dot = dot(norm)
+      k = T.new(1) - eta.abs2 * (T.new(1) - dot.abs2)
+      return self.class.zero if k < 0
+
+      self * eta - (norm * (eta * dot + Math.sqrt(k)))
+    end
   end
 end

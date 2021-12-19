@@ -395,5 +395,39 @@ Spectator.describe Geode::Vector do
         is_expected.to eq(140)
       end
     end
+
+    describe "#forward" do
+      context "with a same-facing vector" do
+        let(surface) { Geode::Vector[4, 5, 6] }
+
+        it "returns the same vector" do
+          expect(vector.forward(surface)).to eq(vector)
+        end
+      end
+
+      context "with an opposite-facing vector" do
+        let(surface) { Geode::Vector[-4, -5, -6] }
+
+        it "returns a negated vector" do
+          expect(vector.forward(surface)).to eq(-vector)
+        end
+      end
+    end
+
+    describe "#reflect" do
+      it "computes a reflected vector" do
+        incident = Geode::Vector[2, -1]
+        norm = Geode::Vector[0, 1]
+        expect(incident.reflect(norm)).to eq(Geode::Vector[2.0, 1.0])
+      end
+    end
+
+    describe "#refract" do
+      it "computes a refracted vector" do
+        incident = Geode::Vector[2, -1]
+        norm = Geode::Vector[0, 1]
+        expect(incident.refract(norm, 1.5)).to eq(Geode::Vector[3.0, -1.0])
+      end
+    end
   end
 end
