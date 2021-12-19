@@ -140,6 +140,24 @@ module Geode
       clamp(range.begin, range.end)
     end
 
+    # Returns a vector with each component scaled by the corresponding component value.
+    #
+    # ```
+    # Vector[1, 0, -1].scale(Vector[2, 3, 5]) # => (2, 0, -5)
+    # ```
+    def scale(vector : CommonVector(T, N)) : CommonVector forall T
+      zip_map(vector) { |a, b| a * b }
+    end
+
+    # Scales each component by the specified amount.
+    #
+    # ```
+    # Vector[5, -2, 0].scale(3) # => (15, -6, 0)
+    # ```
+    def scale(amount) : CommonVector
+      map &.*(amount)
+    end
+
     # Returns a negated vector.
     #
     # ```
