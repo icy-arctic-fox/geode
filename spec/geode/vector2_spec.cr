@@ -186,6 +186,20 @@ Spectator.describe Geode::Vector2 do
       end
     end
 
+    describe "#edge" do
+      context "with a scalar value" do
+        it "returns correct zero and one components" do
+          expect(vector.edge(2)).to eq(Geode::Vector2[0, 1])
+        end
+      end
+
+      context "with a vector" do
+        it "returns correct zero and one components" do
+          expect(vector.edge(Geode::Vector2[0, 3])).to eq(Geode::Vector2[1, 0])
+        end
+      end
+    end
+
     describe "#scale" do
       context "with a vector" do
         let(other) { Geode::Vector2[2, 3] }
