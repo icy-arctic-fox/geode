@@ -5,10 +5,56 @@ Spectator.describe Geode::Vector2 do
 
   subject(vector) { Geode::Vector2[1, 2] }
 
-  it "stores values for components" do
-    aggregate_failures do
-      expect(vector[0]).to eq(1)
-      expect(vector[1]).to eq(2)
+  describe ".[]" do
+    it "stores values for components" do
+      expect(vector).to have_attributes(x: 1, y: 2)
+    end
+  end
+
+  describe ".new" do
+    context "individual components" do
+      it "stores values for components" do
+        vector = described_class.new(1, 2)
+        expect(vector).to have_attributes(x: 1, y: 2)
+      end
+    end
+
+    context "Tuple" do
+      it "stores values for components" do
+        vector = described_class.new({1, 2})
+        expect(vector).to have_attributes(x: 1, y: 2)
+      end
+    end
+
+    context "StaticArray" do
+      it "stores values for components" do
+        array = StaticArray[1, 2]
+        vector = described_class.new(array)
+        expect(vector).to have_attributes(x: 1, y: 2)
+      end
+    end
+
+    context "another vector" do
+      it "stores values for components" do
+        other = Geode::Vector[1, 2]
+        vector = described_class.new(other)
+        expect(vector).to have_attributes(x: 1, y: 2)
+      end
+    end
+
+    context "block" do
+      it "stores values for components" do
+        vector = Geode::Vector2(Int32).new { |i| i + 1 }
+        expect(vector).to have_attributes(x: 1, y: 2)
+      end
+    end
+  end
+
+  describe "#tuple" do
+    subject { vector.tuple }
+
+    it "returns a tuple containing the components" do
+      is_expected.to eq({1, 2})
     end
   end
 
