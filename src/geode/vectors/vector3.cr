@@ -32,12 +32,12 @@ module Geode
     end
 
     # Constructs the vector with pre-existing values.
-    def initialize(array : StaticArray(T, N))
+    def initialize(array : StaticArray(T, 3))
       super
     end
 
     # Copies the contents of another vector.
-    def initialize(other : CommonVector(T, N))
+    def initialize(other : CommonVector(T, 3))
       super
     end
 
