@@ -72,6 +72,18 @@ module Geode
     def tuple : Tuple(T, T, T)
       {x, y, z}
     end
+
+    # Computes the cross-product of this and another vector.
+    #
+    # ```
+    # Vector3[1, 3, 4].cross(Vector3[2, -5, 8]) # => (44, 0, -11)
+    # ```
+    def cross(other : CommonVector(U, 3)) : CommonVector forall U
+      x = unsafe_fetch(1) * other.unsafe_fetch(2) - unsafe_fetch(2) * other.unsafe_fetch(1)
+      y = unsafe_fetch(2) * other.unsafe_fetch(0) - unsafe_fetch(0) * other.unsafe_fetch(2)
+      z = unsafe_fetch(0) * other.unsafe_fetch(1) - unsafe_fetch(1) * other.unsafe_fetch(0)
+      self.class.new(x, y, z)
+    end
   end
 
   alias Vector3I = Vector3(Int32)
