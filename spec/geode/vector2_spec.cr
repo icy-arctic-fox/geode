@@ -262,6 +262,35 @@ Spectator.describe Geode::Vector2 do
       end
     end
 
+    describe "#lerp" do
+      let(v1) { Geode::Vector2[3.0, 5.0] }
+      let(v2) { Geode::Vector2[23.0, 35.0] }
+
+      it "returns v1 when t = 0" do
+        vector = v1.lerp(v2, 0.0)
+        aggregate_failures do
+          expect(vector[0]).to be_within(TOLERANCE).of(3.0)
+          expect(vector[1]).to be_within(TOLERANCE).of(5.0)
+        end
+      end
+
+      it "returns v2 when t = 1" do
+        vector = v1.lerp(v2, 1.0)
+        aggregate_failures do
+          expect(vector[0]).to be_within(TOLERANCE).of(23.0)
+          expect(vector[1]).to be_within(TOLERANCE).of(35.0)
+        end
+      end
+
+      it "returns a mid-value" do
+        vector = v1.lerp(v2, 0.4)
+        aggregate_failures do
+          expect(vector[0]).to be_within(TOLERANCE).of(11.0)
+          expect(vector[1]).to be_within(TOLERANCE).of(17.0)
+        end
+      end
+    end
+
     describe "#- (negation)" do
       it "negates the vector" do
         expect(-Geode::Vector2[-2, 3]).to eq(Geode::Vector2[2, -3])

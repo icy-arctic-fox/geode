@@ -12,6 +12,17 @@ module Geode
   def self.edge(value : T, edge : T) forall T
     value < edge ? T.zero : T.new(1)
   end
+
+  # Calculates the linear interpolation between two values.
+  #
+  # *t* is a value from 0 to 1, where 0 represents *a* and 1 represents *b*.
+  # Any value between 0 and 1 will result in a proportional amount of *a* and *b*.
+  #
+  # This method uses the precise calculation
+  # that does not suffer precision loss from high exponential differences.
+  def self.lerp(a, b, t : Number)
+    a * (t.class.new(1) - t) + b * t
+  end
 end
 
 require "./geode/*"

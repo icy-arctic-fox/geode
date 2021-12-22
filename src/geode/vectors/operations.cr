@@ -176,6 +176,17 @@ module Geode
       map &.*(amount)
     end
 
+    # Calculates the linear interpolation between two vectors.
+    #
+    # *t* is a value from 0 to 1, where 0 represents this vector and 1 represents *other*.
+    # Any value between 0 and 1 will result in a proportional amount of this vector and *other*.
+    #
+    # This method uses the precise calculation
+    # that does not suffer precision loss from high exponential differences.
+    def lerp(other : CommonVector(T, N), t : Number) : CommonVector forall T
+      Geode.lerp(self, other, t)
+    end
+
     # Returns a negated vector.
     #
     # ```
