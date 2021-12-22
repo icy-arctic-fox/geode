@@ -79,9 +79,15 @@ module Geode
     # Vector3[1, 3, 4].cross(Vector3[2, -5, 8]) # => (44, 0, -11)
     # ```
     def cross(other : CommonVector(U, 3)) : CommonVector forall U
-      x = unsafe_fetch(1) * other.unsafe_fetch(2) - unsafe_fetch(2) * other.unsafe_fetch(1)
-      y = unsafe_fetch(2) * other.unsafe_fetch(0) - unsafe_fetch(0) * other.unsafe_fetch(2)
-      z = unsafe_fetch(0) * other.unsafe_fetch(1) - unsafe_fetch(1) * other.unsafe_fetch(0)
+      x1 = unsafe_fetch(0)
+      y1 = unsafe_fetch(1)
+      z1 = unsafe_fetch(2)
+      x2 = other.unsafe_fetch(0)
+      y2 = other.unsafe_fetch(1)
+      z2 = other.unsafe_fetch(2)
+      x = y1 * z2 - z1 * y2
+      y = z1 * x2 - x1 * z2
+      z = x1 * y2 - y1 * x2
       self.class.new(x, y, z)
     end
   end
