@@ -116,5 +116,25 @@ module Geode
     def near_zero?(tolerance)
       all? { |v| v.abs <= tolerance }
     end
+
+    # Checks if components between two vectors are equal.
+    #
+    # Compares this vector component-wise to another.
+    # Returns true if all components are equal, false otherwise.
+    #
+    # ```
+    # Vector[1, 2, 3].eq?(Vector3[1, 2, 3]) # => true
+    # Vector[1, 2, 3].eq?(Vector3[3, 2, 1]) # => false
+    # ```
+    def ==(other : CommonVector(T, N)) forall T
+      # This check shouldn't be needed, but the N type parameter doesn't seem to be enforced in all cases.
+      # For instance: `Geode::Vector3(Int32) == Geode::Vector(Int32, 2)`
+      return false if size != other.size
+
+      each_with_index do |v, i|
+        return false if v != other.unsafe_fetch(i)
+      end
+      true
+    end
   end
 end

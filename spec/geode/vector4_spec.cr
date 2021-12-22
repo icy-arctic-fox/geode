@@ -386,6 +386,69 @@ Spectator.describe Geode::Vector4 do
         end
       end
     end
+
+    describe "#==" do
+      subject { vector == other }
+      let(other) { vector }
+
+      context "with the same vector" do
+        it "returns true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with a generic vector" do
+        context "with equal values" do
+          let(other) { Geode::Vector[1, 2, 3, 4] }
+
+          it "returns true" do
+            is_expected.to be_true
+          end
+        end
+
+        context "with unequal values" do
+          let(other) { Geode::Vector[4, 3, 2, 1] }
+
+          it "returns false" do
+            is_expected.to be_false
+          end
+        end
+
+        context "with a different sized vector" do
+          let(other) { Geode::Vector[1, 2] }
+
+          it "returns false" do
+            is_expected.to be_false
+          end
+        end
+      end
+
+      context "with a n-dimension vector" do
+        context "with equal values" do
+          let(other) { Geode::Vector4[1, 2, 3, 4] }
+
+          it "returns true" do
+            is_expected.to be_true
+          end
+        end
+
+        context "with unequal values" do
+          let(other) { Geode::Vector4[4, 3, 2, 1] }
+
+          it "returns false" do
+            is_expected.to be_false
+          end
+        end
+
+        context "with a different size" do
+          let(other) { Geode::Vector2[1, 2] }
+
+          it "returns false" do
+            is_expected.to be_false
+          end
+        end
+      end
+    end
   end
 
   context Geode::VectorGeometry do
