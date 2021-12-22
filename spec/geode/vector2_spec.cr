@@ -196,8 +196,8 @@ Spectator.describe Geode::Vector2 do
       it "returns the fraction part of each component" do
         fraction = Geode::Vector2[1.2, -5.7].fraction
         aggregate_failures do
-          expect(fraction[0]).to be_within(TOLERANCE).of(0.2)
-          expect(fraction[1]).to be_within(TOLERANCE).of(0.3)
+          expect(fraction.x).to be_within(TOLERANCE).of(0.2)
+          expect(fraction.y).to be_within(TOLERANCE).of(0.3)
         end
       end
     end
@@ -269,24 +269,24 @@ Spectator.describe Geode::Vector2 do
       it "returns v1 when t = 0" do
         vector = v1.lerp(v2, 0.0)
         aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(3.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(5.0)
+          expect(vector.x).to be_within(TOLERANCE).of(3.0)
+          expect(vector.y).to be_within(TOLERANCE).of(5.0)
         end
       end
 
       it "returns v2 when t = 1" do
         vector = v1.lerp(v2, 1.0)
         aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(23.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(35.0)
+          expect(vector.x).to be_within(TOLERANCE).of(23.0)
+          expect(vector.y).to be_within(TOLERANCE).of(35.0)
         end
       end
 
       it "returns a mid-value" do
         vector = v1.lerp(v2, 0.4)
         aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(11.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(17.0)
+          expect(vector.x).to be_within(TOLERANCE).of(11.0)
+          expect(vector.y).to be_within(TOLERANCE).of(17.0)
         end
       end
     end
@@ -513,8 +513,8 @@ Spectator.describe Geode::Vector2 do
       it "scales the components equally" do
         scale = 2.236067977
         aggregate_failures do
-          expect(vector[0] / subject[0]).to be_within(TOLERANCE).of(scale)
-          expect(vector[1] / subject[1]).to be_within(TOLERANCE).of(scale)
+          expect(vector.x / subject.x).to be_within(TOLERANCE).of(scale)
+          expect(vector.y / subject.y).to be_within(TOLERANCE).of(scale)
         end
       end
     end
@@ -529,8 +529,8 @@ Spectator.describe Geode::Vector2 do
       it "scales the components equally" do
         scale = 0.447213595
         aggregate_failures do
-          expect(vector[0] / subject[0]).to be_within(TOLERANCE).of(scale)
-          expect(vector[1] / subject[1]).to be_within(TOLERANCE).of(scale)
+          expect(vector.x / subject.x).to be_within(TOLERANCE).of(scale)
+          expect(vector.y / subject.y).to be_within(TOLERANCE).of(scale)
         end
       end
     end

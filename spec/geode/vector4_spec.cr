@@ -200,10 +200,10 @@ Spectator.describe Geode::Vector4 do
       it "returns the fraction part of each component" do
         fraction = Geode::Vector4[1.2, -5.7, 3.0, 3.9].fraction
         aggregate_failures do
-          expect(fraction[0]).to be_within(TOLERANCE).of(0.2)
-          expect(fraction[1]).to be_within(TOLERANCE).of(0.3)
-          expect(fraction[2]).to be_within(TOLERANCE).of(0.0)
-          expect(fraction[3]).to be_within(TOLERANCE).of(0.9)
+          expect(fraction.x).to be_within(TOLERANCE).of(0.2)
+          expect(fraction.y).to be_within(TOLERANCE).of(0.3)
+          expect(fraction.z).to be_within(TOLERANCE).of(0.0)
+          expect(fraction.w).to be_within(TOLERANCE).of(0.9)
         end
       end
     end
@@ -275,30 +275,30 @@ Spectator.describe Geode::Vector4 do
       it "returns v1 when t = 0" do
         vector = v1.lerp(v2, 0.0)
         aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(3.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(5.0)
-          expect(vector[2]).to be_within(TOLERANCE).of(7.0)
-          expect(vector[3]).to be_within(TOLERANCE).of(9.0)
+          expect(vector.x).to be_within(TOLERANCE).of(3.0)
+          expect(vector.y).to be_within(TOLERANCE).of(5.0)
+          expect(vector.z).to be_within(TOLERANCE).of(7.0)
+          expect(vector.w).to be_within(TOLERANCE).of(9.0)
         end
       end
 
       it "returns v2 when t = 1" do
         vector = v1.lerp(v2, 1.0)
         aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(23.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(35.0)
-          expect(vector[2]).to be_within(TOLERANCE).of(47.0)
-          expect(vector[3]).to be_within(TOLERANCE).of(59.0)
+          expect(vector.x).to be_within(TOLERANCE).of(23.0)
+          expect(vector.y).to be_within(TOLERANCE).of(35.0)
+          expect(vector.z).to be_within(TOLERANCE).of(47.0)
+          expect(vector.w).to be_within(TOLERANCE).of(59.0)
         end
       end
 
       it "returns a mid-value" do
         vector = v1.lerp(v2, 0.4)
         aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(11.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(17.0)
-          expect(vector[2]).to be_within(TOLERANCE).of(23.0)
-          expect(vector[3]).to be_within(TOLERANCE).of(29.0)
+          expect(vector.x).to be_within(TOLERANCE).of(11.0)
+          expect(vector.y).to be_within(TOLERANCE).of(17.0)
+          expect(vector.z).to be_within(TOLERANCE).of(23.0)
+          expect(vector.w).to be_within(TOLERANCE).of(29.0)
         end
       end
     end
@@ -523,9 +523,10 @@ Spectator.describe Geode::Vector4 do
       it "scales the components equally" do
         scale = 5.477225575
         aggregate_failures do
-          expect(vector[0] / subject[0]).to be_within(TOLERANCE).of(scale)
-          expect(vector[1] / subject[1]).to be_within(TOLERANCE).of(scale)
-          expect(vector[2] / subject[2]).to be_within(TOLERANCE).of(scale)
+          expect(vector.x / subject.x).to be_within(TOLERANCE).of(scale)
+          expect(vector.y / subject.y).to be_within(TOLERANCE).of(scale)
+          expect(vector.z / subject.z).to be_within(TOLERANCE).of(scale)
+          expect(vector.w / subject.w).to be_within(TOLERANCE).of(scale)
         end
       end
     end
@@ -540,9 +541,10 @@ Spectator.describe Geode::Vector4 do
       it "scales the components equally" do
         scale = 1.095445115
         aggregate_failures do
-          expect(vector[0] / subject[0]).to be_within(TOLERANCE).of(scale)
-          expect(vector[1] / subject[1]).to be_within(TOLERANCE).of(scale)
-          expect(vector[2] / subject[2]).to be_within(TOLERANCE).of(scale)
+          expect(vector.x / subject.x).to be_within(TOLERANCE).of(scale)
+          expect(vector.y / subject.y).to be_within(TOLERANCE).of(scale)
+          expect(vector.z / subject.z).to be_within(TOLERANCE).of(scale)
+          expect(vector.w / subject.w).to be_within(TOLERANCE).of(scale)
         end
       end
     end
