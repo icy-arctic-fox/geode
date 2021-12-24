@@ -68,8 +68,23 @@ module Geode
     end
   end
 
+  # A two-dimensional vector.
+  # Contains an x and y component.
+  # The components are 32-bit integers.
   alias Vector2I = Vector2(Int32)
+
+  # A two-dimensional vector.
+  # Contains an x and y component.
+  # The components are 64-bit integers.
   alias Vector2L = Vector2(Int64)
+
+  # A two-dimensional vector.
+  # Contains an x and y component.
+  # The components are 32-bit floating-point numbers.
   alias Vector2F = Vector2(Float32)
+
+  # A two-dimensional vector.
+  # Contains an x and y component.
+  # The components are 64-bit floating-point numbers.
   alias Vector2D = Vector2(Float64)
 end

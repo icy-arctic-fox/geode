@@ -95,7 +95,7 @@ module Geode
     # max = Vector[1, 1, 1]
     # Vector[5, -2, 0].clamp(min, max) # => (1, -1, 0)
     # ```
-    def clamp(min : CommonVector(T, N), max : CommonVector(T, N)) forall T
+    def clamp(min : CommonVector(T, N), max : CommonVector(T, N)) : CommonVector forall T
       map_with_index do |v, i|
         lower = min.unsafe_fetch(i)
         upper = max.unsafe_fetch(i)
@@ -110,7 +110,7 @@ module Geode
     # max = Vector[1, 1, 1]
     # Vector[5, -2, 0].clamp(min..max) # => (1, -1, 0)
     # ```
-    def clamp(range : Range(CommonVector(T, N), CommonVector(T, N))) forall T
+    def clamp(range : Range(CommonVector(T, N), CommonVector(T, N))) : CommonVector forall T
       raise ArgumentError.new("Can't clamp an exclusive range") if !range.end.nil? && range.exclusive?
       clamp(range.begin, range.end)
     end
@@ -123,7 +123,7 @@ module Geode
     # ```
     # Vector[5, -2, 0].clamp(-1, 1) # => (1, -1, 0)
     # ```
-    def clamp(min, max)
+    def clamp(min, max) : CommonVector
       map &.clamp(min, max)
     end
 
@@ -135,7 +135,7 @@ module Geode
     # ```
     # Vector[5, -2, 0].clamp(-1..1) # => (1, -1, 0)
     # ```
-    def clamp(range)
+    def clamp(range : Range) : CommonVector
       raise ArgumentError.new("Can't clamp an exclusive range") if !range.end.nil? && range.exclusive?
       clamp(range.begin, range.end)
     end
@@ -201,7 +201,7 @@ module Geode
     # ```
     # Vector[5, -2, 0] + Vector[2, -1, 4] # => (7, -3, 4)
     # ```
-    def +(other : CommonVector(T, N)) forall T
+    def +(other : CommonVector(T, N)) : CommonVector forall T
       zip_map(other) { |a, b| a + b }
     end
 
@@ -210,7 +210,7 @@ module Geode
     # ```
     # Vector[5, -2, 0] - Vector[2, -1, 4] # => (3, -1, -4)
     # ```
-    def -(other : CommonVector(T, N)) forall T
+    def -(other : CommonVector(T, N)) : CommonVector forall T
       zip_map(other) { |a, b| a - b }
     end
 
@@ -219,7 +219,7 @@ module Geode
     # ```
     # Vector[5, -2, 0] * 3 # => (15, -6, 0)
     # ```
-    def *(scalar)
+    def *(scalar) : CommonVector
       map &.*(scalar)
     end
 
@@ -228,7 +228,7 @@ module Geode
     # ```
     # Vector[16, -2, 0] / 4 # => (4, -0.5, 0)
     # ```
-    def /(scalar)
+    def /(scalar) : CommonVector
       map &./(scalar)
     end
 
@@ -239,7 +239,7 @@ module Geode
     # ```
     # Vector[7, -3, 0] // 3 # => (2, -1, 0)
     # ```
-    def //(scalar)
+    def //(scalar) : CommonVector
       map &.//(scalar)
     end
   end

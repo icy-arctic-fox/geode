@@ -80,8 +80,23 @@ module Geode
     end
   end
 
+  # A four-dimensional vector.
+  # Contains an x, y, z, and w component.
+  # The components are 32-bit integers.
   alias Vector4I = Vector4(Int32)
+
+  # A four-dimensional vector.
+  # Contains an x, y, z, and w component.
+  # The components are 64-bit integers.
   alias Vector4L = Vector4(Int64)
+
+  # A four-dimensional vector.
+  # Contains an x, y, z, and w component.
+  # The components are 32-bit floating-point numbers.
   alias Vector4F = Vector4(Float32)
+
+  # A four-dimensional vector.
+  # Contains an x, y, z, and w component.
+  # The components are 64-bit floating-point numbers.
   alias Vector4D = Vector4(Float64)
 end

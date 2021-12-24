@@ -92,8 +92,23 @@ module Geode
     end
   end
 
+  # A three-dimensional vector.
+  # Contains an x, y, and z component.
+  # The components are 32-bit integers.
   alias Vector3I = Vector3(Int32)
+
+  # A three-dimensional vector.
+  # Contains an x, y, and z component.
+  # The components are 64-bit integers.
   alias Vector3L = Vector3(Int64)
+
+  # A three-dimensional vector.
+  # Contains an x, y, and z component.
+  # The components are 32-bit floating-point numbers.
   alias Vector3F = Vector3(Float32)
+
+  # A three-dimensional vector.
+  # Contains an x, y, and z component.
+  # The components are 64-bit floating-point numbers.
   alias Vector3D = Vector3(Float64)
 end
