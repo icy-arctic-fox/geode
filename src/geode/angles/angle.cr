@@ -24,3 +24,4 @@ module Geode
 end
 
 require "./comparison"
+require "./operations"
