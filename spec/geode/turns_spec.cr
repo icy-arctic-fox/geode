@@ -339,6 +339,78 @@ Spectator.describe Geode::Turns do
     end
   end
 
+  describe "#acute?" do
+    it "returns true for acute angles" do
+      aggregate_failures do
+        expect(Geode::Turns.new(0.0)).to_not be_acute
+        expect(Geode::Turns.new(0.125)).to be_acute
+        expect(Geode::Turns.new(0.25)).to_not be_acute
+      end
+    end
+  end
+
+  describe "#right?" do
+    it "returns true for right angles" do
+      aggregate_failures do
+        expect(Geode::Turns.new(0.0)).to_not be_right
+        expect(Geode::Turns.new(0.25)).to be_right
+        expect(Geode::Turns.new(0.5)).to_not be_right
+        expect(Geode::Turns.new(0.75)).to_not be_right
+      end
+    end
+  end
+
+  describe "#obtuse?" do
+    it "returns true for obtuse angles" do
+      aggregate_failures do
+        expect(Geode::Turns.new(0.25)).to_not be_obtuse
+        expect(Geode::Turns.new(0.375)).to be_obtuse
+        expect(Geode::Turns.new(0.5)).to_not be_obtuse
+      end
+    end
+  end
+
+  describe "#straight?" do
+    it "returns true for straight angles" do
+      aggregate_failures do
+        expect(Geode::Turns.new(0.0)).to_not be_straight
+        expect(Geode::Turns.new(0.5)).to be_straight
+        expect(Geode::Turns.new(1.0)).to_not be_straight
+      end
+    end
+  end
+
+  describe "#reflex?" do
+    it "returns true for reflex angles" do
+      aggregate_failures do
+        expect(Geode::Turns.new(0.5)).to_not be_reflex
+        expect(Geode::Turns.new(0.75)).to be_reflex
+        expect(Geode::Turns.new(1.0)).to_not be_reflex
+      end
+    end
+  end
+
+  describe "#full?" do
+    it "returns true for full angles" do
+      aggregate_failures do
+        expect(Geode::Turns.new(0.0)).to_not be_full
+        expect(Geode::Turns.new(1.0)).to be_full
+        expect(Geode::Turns.new(2.0)).to_not be_full
+      end
+    end
+  end
+
+  describe "#oblique?" do
+    it "returns true for oblique angles" do
+      aggregate_failures do
+        expect(Geode::Turns.new(0.125)).to be_oblique
+        expect(Geode::Turns.new(0.25)).to_not be_oblique
+        expect(Geode::Turns.new(0.5)).to_not be_oblique
+        expect(Geode::Turns.new(1.0)).to_not be_oblique
+      end
+    end
+  end
+
   describe "#abs" do
     it "computes the absolute value" do
       aggregate_failures do

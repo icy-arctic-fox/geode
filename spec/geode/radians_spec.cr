@@ -339,6 +339,78 @@ Spectator.describe Geode::Radians do
     end
   end
 
+  describe "#acute?" do
+    it "returns true for acute angles" do
+      aggregate_failures do
+        expect(Geode::Radians.new(0.0)).to_not be_acute
+        expect(Geode::Radians.new(Math::PI / 4)).to be_acute
+        expect(Geode::Radians.new(Math::PI / 2)).to_not be_acute
+      end
+    end
+  end
+
+  describe "#right?" do
+    it "returns true for right angles" do
+      aggregate_failures do
+        expect(Geode::Radians.new(0.0)).to_not be_right
+        expect(Geode::Radians.new(Math::PI / 2)).to be_right
+        expect(Geode::Radians.new(Math::PI)).to_not be_right
+        expect(Geode::Radians.new(Math::PI * 3 / 2)).to_not be_right
+      end
+    end
+  end
+
+  describe "#obtuse?" do
+    it "returns true for obtuse angles" do
+      aggregate_failures do
+        expect(Geode::Radians.new(Math::PI / 2)).to_not be_obtuse
+        expect(Geode::Radians.new(Math::PI * 3 / 4)).to be_obtuse
+        expect(Geode::Radians.new(Math::PI)).to_not be_obtuse
+      end
+    end
+  end
+
+  describe "#straight?" do
+    it "returns true for straight angles" do
+      aggregate_failures do
+        expect(Geode::Radians.new(0.0)).to_not be_straight
+        expect(Geode::Radians.new(Math::PI)).to be_straight
+        expect(Geode::Radians.new(Math::TAU)).to_not be_straight
+      end
+    end
+  end
+
+  describe "#reflex?" do
+    it "returns true for reflex angles" do
+      aggregate_failures do
+        expect(Geode::Radians.new(Math::PI)).to_not be_reflex
+        expect(Geode::Radians.new(Math::PI * 3 / 2)).to be_reflex
+        expect(Geode::Radians.new(Math::TAU)).to_not be_reflex
+      end
+    end
+  end
+
+  describe "#full?" do
+    it "returns true for full angles" do
+      aggregate_failures do
+        expect(Geode::Radians.new(0.0)).to_not be_full
+        expect(Geode::Radians.new(Math::TAU)).to be_full
+        expect(Geode::Radians.new(Math::TAU * 2)).to_not be_full
+      end
+    end
+  end
+
+  describe "#oblique?" do
+    it "returns true for oblique angles" do
+      aggregate_failures do
+        expect(Geode::Radians.new(Math::PI / 4)).to be_oblique
+        expect(Geode::Radians.new(Math::PI / 2)).to_not be_oblique
+        expect(Geode::Radians.new(Math::PI)).to_not be_oblique
+        expect(Geode::Radians.new(Math::TAU)).to_not be_oblique
+      end
+    end
+  end
+
   describe "#abs" do
     it "computes the absolute value" do
       aggregate_failures do
