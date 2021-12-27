@@ -299,6 +299,46 @@ Spectator.describe Geode::Degrees do
     end
   end
 
+  describe "#positive?" do
+    subject { angle.positive? }
+
+    context "with a positive angle" do
+      let(angle) { Geode::Degrees.new(45) }
+
+      it "returns true" do
+        is_expected.to be_true
+      end
+    end
+
+    context "with a negative angle" do
+      let(angle) { Geode::Degrees.new(-45) }
+
+      it "returns false" do
+        is_expected.to be_false
+      end
+    end
+  end
+
+  describe "#negative?" do
+    subject { angle.negative? }
+
+    context "with a positive angle" do
+      let(angle) { Geode::Degrees.new(45) }
+
+      it "returns false" do
+        is_expected.to be_false
+      end
+    end
+
+    context "with a negative angle" do
+      let(angle) { Geode::Degrees.new(-45) }
+
+      it "returns false" do
+        is_expected.to be_true
+      end
+    end
+  end
+
   describe "#abs" do
     it "computes the absolute value" do
       aggregate_failures do

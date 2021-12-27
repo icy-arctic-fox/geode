@@ -82,5 +82,25 @@ module Geode
     def near_zero?(tolerance : Number)
       value.abs <= tolerance
     end
+
+    # Checks if the angle is positive.
+    #
+    # ```
+    # 5.degrees.positive?  # => true
+    # -5.degrees.positive? # => false
+    # ```
+    def positive?
+      value.positive?
+    end
+
+    # Checks if the angle is negative.
+    #
+    # ```
+    # -5.degrees.negative? # => true
+    # 5.degrees.negative?  # => false
+    # ```
+    def negative?
+      value.negative?
+    end
   end
 end
