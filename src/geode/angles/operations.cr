@@ -6,7 +6,7 @@ module Geode
     # -45.degrees.abs # => 45°
     # ```
     def abs : self
-      {{@type.name(generic_args: false)}}.new(value.abs)
+      self.class.new(value.abs)
     end
 
     # Returns the angle squared.
@@ -14,8 +14,8 @@ module Geode
     # ```
     # 5.degrees.abs2 # => 25°
     # ```
-    def abs2
-      {{@type.name(generic_args: false)}}.new(value.abs2)
+    def abs2 : self
+      self.class.new(value.abs2)
     end
 
     # Returns an angle corrected to be between zero and one revolution.
@@ -56,7 +56,7 @@ module Geode
     # 90.1.degrees.round # => 90.0°
     # ```
     def round(mode : Number::RoundingMode = :ties_even) : self
-      {{@type.name(generic_args: false)}}.new(value.round(mode))
+      self.class.new(value.round(mode))
     end
 
     # Returns a rounded angle.
@@ -67,7 +67,7 @@ module Geode
     # 12.34.degrees.round(1) # => 12.3°
     # ```
     def round(digits : Number, base = 10, *, mode : Number::RoundingMode = :ties_even) : self
-      {{@type.name(generic_args: false)}}.new(value.round(digits, base, mode: mode))
+      self.class.new(value.round(digits, base, mode: mode))
     end
 
     # Returns a value equal to its original sign.
@@ -87,7 +87,7 @@ module Geode
     # 25.3.degrees.ceil # => 26.0°
     # ```
     def ceil : self
-      {{@type.name(generic_args: false)}}.new(value.ceil)
+      self.class.new(value.ceil)
     end
 
     # Returns an angle rounded down to the nearest integer.
@@ -96,7 +96,7 @@ module Geode
     # 5.7.degrees.floor # => 5.0°
     # ```
     def floor : self
-      {{@type.name(generic_args: false)}}.new(value.floor)
+      self.class.new(value.floor)
     end
 
     # Returns the fraction portion of the angle's value.
@@ -123,7 +123,7 @@ module Geode
     # that does not suffer precision loss from high exponential differences.
     def lerp(other : self, t : Number) : self
       value = Geode.lerp(self.value, other.value, t)
-      {{@type.name(generic_args: false)}}.new(value)
+      self.class.new(value)
     end
 
     # Returns a negated angle.
@@ -132,7 +132,7 @@ module Geode
     # -(45.degrees) # => -45°
     # ```
     def - : self
-      {{@type.name(generic_args: false)}}.new(-value)
+      self.class.new(-value)
     end
 
     # Adds two angles together.
@@ -141,7 +141,7 @@ module Geode
     # 30.degrees + 45.degrees # => 75°
     # ```
     def +(other : self) : self
-      {{@type.name(generic_args: false)}}.new(value + other.value)
+      self.class.new(value + other.value)
     end
 
     # Adds two angles of different types together.
@@ -150,7 +150,8 @@ module Geode
     # 30.degrees + Math::PI.radians / 2 # => 120.0°
     # ```
     def +(other : Angle) : Angle
-      self + {{@type.name(generic_args: false)}}.new(other)
+      value = self.value + {{@type.name(generic_args: false)}}.new(other).value
+      {{@type.name(generic_args: false)}}.new(value)
     end
 
     # Subtracts another angle from this one.
@@ -159,7 +160,7 @@ module Geode
     # 90.degrees - 30.degrees # => 60°
     # ```
     def -(other : self) : self
-      {{@type.name(generic_args: false)}}.new(value - other.value)
+      self.class.new(value - other.value)
     end
 
     # Subtracts another angle of a different type from this one.
@@ -168,7 +169,8 @@ module Geode
     # 180.degrees - Math::PI.radians / 2 # => 90.0°
     # ```
     def -(other : Angle) : Angle
-      self - {{@type.name(generic_args: false)}}.new(other)
+      value = self.value - {{@type.name(generic_args: false)}}.new(other).value
+      {{@type.name(generic_args: false)}}.new(value)
     end
 
     # Multiplies the angle by the specified amount.
@@ -204,7 +206,7 @@ module Geode
     # 180.degrees / (Math::PI.radians / 3) # => 3.0
     # ```
     def /(other : Angle) : Number
-      self / {{@type.name(generic_args: false)}}.new(other)
+      value / {{@type.name(generic_args: false)}}.new(other).value
     end
 
     # Divides the angle by the specified amount.
@@ -237,7 +239,7 @@ module Geode
     # 200.degrees // (Math::PI.radians / 3) # => 3
     # ```
     def //(other : Angle) : Number
-      self // {{@type.name(generic_args: false)}}.new(other)
+      value // {{@type.name(generic_args: false)}}.new(other).value
     end
 
     # Computes the remainder after dividing the angle by the specified amount.
@@ -264,7 +266,7 @@ module Geode
     # 200.degrees % (Math::PI.radians / 3) # => 20
     # ```
     def %(other : Angle) : Number
-      self % {{@type.name(generic_args: false)}}.new(other)
+      value % {{@type.name(generic_args: false)}}.new(other).value
     end
   end
 end
