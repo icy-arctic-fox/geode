@@ -1,62 +1,62 @@
 require "./angle"
 
 module Geode
-  # Unit type for an angle measured in radians.
+  # Unit type for an angle measured in turns.
   #
   # The *T* type parameter is the type used to store the angle's value.
   # It should be a numerical type, preferably `Float32` or `Float64`.
-  struct Radians(T) < Angle(T)
-    # Creates an angle by converting an existing one to radians.
+  struct Turns(T) < Angle(T)
+    # Creates an angle by converting an existing one to turns.
     def self.new(angle : Angle) : self
-      value = angle.to_radians.value
+      value = angle.to_turns.value
       new(value)
     end
 
-    # Amount of radians to complete a full revolution (360 degrees).
+    # Amount of turns to complete a full revolution (360 degrees).
     def self.full : self
-      new(T.new(Math::TAU))
+      new(T.new(1))
     end
 
-    # Amount of radians to complete a half revolution (180 degrees).
+    # Amount of turns to complete a half revolution (180 degrees).
     def self.half : self
-      new(T.new(Math::PI))
+      new(T.new(0.5))
     end
 
-    # Amount of radians to complete a third of a revolution (120 degrees).
+    # Amount of turns to complete a third of a revolution (120 degrees).
     def self.third : self
-      new(T.new(Math::TAU / 3))
+      new(T.new(1 / 3))
     end
 
-    # Amount of radians to complete a quarter of a revolution (90 degrees).
+    # Amount of turns to complete a quarter of a revolution (90 degrees).
     def self.quarter : self
-      new(T.new(Math::PI / 2))
+      new(T.new(0.25))
     end
 
     # Converts this angle to radians.
-    #
-    # Simply returns self.
     def to_radians : Radians
-      self
+      Radians.new(value * Math::TAU)
     end
 
     # Converts this angle to degrees.
     def to_degrees : Degrees
-      Degrees.new(value / Math::PI * 180)
+      Degrees.new(value * 360)
     end
 
     # Converts this angle to turns.
+    #
+    # Simply returns self.
     def to_turns : Turns
-      Turns.new(value / Math::TAU)
+      self
     end
 
     # Produces a string containing the angle.
     #
     # The string is formatted as:
     # ```text
-    # # rad
+    # # turns
     # ```
     def to_s(io : IO) : Nil
-      io << value << " rad"
+      io << value << " turns"
     end
   end
 end

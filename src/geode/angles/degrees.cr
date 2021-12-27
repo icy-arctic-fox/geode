@@ -32,16 +32,21 @@ module Geode
       new(T.new(90))
     end
 
-    # Converts this value to radians.
+    # Converts this angle to radians.
     def to_radians : Radians
       Radians.new(value / 180 * Math::PI)
     end
 
-    # Converts this value to degrees.
+    # Converts this angle to degrees.
     #
     # Simply returns self.
     def to_degrees : Degrees
       self
+    end
+
+    # Converts this angle to turns.
+    def to_turns : Turns
+      Turns.new(value / 360)
     end
 
     # Produces a string containing the angle.

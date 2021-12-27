@@ -67,6 +67,14 @@ Spectator.describe Geode::Radians do
     end
   end
 
+  describe "#to_turns" do
+    subject { angle.to_turns }
+
+    it "converts to turns" do
+      is_expected.to be_within(TOLERANCE).of(Geode::Turns.new(0.75))
+    end
+  end
+
   describe "#to_s" do
     subject { angle.to_s }
 
@@ -103,7 +111,7 @@ Spectator.describe Geode::Radians do
         aggregate_failures do
           expect(Geode::Radians(Float64).half <=> Geode::Degrees(Float64).half).to eq(0)
           expect(Geode::Radians(Float64).quarter <=> Geode::Degrees(Float64).third).to eq(-1)
-          expect(Geode::Radians(Float64).third <=> Geode::Degrees(Float64).quarter).to eq(1)
+          expect(Geode::Radians(Float64).third <=> Geode::Turns(Float64).quarter).to eq(1)
         end
       end
     end
@@ -123,7 +131,7 @@ Spectator.describe Geode::Radians do
       it "compares angles" do
         aggregate_failures do
           expect(Geode::Radians(Float64).half == Geode::Degrees(Float64).half).to be_true
-          expect(Geode::Radians(Float64).half == Geode::Degrees(Float64).zero).to be_false
+          expect(Geode::Radians(Float64).half == Geode::Turns(Float64).zero).to be_false
         end
       end
     end
@@ -145,7 +153,7 @@ Spectator.describe Geode::Radians do
         aggregate_failures do
           expect(Geode::Radians(Float64).third < Geode::Degrees(Float64).half).to be_true
           expect(Geode::Radians(Float64).half < Geode::Degrees(Float64).zero).to be_false
-          expect(Geode::Radians(Float64).quarter < Geode::Degrees(Float64).quarter).to be_false
+          expect(Geode::Radians(Float64).quarter < Geode::Turns(Float64).quarter).to be_false
         end
       end
     end
@@ -167,7 +175,7 @@ Spectator.describe Geode::Radians do
         aggregate_failures do
           expect(Geode::Radians(Float64).third <= Geode::Degrees(Float64).half).to be_true
           expect(Geode::Radians(Float64).half <= Geode::Degrees(Float64).zero).to be_false
-          expect(Geode::Radians(Float64).quarter <= Geode::Degrees(Float64).quarter).to be_true
+          expect(Geode::Radians(Float64).quarter <= Geode::Turns(Float64).quarter).to be_true
         end
       end
     end
@@ -189,7 +197,7 @@ Spectator.describe Geode::Radians do
         aggregate_failures do
           expect(Geode::Radians(Float64).third > Geode::Degrees(Float64).half).to be_false
           expect(Geode::Radians(Float64).half > Geode::Degrees(Float64).zero).to be_true
-          expect(Geode::Radians(Float64).quarter > Geode::Degrees(Float64).quarter).to be_false
+          expect(Geode::Radians(Float64).quarter > Geode::Turns(Float64).quarter).to be_false
         end
       end
     end
@@ -211,7 +219,7 @@ Spectator.describe Geode::Radians do
         aggregate_failures do
           expect(Geode::Radians(Float64).third >= Geode::Degrees(Float64).half).to be_false
           expect(Geode::Radians(Float64).half >= Geode::Degrees(Float64).zero).to be_true
-          expect(Geode::Radians(Float64).quarter >= Geode::Degrees(Float64).quarter).to be_true
+          expect(Geode::Radians(Float64).quarter >= Geode::Turns(Float64).quarter).to be_true
         end
       end
     end
