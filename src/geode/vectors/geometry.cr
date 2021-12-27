@@ -56,7 +56,7 @@ module Geode
     # ```
     # Vector[1, 0, -1].scale_to(2).mag # => 2.0
     # ```
-    def scale_to(length) : CommonVector
+    def scale_to(length : Number) : CommonVector
       scale = length / mag
       map &.*(scale)
     end

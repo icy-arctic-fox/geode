@@ -172,7 +172,7 @@ module Geode
     # ```
     # Vector[5, -2, 0].scale(3) # => (15, -6, 0)
     # ```
-    def scale(amount) : CommonVector
+    def scale(amount : Number) : CommonVector
       map &.*(amount)
     end
 
@@ -219,7 +219,7 @@ module Geode
     # ```
     # Vector[5, -2, 0] * 3 # => (15, -6, 0)
     # ```
-    def *(scalar) : CommonVector
+    def *(scalar : Number) : CommonVector
       map &.*(scalar)
     end
 
@@ -228,7 +228,7 @@ module Geode
     # ```
     # Vector[16, -2, 0] / 4 # => (4, -0.5, 0)
     # ```
-    def /(scalar) : CommonVector
+    def /(scalar : Number) : CommonVector
       map &./(scalar)
     end
 
@@ -239,7 +239,7 @@ module Geode
     # ```
     # Vector[7, -3, 0] // 3 # => (2, -1, 0)
     # ```
-    def //(scalar) : CommonVector
+    def //(scalar : Number) : CommonVector
       map &.//(scalar)
     end
   end
