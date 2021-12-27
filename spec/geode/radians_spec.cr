@@ -91,7 +91,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "compares angles" do
+      it "compares angles" do
         aggregate_failures do
           expect(Geode::Radians(Float64).half <=> Geode::Degrees(Float64).half).to eq(0)
           expect(Geode::Radians(Float64).quarter <=> Geode::Degrees(Float64).third).to eq(-1)
@@ -112,7 +112,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "compares angles" do
+      it "compares angles" do
         aggregate_failures do
           expect(Geode::Radians(Float64).half == Geode::Degrees(Float64).half).to be_true
           expect(Geode::Radians(Float64).half == Geode::Degrees(Float64).zero).to be_false
@@ -133,7 +133,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "compares angles" do
+      it "compares angles" do
         aggregate_failures do
           expect(Geode::Radians(Float64).third < Geode::Degrees(Float64).half).to be_true
           expect(Geode::Radians(Float64).half < Geode::Degrees(Float64).zero).to be_false
@@ -155,7 +155,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "compares angles" do
+      it "compares angles" do
         aggregate_failures do
           expect(Geode::Radians(Float64).third <= Geode::Degrees(Float64).half).to be_true
           expect(Geode::Radians(Float64).half <= Geode::Degrees(Float64).zero).to be_false
@@ -177,7 +177,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "compares angles" do
+      it "compares angles" do
         aggregate_failures do
           expect(Geode::Radians(Float64).third > Geode::Degrees(Float64).half).to be_false
           expect(Geode::Radians(Float64).half > Geode::Degrees(Float64).zero).to be_true
@@ -199,7 +199,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "compares angles" do
+      it "compares angles" do
         aggregate_failures do
           expect(Geode::Radians(Float64).third >= Geode::Degrees(Float64).half).to be_false
           expect(Geode::Radians(Float64).half >= Geode::Degrees(Float64).zero).to be_true
@@ -265,18 +265,18 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of different type" do
-      # subject { angle.near_zero?(Geode::Degrees.new(0.1)) }
+      subject { angle.near_zero?(Geode::Degrees.new(0.1)) }
 
       context "with a value within tolerance of zero" do
-        let(angle) { Geode::Radians.new(0.01) }
+        let(angle) { Geode::Radians.new(0.001) }
 
-        xit "returns true" do
+        it "returns true" do
           is_expected.to be_true
         end
       end
 
       context "with a value not within tolerance of zero" do
-        xit "returns false" do
+        it "returns false" do
           is_expected.to be_false
         end
       end
@@ -411,12 +411,12 @@ Spectator.describe Geode::Radians do
     end
 
     context "with a different type of angle" do
-      xit "adds the angles together" do
+      it "adds the angles together" do
         expect(Geode::Radians(Float64).quarter + Geode::Degrees(Float64).half).to be_within(TOLERANCE).of(Geode::Radians.new(Math::PI * 3 / 2))
       end
 
-      xit "returns radians" do
-        expect(Geode::Radians(Float64).quarter + Geode::Degrees(Float64).half).to be_a(Geode::Radians)
+      it "returns radians" do
+        expect(Geode::Radians(Float64).quarter + Geode::Degrees(Float64).half).to be_a(Geode::Radians(Float64))
       end
     end
   end
@@ -427,12 +427,12 @@ Spectator.describe Geode::Radians do
     end
 
     context "with a different type of angle" do
-      xit "subtracts one angle from another" do
+      it "subtracts one angle from another" do
         expect(Geode::Radians.new(Math::PI * 3 / 2) - Geode::Degrees(Float64).half).to be_within(TOLERANCE).of(Geode::Radians(Float64).quarter)
       end
 
-      xit "returns radians" do
-        expect(Geode::Radians.new(Math::PI * 3 / 2) - Geode::Degrees(Float64).half).to be_a(Geode::Radians)
+      it "returns radians" do
+        expect(Geode::Radians.new(Math::PI * 3 / 2) - Geode::Degrees(Float64).half).to be_a(Geode::Radians(Float64))
       end
     end
   end
@@ -457,7 +457,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "returns the times one angle fits into the other" do
+      it "returns the times one angle fits into the other" do
         expect(Geode::Radians(Float64).full / Geode::Degrees(Float64).quarter).to be_within(TOLERANCE_VALUE).of(4.0)
       end
     end
@@ -477,7 +477,7 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "returns the times one angle fits into the other using integer division" do
+      it "returns the times one angle fits into the other using integer division" do
         expect(Geode::Radians(Float64).full // Geode::Degrees.new(85.0)).to be_within(TOLERANCE_VALUE).of(4.0)
       end
     end
@@ -497,8 +497,8 @@ Spectator.describe Geode::Radians do
     end
 
     context "with an angle of a different type" do
-      xit "returns the remainder of dividing the angle by another" do
-        expect(Geode::Radians(Float64).full % Geode::Degrees.new(85.0)).to be_within(TOLERANCE_VALUE).of(20.0)
+      it "returns the remainder of dividing the angle by another" do
+        expect(Geode::Radians(Float64).full % Geode::Degrees.new(85.0)).to be_within(TOLERANCE_VALUE).of(20 / 180 * Math::PI)
       end
     end
   end
