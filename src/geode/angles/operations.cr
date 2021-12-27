@@ -45,7 +45,7 @@ module Geode
       half = self.class.half.value
       full = self.class.full.value
       value = (self.value + half) % full - half
-      self.class.new(value)
+      self.class.new(T.new(value))
     end
 
     # Returns a rounded angle.
@@ -123,7 +123,7 @@ module Geode
     # that does not suffer precision loss from high exponential differences.
     def lerp(other : self, t : Number) : self
       value = Geode.lerp(self.value, other.value, t)
-      self.class.new(value)
+      self.class.new(T.new(value))
     end
 
     # Returns a negated angle.

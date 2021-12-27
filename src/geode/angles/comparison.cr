@@ -31,7 +31,7 @@ module Geode
     # 90.degrees <=> (Math::PI / 4).radians # => 1
     # ```
     def <=>(other : Angle)
-      self <=> {{@type.name(generic_args: false)}}.new(other)
+      self.value <=> {{@type.name(generic_args: false)}}.new(other).value
     end
 
     # Checks if the angle is zero.
@@ -67,8 +67,7 @@ module Geode
     # Math::PI.radians.near_zero?(1.degrees) # => false
     # ```
     def near_zero?(tolerance : Angle)
-      other = self.class.new(tolerance)
-      near_zero?(other)
+      value.abs <= {{@type.name(generic_args: false)}}.new(tolerance).value
     end
 
     # Checks if the angle is close to zero.
