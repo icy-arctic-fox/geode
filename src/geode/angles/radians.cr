@@ -6,6 +6,12 @@ module Geode
   # The *T* type parameter is the type used to store the angle's value.
   # It should be a numerical type, preferably `Float32` or `Float64`.
   struct Radians(T) < Angle(T)
+    # Creates an angle by converting an existing one to radians.
+    def self.new(angle : Angle) : self
+      value = angle.to_radians.value
+      new(value)
+    end
+
     # Amount of radians to complete a full revolution (360 degrees).
     def self.full : self
       new(T.new(Math::TAU))

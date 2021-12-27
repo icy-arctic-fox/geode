@@ -22,3 +22,5 @@ module Geode
     end
   end
 end
+
+require "./comparison"
