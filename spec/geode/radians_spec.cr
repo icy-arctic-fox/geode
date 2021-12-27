@@ -2,7 +2,7 @@ require "../spec_helper"
 
 Spectator.describe Geode::Radians do
   TOLERANCE_VALUE = 0.000000000000001
-  TOLERANCE = Geode::Radians.new(TOLERANCE_VALUE)
+  TOLERANCE       = Geode::Radians.new(TOLERANCE_VALUE)
 
   let(value) { Math::PI * 3 / 2 }
   subject(angle) { Geode::Radians.new(value) }

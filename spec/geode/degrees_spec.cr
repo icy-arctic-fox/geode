@@ -2,7 +2,7 @@ require "../spec_helper"
 
 Spectator.describe Geode::Degrees do
   TOLERANCE_VALUE = 0.000000000000001
-  TOLERANCE = Geode::Degrees.new(TOLERANCE_VALUE)
+  TOLERANCE       = Geode::Degrees.new(TOLERANCE_VALUE)
 
   let(value) { 270.0 }
   subject(angle) { Geode::Degrees.new(value) }
