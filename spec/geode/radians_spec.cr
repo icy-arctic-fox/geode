@@ -5,7 +5,7 @@ Spectator.describe Geode::Radians do
   TOLERANCE = Geode::Radians.new(TOLERANCE_VALUE)
 
   let(value) { Math::PI * 3 / 2 }
-  subject(angle) { Geode::Radians(Float64).new(value) }
+  subject(angle) { Geode::Radians.new(value) }
 
   it "stores the value" do
     expect(angle.value).to eq(value)
@@ -345,9 +345,9 @@ Spectator.describe Geode::Radians do
   describe "#sign" do
     it "returns the sign of the angle" do
       aggregate_failures do
-        expect(Geode::Radians.new(-1).sign).to eq(-1)
+        expect(Geode::Radians.new(-5).sign).to eq(-1)
         expect(Geode::Radians.new(0).sign).to eq(0)
-        expect(Geode::Radians.new(1).sign).to eq(1)
+        expect(Geode::Radians.new(5).sign).to eq(1)
       end
     end
   end
