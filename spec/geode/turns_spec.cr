@@ -83,7 +83,7 @@ Spectator.describe Geode::Turns do
     end
 
     it "is formatted correctly" do
-      is_expected.to match(/^-?(\d+)\.(\d+) turns$/)
+      is_expected.to match(/^-?(\d+)\.(\d+) turn$/)
     end
   end
 

@@ -53,10 +53,10 @@ module Geode
     #
     # The string is formatted as:
     # ```text
-    # # turns
+    # # turn
     # ```
     def to_s(io : IO) : Nil
-      io << value << " turns"
+      io << value << " turn"
     end
   end
 end
