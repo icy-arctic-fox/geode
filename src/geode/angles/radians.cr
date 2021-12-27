@@ -39,6 +39,11 @@ module Geode
       self
     end
 
+    # Converts this value to degrees.
+    def to_degrees : Degrees
+      Degrees.new(value / Math::PI * 180)
+    end
+
     # Produces a string containing the angle.
     #
     # The string is formatted as:

@@ -59,6 +59,14 @@ Spectator.describe Geode::Radians do
     end
   end
 
+  describe "#to_degrees" do
+    subject { angle.to_degrees }
+
+    it "converts to degrees" do
+      is_expected.to be_within(TOLERANCE).of(Geode::Degrees.new(270))
+    end
+  end
+
   describe "#to_s" do
     subject { angle.to_s }
 
