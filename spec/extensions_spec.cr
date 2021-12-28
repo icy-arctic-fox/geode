@@ -20,4 +20,12 @@ Spectator.describe "Geode extension methods" do
       end
     end
   end
+
+  context "vectors" do
+    describe "Number#*" do
+      it "scales a vector" do
+        expect(3 * Geode::Vector[4, 5, 6]).to eq(Geode::Vector[12, 15, 18])
+      end
+    end
+  end
 end
