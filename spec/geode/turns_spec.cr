@@ -95,6 +95,14 @@ Spectator.describe Geode::Turns do
     end
   end
 
+  describe "#to_unsafe" do
+    subject { angle.to_unsafe }
+
+    it "converts to radians and returns the value" do
+      is_expected.to eq(Math::PI * 3 / 2)
+    end
+  end
+
   describe "#<=>" do
     context "with an angle of the same type" do
       it "compares angles" do

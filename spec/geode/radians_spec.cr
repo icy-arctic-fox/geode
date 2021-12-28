@@ -95,6 +95,14 @@ Spectator.describe Geode::Radians do
     end
   end
 
+  describe "#to_unsafe" do
+    subject { angle.to_unsafe }
+
+    it "returns the underlying value" do
+      is_expected.to eq(value)
+    end
+  end
+
   describe "#<=>" do
     context "with an angle of the same type" do
       it "compares angles" do

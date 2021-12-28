@@ -22,6 +22,11 @@ module Geode
     def to_f : Float
       to_radians.value.to_f
     end
+
+    # Converts the angle to radians and returns it as a floating-point value.
+    def to_unsafe
+      to_f
+    end
   end
 end
 
