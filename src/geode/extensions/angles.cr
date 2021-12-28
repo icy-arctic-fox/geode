@@ -1,3 +1,5 @@
+require "../angles"
+
 abstract struct Number
   # Returns a `Geode::Degrees` of `self` degrees.
   #
