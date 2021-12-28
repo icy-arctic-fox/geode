@@ -630,4 +630,16 @@ Spectator.describe Geode::Degrees do
       end
     end
   end
+
+  describe "#step" do
+    subject { angle.step(to: Geode::Degrees(Int32).full, by: Geode::Degrees.new(45)) }
+
+    let(values) do
+      [270, 315, 360].map { |v| Geode::Degrees.new(v) }
+    end
+
+    it "iterates over angles" do
+      is_expected.to match_array(values)
+    end
+  end
 end

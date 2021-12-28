@@ -630,4 +630,16 @@ Spectator.describe Geode::Turns do
       end
     end
   end
+
+  describe "#step" do
+    subject { angle.step(to: Geode::Turns(Float64).full, by: Geode::Turns.new(0.125)) }
+
+    let(values) do
+      [0.75, 0.875, 1.0].map { |v| Geode::Turns.new(v) }
+    end
+
+    it "iterates over angles" do
+      is_expected.to match_array(values)
+    end
+  end
 end

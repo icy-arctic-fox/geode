@@ -630,4 +630,16 @@ Spectator.describe Geode::Radians do
       end
     end
   end
+
+  describe "#step" do
+    subject { angle.step(to: Geode::Radians(Float64).full, by: Geode::Radians.new(Math::PI / 4)) }
+
+    let(values) do
+      [Math::PI * 3 / 2, Math::PI * 7 / 4, Math::TAU].map { |v| Geode::Radians.new(v) }
+    end
+
+    it "iterates over angles" do
+      is_expected.to match_array(values)
+    end
+  end
 end

@@ -4,6 +4,8 @@ module Geode
   # The *T* type parameter is the type used to store the angle's value.
   # It should be a numerical type, preferably `Float32` or `Float64`.
   abstract struct Angle(T)
+    include Steppable
+
     # Underlying value.
     getter value : T
 
