@@ -42,6 +42,11 @@ module Geode
       Degrees.new(value * 360)
     end
 
+    # Converts this angle to gradians.
+    def to_gradians : Gradians
+      Gradians.new(value * 400)
+    end
+
     # Converts this angle to turns.
     #
     # Simply returns self.

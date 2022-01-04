@@ -49,6 +49,11 @@ module Geode
       Turns.new(value / 360)
     end
 
+    # Converts this angle to gradians.
+    def to_gradians : Gradians
+      Gradians.new(value / 9 * 10)
+    end
+
     # Produces a string containing the angle.
     #
     # The string is formatted as:

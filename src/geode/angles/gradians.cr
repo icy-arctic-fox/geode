@@ -1,67 +1,67 @@
 require "./angle"
 
 module Geode
-  # Unit type for an angle measured in radians.
+  # Unit type for an angle measured in gradians (gons).
   #
   # The *T* type parameter is the type used to store the angle's value.
   # It should be a numerical type, preferably `Float32` or `Float64`.
-  struct Radians(T) < Angle(T)
-    # Creates an angle by converting an existing one to radians.
+  struct Gradians(T) < Angle(T)
+    # Creates an angle by converting an existing one to gradians.
     def self.new(angle : Angle) : self
-      value = angle.to_radians.value
+      value = angle.to_gradians.value
       new(value)
     end
 
-    # Amount of radians to complete a full revolution (360 degrees).
+    # Amount of gradians to complete a full revolution (360 degrees).
     def self.full : self
-      new(T.new(Math::TAU))
+      new(T.new(400))
     end
 
-    # Amount of radians to complete a half revolution (180 degrees).
+    # Amount of gradians to complete a half revolution (180 degrees).
     def self.half : self
-      new(T.new(Math::PI))
+      new(T.new(200))
     end
 
-    # Amount of radians to complete a third of a revolution (120 degrees).
+    # Amount of gradians to complete a third of a revolution (120 degrees).
     def self.third : self
-      new(T.new(Math::TAU / 3))
+      new(T.new(400 / 3))
     end
 
-    # Amount of radians to complete a quarter of a revolution (90 degrees).
+    # Amount of gradians to complete a quarter of a revolution (90 degrees).
     def self.quarter : self
-      new(T.new(Math::PI / 2))
+      new(T.new(100))
     end
 
     # Converts this angle to radians.
-    #
-    # Simply returns self.
     def to_radians : Radians
-      self
+      Radians.new(value / 200 * Math::PI)
     end
 
     # Converts this angle to degrees.
     def to_degrees : Degrees
-      Degrees.new(value / Math::PI * 180)
+      Degrees.new(value / 10 * 9)
     end
 
     # Converts this angle to turns.
     def to_turns : Turns
-      Turns.new(value / Math::TAU)
+      Turns.new(value / 400)
     end
 
     # Converts this angle to gradians.
+    #
+    # Simply returns self.
     def to_gradians : Gradians
-      Gradians.new(value / Math::PI * 200)
+      self
     end
 
     # Produces a string containing the angle.
     #
     # The string is formatted as:
     # ```text
-    # # rad
+    # # grad
     # ```
     def to_s(io : IO) : Nil
-      io << value << " rad"
+      io << value << " grad"
     end
   end
 end

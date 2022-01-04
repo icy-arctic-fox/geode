@@ -39,6 +39,18 @@ Spectator.describe "Geode extension methods" do
         expect(Math::PI.to_turns).to be_within(TOLERANCE.turns).of(0.5.turns)
       end
     end
+
+    describe "Number#gradians" do
+      it "returns gradians" do
+        expect(200.gradians).to eq(Geode::Gradians(Float64).half)
+      end
+    end
+
+    describe "Number#to_gradians" do
+      it "converts to gradians" do
+        expect(Math::PI.to_gradians).to be_within(TOLERANCE.gradians).of(200.gradians)
+      end
+    end
   end
 
   context "vectors" do

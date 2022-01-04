@@ -75,6 +75,14 @@ Spectator.describe Geode::Turns do
     end
   end
 
+  describe "#to_gradians" do
+    subject { angle.to_gradians }
+
+    it "converts to gradians" do
+      is_expected.to be_within(TOLERANCE).of(Geode::Gradians.new(300))
+    end
+  end
+
   describe "#to_s" do
     subject { angle.to_s }
 
@@ -118,7 +126,7 @@ Spectator.describe Geode::Turns do
       it "compares angles" do
         aggregate_failures do
           expect(Geode::Turns(Float64).half <=> Geode::Radians(Float64).half).to eq(0)
-          expect(Geode::Turns(Float64).quarter <=> Geode::Radians(Float64).third).to eq(-1)
+          expect(Geode::Turns(Float64).quarter <=> Geode::Gradians(Float64).third).to eq(-1)
           expect(Geode::Turns(Float64).third <=> Geode::Degrees(Float64).quarter).to eq(1)
         end
       end
@@ -160,7 +168,7 @@ Spectator.describe Geode::Turns do
       it "compares angles" do
         aggregate_failures do
           expect(Geode::Turns(Float64).third < Geode::Radians(Float64).half).to be_true
-          expect(Geode::Turns(Float64).half < Geode::Radians(Float64).zero).to be_false
+          expect(Geode::Turns(Float64).half < Geode::Gradians(Float64).zero).to be_false
           expect(Geode::Turns(Float64).quarter < Geode::Degrees(Float64).quarter).to be_false
         end
       end
@@ -182,7 +190,7 @@ Spectator.describe Geode::Turns do
       it "compares angles" do
         aggregate_failures do
           expect(Geode::Turns(Float64).third <= Geode::Radians(Float64).half).to be_true
-          expect(Geode::Turns(Float64).half <= Geode::Radians(Float64).zero).to be_false
+          expect(Geode::Turns(Float64).half <= Geode::Gradians(Float64).zero).to be_false
           expect(Geode::Turns(Float64).quarter <= Geode::Degrees(Float64).quarter).to be_true
         end
       end
@@ -204,7 +212,7 @@ Spectator.describe Geode::Turns do
       it "compares angles" do
         aggregate_failures do
           expect(Geode::Turns(Float64).third > Geode::Radians(Float64).half).to be_false
-          expect(Geode::Turns(Float64).half > Geode::Radians(Float64).zero).to be_true
+          expect(Geode::Turns(Float64).half > Geode::Gradians(Float64).zero).to be_true
           expect(Geode::Turns(Float64).quarter > Geode::Degrees(Float64).quarter).to be_false
         end
       end
@@ -226,7 +234,7 @@ Spectator.describe Geode::Turns do
       it "compares angles" do
         aggregate_failures do
           expect(Geode::Turns(Float64).third >= Geode::Radians(Float64).half).to be_false
-          expect(Geode::Turns(Float64).half >= Geode::Radians(Float64).zero).to be_true
+          expect(Geode::Turns(Float64).half >= Geode::Gradians(Float64).zero).to be_true
           expect(Geode::Turns(Float64).quarter >= Geode::Degrees(Float64).quarter).to be_true
         end
       end

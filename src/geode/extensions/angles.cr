@@ -66,4 +66,26 @@ abstract struct Number
   def to_turns
     radians.to_turns
   end
+
+  # Returns a `Geode::Gradians` of `self` gradians.
+  #
+  # ```
+  # 100.gradians # => 100 grad
+  # ```
+  #
+  # See: `Geode::Gradians`
+  def gradians
+    Geode::Gradians.new(self)
+  end
+
+  # Returns a `Geode::Gradians` of `self` radians.
+  #
+  # ```
+  # (Math::PI / 4).to_turns # => 100.0 grad
+  # ```
+  #
+  # See: `Geode::Gradians`
+  def to_gradians
+    radians.to_gradians
+  end
 end
