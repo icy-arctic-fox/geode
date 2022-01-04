@@ -1,3 +1,5 @@
+require "../angles"
+
 module Geode
   # Geometric methods for vectors.
   #
@@ -72,6 +74,41 @@ module Geode
         sum += v * other.unsafe_fetch(i)
       end
       sum
+    end
+
+    # Computes the angle between this vector and another.
+    #
+    # Returns the value as radians.
+    # The value will be between 0 and pi.
+    #
+    # The smallest angle between the vectors is calculated.
+    #
+    # ```
+    # Vector[1, 1].angle(Vector[-1, 0]) # => 2.35619449
+    # Vector[1, 1].angle(Vector[1, -1]) # => 1.570796327
+    # ```
+    def angle(other : CommonVector(T, N)) : Number forall T
+      div = Math.sqrt(mag2 * other.mag2)
+      return 0.0 if div <= Float64::EPSILON
+
+      dot = dot(other)
+      Math.acos(dot / div)
+    end
+
+    # Computes the angle between this vector and another.
+    #
+    # Converts to the specified *type* of `Angle`.
+    # The angle will be between zero and half a revolution.
+    #
+    # The smallest angle between the vectors is calculated.
+    #
+    # ```
+    # Vector[1, 1].angle(Vector[-1, 0], Degrees) # => 135°
+    # Vector[1, 1].angle(Vector[1, -1], Turns)   # => 0.25 turns
+    # ```
+    def angle(other : CommonVector(T, N), type : Angle.class) : Angle forall T
+      radians = Radians.new(angle(other))
+      type.new(radians)
     end
 
     # Orients a vector to point in the same direction as another.

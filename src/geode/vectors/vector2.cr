@@ -92,41 +92,6 @@ module Geode
       signed_angle(type).normalize
     end
 
-    # Computes the angle between this vector and another.
-    #
-    # Returns the value as radians.
-    # The value will be between 0 and pi.
-    #
-    # The smallest angle between the vectors is calculated.
-    #
-    # ```
-    # Vector2[1, 1].angle(Vector2[-1, 0]) # => 2.35619449
-    # Vector2[1, 1].angle(Vector2[1, -1]) # => 1.570796327
-    # ```
-    def angle(other : CommonVector(T, 2)) : Number
-      div = Math.sqrt(mag2 * other.mag2)
-      return 0.0 if div <= Float64::EPSILON
-
-      dot = dot(other)
-      Math.acos(dot / div)
-    end
-
-    # Computes the angle between this vector and another.
-    #
-    # Converts to the specified *type* of `Angle`.
-    # The angle will be between zero and half a revolution.
-    #
-    # The smallest angle between the vectors is calculated.
-    #
-    # ```
-    # Vector2[1, 1].angle(Vector2[-1, 0], Degrees) # => 135°
-    # Vector2[1, 1].angle(Vector2[1, -1], Turns)   # => 0.25 turns
-    # ```
-    def angle(other : CommonVector(T, 2), type : Angle.class) : Angle
-      radians = Radians.new(angle(other))
-      type.new(radians)
-    end
-
     # Computes the rotation of the vector.
     #
     # Returns the value as radians.

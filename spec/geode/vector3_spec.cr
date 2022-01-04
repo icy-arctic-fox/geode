@@ -490,6 +490,7 @@ Spectator.describe Geode::Vector3 do
 
   context Geode::VectorGeometry do
     TOLERANCE = 0.000000001
+    SQRT3     = Math.sqrt(3.0)
 
     describe "#mag" do
       subject { vector.mag }
@@ -555,6 +556,23 @@ Spectator.describe Geode::Vector3 do
 
       it "computes the dot-product" do
         is_expected.to eq(140)
+      end
+    end
+
+    describe "#angle" do
+      it "computes the angle between vectors" do
+        vector = Geode::Vector3[SQRT3, 1.0, 0.5]
+        aggregate_failures do
+          expect(vector.angle(Geode::Vector3[2 * SQRT3, 2.0, 1.0])).to be_within(TOLERANCE).of(0.0)
+          expect(vector.angle(Geode::Vector3[-SQRT3, 1.0, 0.5])).to be_within(TOLERANCE).of(1.995186035)
+          expect(vector.angle(Geode::Vector3[-SQRT3, -1.0, -0.5])).to be_within(TOLERANCE).of(Math::PI)
+          expect(vector.angle(Geode::Vector3[0.0, -1.0, 1.0])).to be_within(TOLERANCE).of(1.743146916)
+          expect(vector.angle(Geode::Vector3[SQRT3, -1.0, -1.0])).to be_within(TOLERANCE).of(1.239366168)
+        end
+      end
+
+      it "converts to an Angle" do
+        expect(Geode::Vector3[SQRT3, 1.0, -SQRT3].angle(Geode::Vector3[-1.0, SQRT3, SQRT3], Geode::Degrees)).to be_within(TOLERANCE.degrees).of(115.376933525.degrees)
       end
     end
 
