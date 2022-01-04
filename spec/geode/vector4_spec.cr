@@ -572,6 +572,28 @@ Spectator.describe Geode::Vector4 do
       end
     end
 
+    describe "#project" do
+      it "computes the projected vector" do
+        proj = vector.project(Geode::Vector4[1, 1, 1, 1].normalize)
+        aggregate_failures do
+          expect(proj.x).to be_within(TOLERANCE).of(2.5)
+          expect(proj.y).to be_within(TOLERANCE).of(2.5)
+          expect(proj.z).to be_within(TOLERANCE).of(2.5)
+          expect(proj.w).to be_within(TOLERANCE).of(2.5)
+        end
+      end
+
+      it "handles non-normalized vectors" do
+        proj = vector.project(Geode::Vector4[3, 4, 5, 6])
+        aggregate_failures do
+          expect(proj.x).to be_within(TOLERANCE).of(1.744186046)
+          expect(proj.y).to be_within(TOLERANCE).of(2.325581395)
+          expect(proj.z).to be_within(TOLERANCE).of(2.906976744)
+          expect(proj.w).to be_within(TOLERANCE).of(3.488372093)
+        end
+      end
+    end
+
     describe "#forward" do
       context "with a same-facing vector" do
         let(surface) { Geode::Vector4[4, 5, 6, 7] }

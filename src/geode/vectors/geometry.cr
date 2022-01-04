@@ -95,6 +95,15 @@ module Geode
       Math.acos(dot / div)
     end
 
+    # Computes the projection of this vector onto another vector.
+    #
+    # ```
+    # Vector[3, 4].project(Vector[1, 0]) # => (3, 0)
+    # ```
+    def project(other : CommonVector(T, N)) : CommonVector forall T
+      other * dot(other) / other.mag2
+    end
+
     # Orients a vector to point in the same direction as another.
     #
     # The *surface* is a vector to orient with.
