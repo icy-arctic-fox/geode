@@ -72,10 +72,6 @@ Spectator.describe Geode::Vector2 do
         expect(Geode::Vector2[1.0, -SQRT3].angle).to be_within(TOLERANCE).of(Math::PI * 5 / 3)
       end
     end
-
-    it "converts to an Angle" do
-      expect(Geode::Vector2[SQRT3, 1.0].angle(Geode::Degrees)).to be_within(TOLERANCE.degrees).of(30.degrees)
-    end
   end
 
   describe "#signed_angle" do
@@ -92,10 +88,6 @@ Spectator.describe Geode::Vector2 do
       end
     end
 
-    it "converts to an Angle" do
-      expect(Geode::Vector2[1.0, -SQRT3].signed_angle(Geode::Degrees)).to be_within(TOLERANCE.degrees).of(-60.degrees)
-    end
-
     context "with another vector" do
       it "computes the angle between the vectors" do
         vector = Geode::Vector2[SQRT3, 1.0]
@@ -106,10 +98,6 @@ Spectator.describe Geode::Vector2 do
           expect(vector.signed_angle(Geode::Vector2[0.0, -1.0])).to be_within(TOLERANCE).of(-Math::PI * 2 / 3)
           expect(vector.signed_angle(Geode::Vector2[SQRT3, -1.0])).to be_within(TOLERANCE).of(-Math::PI / 3)
         end
-      end
-
-      it "converts to an Angle" do
-        expect(Geode::Vector2[SQRT3, 1.0].signed_angle(Geode::Vector2[-1.0, SQRT3], Geode::Degrees)).to be_within(TOLERANCE.degrees).of(90.degrees)
       end
     end
   end
@@ -610,10 +598,6 @@ Spectator.describe Geode::Vector2 do
           expect(vector.angle(Geode::Vector2[0.0, -1.0])).to be_within(TOLERANCE).of(Math::PI * 2 / 3)
           expect(vector.angle(Geode::Vector2[SQRT3, -1.0])).to be_within(TOLERANCE).of(Math::PI / 3)
         end
-      end
-
-      it "converts to an Angle" do
-        expect(Geode::Vector2[SQRT3, 1.0].angle(Geode::Vector2[-1.0, SQRT3], Geode::Degrees)).to be_within(TOLERANCE.degrees).of(90.degrees)
       end
     end
 

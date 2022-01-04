@@ -82,18 +82,6 @@ module Geode
 
     # Computes the rotation of the vector.
     #
-    # Converts to the specified *type* of `Angle`.
-    # The angle will be between zero and one revolution.
-    #
-    # ```
-    # Vector2[1, 1].angle(Degrees) # => 45.0°
-    # ```
-    def angle(type : Angle.class) : Angle
-      signed_angle(type).normalize
-    end
-
-    # Computes the rotation of the vector.
-    #
     # Returns the value as radians.
     # The value will be between -pi and +pi.
     #
@@ -103,20 +91,6 @@ module Geode
     # ```
     def signed_angle : Number
       Math.atan2(y, x)
-    end
-
-    # Computes the rotation of the vector.
-    #
-    # Converts to the specified *type* of `Angle`.
-    # The angle will be between ± half a revolution.
-    #
-    # ```
-    # Vector2[1, 1].signed_angle(Degrees) # => 45°
-    # Vector2[-1, -1].signed_angle(Turns) # => -0.375 turns
-    # ```
-    def signed_angle(type : Angle.class) : Angle
-      radians = Radians.new(signed_angle)
-      type.new(radians)
     end
 
     # Computes the angle between this vector and another.
@@ -138,26 +112,6 @@ module Geode
       angle = angle(other)
       sign = unsafe_fetch(0) * other.unsafe_fetch(1) - unsafe_fetch(1) * other.unsafe_fetch(0)
       Math.copysign(angle, sign)
-    end
-
-    # Computes the angle between this vector and another.
-    #
-    # Converts to the specified *type* of `Angle`.
-    # The angle will be between ± half a revolution.
-    #
-    # The smallest angle between the vectors is calculated.
-    #
-    # Positive values indicate that the *other* vector can be reached by rotating this vector in a *positive* direction.
-    # On a standard coordinate system, this means rotating counter-clockwise.
-    # Negative values indicate the opposite - clockwise rotation.
-    #
-    # ```
-    # Vector2[1, 1].signed_angle(Vector2[-1, 0], Degrees) # => 135°
-    # Vector2[1, 1].signed_angle(Vector2[1, -1], Turns)   # => -0.25 turns
-    # ```
-    def signed_angle(other : CommonVector(U, 2), type : Angle.class) : Angle forall U
-      radians = Radians.new(signed_angle(other))
-      type.new(radians)
     end
   end
 

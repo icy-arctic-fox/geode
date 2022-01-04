@@ -517,10 +517,6 @@ Spectator.describe Geode::Vector do
           expect(vector.angle(Geode::Vector[SQRT3, -1.0])).to be_within(TOLERANCE).of(Math::PI / 3)
         end
       end
-
-      it "converts to an Angle" do
-        expect(Geode::Vector[SQRT3, 1.0].angle(Geode::Vector[-1.0, SQRT3], Geode::Degrees)).to be_within(TOLERANCE.degrees).of(90.degrees)
-      end
     end
 
     describe "#forward" do

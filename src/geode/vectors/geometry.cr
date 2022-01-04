@@ -95,22 +95,6 @@ module Geode
       Math.acos(dot / div)
     end
 
-    # Computes the angle between this vector and another.
-    #
-    # Converts to the specified *type* of `Angle`.
-    # The angle will be between zero and half a revolution.
-    #
-    # The smallest angle between the vectors is calculated.
-    #
-    # ```
-    # Vector[1, 1].angle(Vector[-1, 0], Degrees) # => 135°
-    # Vector[1, 1].angle(Vector[1, -1], Turns)   # => 0.25 turns
-    # ```
-    def angle(other : CommonVector(T, N), type : Angle.class) : Angle forall T
-      radians = Radians.new(angle(other))
-      type.new(radians)
-    end
-
     # Orients a vector to point in the same direction as another.
     #
     # The *surface* is a vector to orient with.
