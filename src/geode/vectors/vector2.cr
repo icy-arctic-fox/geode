@@ -134,7 +134,7 @@ module Geode
     # Vector2[1, 1].signed_angle(Vector2[-1, 0]) # => 2.35619449
     # Vector2[1, 1].signed_angle(Vector2[1, -1]) # => -1.570796327
     # ```
-    def signed_angle(other : CommonVector(T, 2)) : Number
+    def signed_angle(other : CommonVector(U, 2)) : Number forall U
       angle = angle(other)
       sign = unsafe_fetch(0) * other.unsafe_fetch(1) - unsafe_fetch(1) * other.unsafe_fetch(0)
       Math.copysign(angle, sign)
@@ -155,7 +155,7 @@ module Geode
     # Vector2[1, 1].signed_angle(Vector2[-1, 0], Degrees) # => 135°
     # Vector2[1, 1].signed_angle(Vector2[1, -1], Turns)   # => -0.25 turns
     # ```
-    def signed_angle(other : CommonVector(T, 2), type : Angle.class) : Angle
+    def signed_angle(other : CommonVector(U, 2), type : Angle.class) : Angle forall U
       radians = Radians.new(signed_angle(other))
       type.new(radians)
     end
