@@ -73,6 +73,39 @@ module Geode
       {x, y, z}
     end
 
+    # Computes the angle (directional cosine) of the vector from the x-axis.
+    #
+    # The value will be in radians from 0 to pi.
+    #
+    # ```
+    # Vector3[1, 2, 3].alpha # => 1.300246563
+    # ```
+    def alpha : Number
+      Math.acos(x / mag)
+    end
+
+    # Computes the angle (directional cosine) of the vector from the y-axis.
+    #
+    # The value will be in radians from 0 to pi.
+    #
+    # ```
+    # Vector3[1, 2, 3].beta # => 1.006853685
+    # ```
+    def beta : Number
+      Math.acos(y / mag)
+    end
+
+    # Computes the angle (directional cosine) of the vector from the z-axis.
+    #
+    # The value will be in radians from 0 to pi.
+    #
+    # ```
+    # Vector3[1, 2, 3].gamma # => 0.640522312
+    # ```
+    def gamma : Number
+      Math.acos(z / mag)
+    end
+
     # Computes the cross-product of this and another vector.
     #
     # ```

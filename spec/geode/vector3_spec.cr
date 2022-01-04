@@ -58,6 +58,24 @@ Spectator.describe Geode::Vector3 do
     end
   end
 
+  describe "#alpha" do
+    it "is the angle from the x-axis" do
+      expect(vector.alpha).to be_within(0.000000001).of(1.300246563)
+    end
+  end
+
+  describe "#beta" do
+    it "is the angle from the y-axis" do
+      expect(vector.beta).to be_within(0.000000001).of(1.006853685)
+    end
+  end
+
+  describe "#gamma" do
+    it "is the angle from the z-axis" do
+      expect(vector.gamma).to be_within(0.000000001).of(0.640522312)
+    end
+  end
+
   describe ".zero" do
     subject(zero) { Geode::Vector3(Int32).zero }
 
