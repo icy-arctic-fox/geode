@@ -76,6 +76,72 @@ Spectator.describe Geode::Vector3 do
     end
   end
 
+  describe "#rotate_x" do
+    it "rotates the vector" do
+      vector = Geode::Vector3[3.0, 4.0, 5.0]
+      rotated = vector.rotate_x(270.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(3)
+        expect(rotated.y).to be_within(TOLERANCE).of(5)
+        expect(rotated.z).to be_within(TOLERANCE).of(-4)
+      end
+    end
+
+    it "rotates negative amounts" do
+      vector = Geode::Vector3[3.0, 4.0, 5.0]
+      rotated = vector.rotate_x(-90.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(3)
+        expect(rotated.y).to be_within(TOLERANCE).of(5)
+        expect(rotated.z).to be_within(TOLERANCE).of(-4)
+      end
+    end
+  end
+
+  describe "#rotate_y" do
+    it "rotates the vector" do
+      vector = Geode::Vector3[3.0, 4.0, 5.0]
+      rotated = vector.rotate_y(270.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(-5)
+        expect(rotated.y).to be_within(TOLERANCE).of(4)
+        expect(rotated.z).to be_within(TOLERANCE).of(3)
+      end
+    end
+
+    it "rotates negative amounts" do
+      vector = Geode::Vector3[3.0, 4.0, 5.0]
+      rotated = vector.rotate_y(-90.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(-5)
+        expect(rotated.y).to be_within(TOLERANCE).of(4)
+        expect(rotated.z).to be_within(TOLERANCE).of(3)
+      end
+    end
+  end
+
+  describe "#rotate_z" do
+    it "rotates the vector" do
+      vector = Geode::Vector3[3.0, 4.0, 5.0]
+      rotated = vector.rotate_z(270.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(4)
+        expect(rotated.y).to be_within(TOLERANCE).of(-3)
+        expect(rotated.z).to be_within(TOLERANCE).of(5)
+      end
+    end
+
+    it "rotates negative amounts" do
+      vector = Geode::Vector3[3.0, 4.0, 5.0]
+      rotated = vector.rotate_z(-90.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(4)
+        expect(rotated.y).to be_within(TOLERANCE).of(-3)
+        expect(rotated.z).to be_within(TOLERANCE).of(5)
+      end
+    end
+  end
+
   describe ".zero" do
     subject(zero) { Geode::Vector3(Int32).zero }
 

@@ -113,6 +113,22 @@ module Geode
       sign = unsafe_fetch(0) * other.unsafe_fetch(1) - unsafe_fetch(1) * other.unsafe_fetch(0)
       Math.copysign(angle, sign)
     end
+  
+    # Computes a new vector from rotating this one.
+    #
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # Vector2[1.0, 1.0].rotate(180.degrees) # => (-1.0, -1.0)
+    # ```
+    def rotate(angle : Number | Angle) : self
+      rad = angle.to_f
+      cos = Math.cos(rad)
+      sin = Math.sin(rad)
+      x = T.new(self.x * cos - self.y * sin)
+      y = T.new(self.x * sin + self.y * cos)
+      self.class.new(x, y)
+    end
   end
 
   # A two-dimensional vector.

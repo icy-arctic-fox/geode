@@ -102,6 +102,26 @@ Spectator.describe Geode::Vector2 do
     end
   end
 
+  describe "#rotate" do
+    it "rotates the vector" do
+      vector = Geode::Vector2[3.0, 4.0]
+      rotated = vector.rotate(270.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(4)
+        expect(rotated.y).to be_within(TOLERANCE).of(-3)
+      end
+    end
+
+    it "rotates negative amounts" do
+      vector = Geode::Vector2[3.0, 4.0]
+      rotated = vector.rotate(-90.degrees)
+      aggregate_failures do
+        expect(rotated.x).to be_within(TOLERANCE).of(4)
+        expect(rotated.y).to be_within(TOLERANCE).of(-3)
+      end
+    end
+  end
+
   describe ".zero" do
     subject(zero) { Geode::Vector2(Int32).zero }
 

@@ -123,6 +123,54 @@ module Geode
       z = x1 * y2 - y1 * x2
       self.class.new(x, y, z)
     end
+
+    # Computes a new vector that is rotated around the x-axis.
+    #
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # Vector3[1.0, 1.0, 1.0].rotate_x(90.degrees) # => (1.0, -1.0, 1.0)
+    # ```
+    def rotate_x(angle : Number | Angle) : self
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+      y = T.new(self.y * cos - self.z * sin)
+      z = T.new(self.y * sin + self.z * cos)
+      self.class.new(x, y, z)
+    end
+
+    # Computes a new vector that is rotated around the y-axis.
+    #
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # Vector3[1.0, 1.0, 1.0].rotate_y(90.degrees) # => (1.0, 1.0, -1.0)
+    # ```
+    def rotate_y(angle : Number | Angle) : self
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+      x = T.new(self.x * cos + self.z * sin)
+      z = T.new(self.z * cos - self.x * sin)
+      self.class.new(x, y, z)
+    end
+
+    # Computes a new vector that is rotated around the z-axis.
+    #
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # Vector3[1.0, 1.0, 1.0].rotate_z(90.degrees) # => (-1.0, 1.0, 1.0)
+    # ```
+    def rotate_z(angle : Number | Angle) : self
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+      x = T.new(self.x * cos - self.y * sin)
+      y = T.new(self.x * sin + self.y * cos)
+      self.class.new(x, y, z)
+    end
   end
 
   # A three-dimensional vector.
