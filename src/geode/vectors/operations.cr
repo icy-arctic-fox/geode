@@ -96,6 +96,8 @@ module Geode
     # Vector[5, -2, 0].clamp(min, max) # => (1, -1, 0)
     # ```
     def clamp(min : CommonVector(T, N), max : CommonVector(T, N)) : CommonVector forall T
+      same_size!(N)
+
       map_with_index do |v, i|
         lower = min.unsafe_fetch(i)
         upper = max.unsafe_fetch(i)

@@ -12,6 +12,20 @@ module Geode
     include VectorGeometry(N)
     include VectorOperations(N)
 
+    # Ensures that another vector and this one have the same size at compile-time.
+    #
+    # The *size* argument should be the type argument from the other vector type.
+    #
+    # ```
+    # def something(other : CommonVector(T, N))
+    #   same_size!(N)
+    #   # ...
+    # end
+    # ```
+    private macro same_size!(size)
+      \{% raise "Vectors must be the same size for this operation (#{{{size}}} != #{@type.type_vars.last})" if {{size}} != @type.type_vars.last %}
+    end
+
     # Returns the number of components in this vector.
     def size
       N
@@ -51,6 +65,8 @@ module Geode
     # v1.zip_map { |a, b| Math.min(a, b) } # => (1, 2, 1)
     # ```
     def zip_map(other : CommonVector(U, N), & : T, U -> V) : CommonVector(V, N) forall U, V
+      same_size!(N)
+
       map_with_index do |v, i|
         u = other.unsafe_fetch(i)
         yield v, u

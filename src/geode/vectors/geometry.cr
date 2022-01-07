@@ -69,6 +69,8 @@ module Geode
     # Vector[2, 5, 7].dot(Vector[1, 0, -5]) # => -33
     # ```
     def dot(other : CommonVector(T, N)) forall T
+      same_size!(N)
+
       sum = T.zero
       each_with_index do |v, i|
         sum += v * other.unsafe_fetch(i)

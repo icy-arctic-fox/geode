@@ -18,6 +18,20 @@ module Geode
       {{@type.name(generic_args: false)}}.new({{x}}, {{y}})
     end
 
+    # Ensures that another vector and this one have the same size at compile-time.
+    #
+    # The *size* argument should be the type argument from the other vector type.
+    #
+    # ```
+    # def something(other : CommonVector(T, N))
+    #   same_size!(N)
+    #   # ...
+    # end
+    # ```
+    private macro same_size!(size)
+      \{% raise "Vectors must be the same size for this operation (#{{{size}}} != 2)" if {{size}} != 2 %}
+    end
+
     # Creates a vector from its components.
     def initialize(x : T, y : T)
       array = uninitialized T[2]
