@@ -228,7 +228,7 @@ module Geode
     # Scales each component by the specified amount.
     #
     # ```
-    # Vector[16, -2, 0] / 4 # => (4, -0.5, 0)
+    # Vector[16, -2, 0] / 4 # => (4.0, -0.5, 0.0)
     # ```
     def /(scalar : Number) : CommonVector
       map &./(scalar)
