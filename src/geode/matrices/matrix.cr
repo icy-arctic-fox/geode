@@ -94,6 +94,12 @@ module Geode
       @elements = Pointer(T).malloc(size) { |index| elements.unsafe_fetch(index) }
     end
 
+    # Creates a new matrix from its underlying elements.
+    #
+    # The memory allocated for *elements* must match the size of the matrix.
+    protected def initialize(@elements : Pointer(T))
+    end
+
     # Creates a matrix filled with zeroes.
     #
     # ```
@@ -134,6 +140,69 @@ module Geode
           value = yield unsafe_fetch(index)
           index += 1
           value
+        end
+      {% end %}
+    end
+
+    # Returns a new matrix that is transposed from this one.
+    #
+    # ```
+    # matrix = Matrix[[1, 2, 3], [4, 5, 6]]
+    # matrix.transpose # => [[1, 4], [2, 5], [3, 6]]
+    # ```
+    def transpose : Matrix(T, N, M)
+      {% begin %}
+        {{@type.name(generic_args: false)}}(T, N, M).new do |i, j|
+          unsafe_fetch(j, i)
+        end
+      {% end %}
+    end
+
+    # Returns a smaller matrix by removing a row and column.
+    #
+    # The row indicated by *i* and the column indicated by *j* are removed in the resulting matrix.
+    # This method can only be called if the matrix has two or more rows and columns.
+    #
+    # ```
+    # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    # matrix.sub(1, 1) # => [[1, 3], [7, 9]]
+    # ```
+    def sub(i : Int, j : Int) : CommonMatrix
+      {% raise "Can't create sub-matrix from row or column vector" if M <= 1 || N <= 1 %}
+
+      elements = Pointer(T).malloc({{M - 1}} * {{N - 1}})
+      index = 0
+      each_with_indices do |e, si, sj|
+        next if si == i || sj == j
+
+        elements[index] = e
+        index += 1
+      end
+
+      {% begin %}
+        {{@type.name(generic_args: false)}}(T, {{M - 1}}, {{N - 1}}).new(elements)
+      {% end %}
+    end
+
+    # Multiplies this matrix by another.
+    #
+    # The other matrix's row count (*M*) must be equal to this matrix's column count (*N*).
+    # Produces a new matrix with the row count from this matrix and the column count from *other*.
+    # Matrices can be of any size and type as long as this condition is met.
+    #
+    # ```
+    # m1 = Matrix[[1, 2, 3], [4, 5, 6]]
+    # m2 = Matrix[[1, 2], [3, 4], [5, 6]]
+    # m1 * m2 # => [[28, 29], [49, 64]]
+    # ```
+    def *(other : CommonMatrix(U, N, P)) : Matrix forall U, P
+      {% raise "Mismatched matrix sizes for multiplication #{@type.type_vars[1]}x#{@type.type_vars[2]} x #{N}x#{P}" if @type.type_vars[2] != N %}
+
+      {% begin %}
+        {{@type.name(generic_args: false)}}(typeof(first * other.first), M, P).new do |i, j|
+          row = unsafe_fetch_row(i)
+          column = other.unsafe_fetch_column(j)
+          row.dot(column)
         end
       {% end %}
     end

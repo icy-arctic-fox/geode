@@ -2,6 +2,25 @@ require "./common"
 
 module Geode
   module MatrixOperations(M, N)
+    # Returns a new matrix that is transposed from this one.
+    #
+    # ```
+    # matrix = Matrix[[1, 2, 3], [4, 5, 6]]
+    # matrix.transpose # => [[1, 4], [2, 5], [3, 6]]
+    # ```
+    abstract def transpose : CommonMatrix
+
+    # Returns a smaller matrix by removing a row and column.
+    #
+    # The row indicated by *i* and the column indicated by *j* are removed in the resulting matrix.
+    # This method can only be called if the matrix has two or more rows and columns.
+    #
+    # ```
+    # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    # matrix.sub(1, 1) # => [[1, 3], [7, 9]]
+    # ```
+    abstract def sub(i : Int, j : Int) : CommonMatrix
+
     # Returns a matrix containing the absolute value of each element.
     #
     # ```
@@ -222,6 +241,19 @@ module Geode
     def *(scalar : Number) : CommonMatrix
       map &.*(scalar)
     end
+
+    # Multiplies this matrix by another.
+    #
+    # The other matrix's row count (*M*) must be equal to this matrix's column count (*N*).
+    # Produces a new matrix with the row count from this matrix and the column count from *other*.
+    # Matrices can be of any size and type as long as this condition is met.
+    #
+    # ```
+    # m1 = Matrix[[1, 2, 3], [4, 5, 6]]
+    # m2 = Matrix[[1, 2], [3, 4], [5, 6]]
+    # m1 * m2 # => [[28, 29], [49, 64]]
+    # ```
+    abstract def *(other : CommonMatrix(U, N, P)) : CommonMatrix forall U, P
 
     # Scales each element by the specified amount.
     #

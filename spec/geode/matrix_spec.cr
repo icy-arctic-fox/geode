@@ -72,6 +72,32 @@ Spectator.describe Geode::Matrix do
     end
   end
 
+  describe "#transpose" do
+    subject { matrix.transpose }
+
+    it "transposes the matrix" do
+      is_expected.to eq(Geode::Matrix[[1, 4], [2, 5], [3, 6]])
+    end
+  end
+
+  describe "#sub" do
+    let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+    subject { matrix.sub(1, 1) }
+
+    it "produces a sub-matrix" do
+      is_expected.to eq(Geode::Matrix[[1, 3], [7, 9]])
+    end
+  end
+
+  describe "#*" do
+    let(m1) { Geode::Matrix[[1, 2, 3], [4, 5, 6]] }
+    let(m2) { Geode::Matrix[[1, 2], [3, 4], [5, 6]] }
+
+    it "multiplies matrices together" do
+      expect(m1 * m2).to eq(Geode::Matrix[[22, 28], [49, 64]])
+    end
+  end
+
   describe "#to_slice" do
     it "is the size of the matrix" do
       slice = matrix.to_slice
