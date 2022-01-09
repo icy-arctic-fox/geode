@@ -520,4 +520,197 @@ Spectator.describe Geode::Matrix do
       end
     end
   end
+
+  context Geode::MatrixOperations do
+    describe "#abs" do
+      it "returns the absolute value" do
+        expect(Geode::Matrix[[-5, 42], [-20, 0]].abs).to eq(Geode::Matrix[[5, 42], [20, 0]])
+      end
+    end
+
+    describe "#abs2" do
+      it "returns the absolute value squared" do
+        expect(Geode::Matrix[[-5, 3], [-2, 0]].abs2).to eq(Geode::Matrix[[25, 9], [4, 0]])
+      end
+    end
+
+    describe "#round" do
+      it "rounds the elements" do
+        expect(Geode::Matrix[[1.2, -5.7], [3.0, 1.5]].round).to eq(Geode::Matrix[[1.0, -6.0], [3.0, 2.0]])
+      end
+
+      context "with digits" do
+        it "rounds the elements" do
+          expect(Geode::Matrix[[1.25, -5.77], [3.01, 1.5]].round(1)).to eq(Geode::Matrix[[1.2, -5.8], [3.0, 1.5]])
+        end
+      end
+    end
+
+    describe "#sign" do
+      it "returns the sign of each element" do
+        expect(Geode::Matrix[[5, 0], [-5, -1]].sign).to eq(Geode::Matrix[[1, 0], [-1, -1]])
+      end
+    end
+
+    describe "#ceil" do
+      it "returns the elements rounded up" do
+        expect(Geode::Matrix[[1.2, -5.7], [3.0, 1.5]].ceil).to eq(Geode::Matrix[[2.0, -5.0], [3.0, 2.0]])
+      end
+    end
+
+    describe "#floor" do
+      it "returns the elements rounded down" do
+        expect(Geode::Matrix[[1.2, -5.7], [3.0, 1.5]].floor).to eq(Geode::Matrix[[1.0, -6.0], [3.0, 1.0]])
+      end
+    end
+
+    describe "#fraction" do
+      it "returns the fraction part of each element" do
+        fraction = Geode::Matrix[[1.2, -5.7], [3.0, 0.5]].fraction
+        aggregate_failures do
+          expect(fraction[0, 0]).to be_within(TOLERANCE).of(0.2)
+          expect(fraction[0, 1]).to be_within(TOLERANCE).of(0.3)
+          expect(fraction[1, 0]).to be_within(TOLERANCE).of(0.0)
+          expect(fraction[1, 1]).to be_within(TOLERANCE).of(0.5)
+        end
+      end
+    end
+
+    describe "#clamp" do
+      context "with a min and max matrices" do
+        it "restricts elements" do
+          min = Geode::Matrix[[-1, -2], [-3, -4]]
+          max = Geode::Matrix[[1, 2], [3, 4]]
+          expect(Geode::Matrix[[-2, 3], [0, 1]].clamp(min, max)).to eq(Geode::Matrix[[-1, 2], [0, 1]])
+        end
+      end
+
+      context "with a range of matrices" do
+        it "restricts elements" do
+          min = Geode::Matrix[[-1, -2], [-3, -4]]
+          max = Geode::Matrix[[1, 2], [3, 4]]
+          expect(Geode::Matrix[[-2, 3], [0, 1]].clamp(min..max)).to eq(Geode::Matrix[[-1, 2], [0, 1]])
+        end
+      end
+
+      context "with a min and max" do
+        it "restricts elements" do
+          expect(Geode::Matrix[[-2, 3], [0, 1]].clamp(-1, 1)).to eq(Geode::Matrix[[-1, 1], [0, 1]])
+        end
+      end
+
+      context "with a range" do
+        it "restricts elements" do
+          expect(Geode::Matrix[[-2, 3], [0, 1]].clamp(-1..1)).to eq(Geode::Matrix[[-1, 1], [0, 1]])
+        end
+      end
+    end
+
+    describe "#edge" do
+      context "with a scalar value" do
+        it "returns correct zero and one elements" do
+          expect(matrix.edge(3)).to eq(Geode::Matrix[[0, 0, 1], [1, 1, 1]])
+        end
+      end
+
+      context "with a matrix" do
+        it "returns correct zero and one elements" do
+          expect(matrix.edge(Geode::Matrix[[3, 2, 1], [6, 5, 4]])).to eq(Geode::Matrix[[0, 1, 1], [0, 1, 1]])
+        end
+      end
+    end
+
+    describe "#scale" do
+      context "with a matrix" do
+        let(other) { Geode::Matrix[[1, 2, 1], [3, 4, 3]] }
+
+        it "scales each element separately" do
+          expect(matrix.scale(other)).to eq(Geode::Matrix[[1, 4, 3], [12, 20, 18]])
+        end
+      end
+
+      context "with a scalar" do
+        it "scales each element by the same amount" do
+          expect(matrix.scale(5)).to eq(Geode::Matrix[[5, 10, 15], [20, 25, 30]])
+        end
+      end
+    end
+
+    describe "#lerp" do
+      let(m1) { Geode::Matrix[[3.0, 5.0], [7.0, 9.0]] }
+      let(m2) { Geode::Matrix[[23.0, 35.0], [47.0, 59.0]] }
+
+      it "returns m1 when t = 0" do
+        matrix = m1.lerp(m2, 0.0)
+        aggregate_failures do
+          expect(matrix[0, 0]).to be_within(TOLERANCE).of(3.0)
+          expect(matrix[0, 1]).to be_within(TOLERANCE).of(5.0)
+          expect(matrix[1, 0]).to be_within(TOLERANCE).of(7.0)
+          expect(matrix[1, 1]).to be_within(TOLERANCE).of(9.0)
+        end
+      end
+
+      it "returns m2 when t = 1" do
+        matrix = m1.lerp(m2, 1.0)
+        aggregate_failures do
+          expect(matrix[0, 0]).to be_within(TOLERANCE).of(23.0)
+          expect(matrix[0, 1]).to be_within(TOLERANCE).of(35.0)
+          expect(matrix[1, 0]).to be_within(TOLERANCE).of(47.0)
+          expect(matrix[1, 1]).to be_within(TOLERANCE).of(59.0)
+        end
+      end
+
+      it "returns a mid-value" do
+        matrix = m1.lerp(m2, 0.4)
+        aggregate_failures do
+          expect(matrix[0, 0]).to be_within(TOLERANCE).of(11.0)
+          expect(matrix[0, 1]).to be_within(TOLERANCE).of(17.0)
+          expect(matrix[1, 0]).to be_within(TOLERANCE).of(23.0)
+          expect(matrix[1, 1]).to be_within(TOLERANCE).of(29.0)
+        end
+      end
+    end
+
+    describe "#- (negation)" do
+      it "negates the matrix" do
+        expect(-Geode::Matrix[[-2, 3], [0, 1]]).to eq(Geode::Matrix[[2, -3], [0, -1]])
+      end
+    end
+
+    describe "#+" do
+      it "adds two matrices" do
+        m1 = Geode::Matrix[[5, -2], [0, 1]]
+        m2 = Geode::Matrix[[2, -1], [4, 1]]
+        expect(m1 + m2).to eq(Geode::Matrix[[7, -3], [4, 2]])
+      end
+    end
+
+    describe "#-" do
+      it "subtracts two matrices" do
+        m1 = Geode::Matrix[[5, -2], [0, 1]]
+        m2 = Geode::Matrix[[2, -1], [4, 1]]
+        expect(m1 - m2).to eq(Geode::Matrix[[3, -1], [-4, 0]])
+      end
+    end
+
+    describe "#*" do
+      it "scales a matrix" do
+        expect(matrix * 3).to eq(Geode::Matrix[[3, 6, 9], [12, 15, 18]])
+      end
+    end
+
+    describe "#/" do
+      it "scales a matrix" do
+        matrix = Geode::Matrix[[6.0, 4.0], [2.0, 0.0]]
+        expect(matrix / 2).to eq(Geode::Matrix[[3.0, 2.0], [1.0, 0.0]])
+      end
+    end
+
+    describe "#//" do
+      it "scales the matrix" do
+        matrix = Geode::Matrix[[6, 4], [2, 0]]
+        expect(matrix // 2).to eq(Geode::Matrix[[3, 2], [1, 0]])
+      end
+    end
+  end
 end
