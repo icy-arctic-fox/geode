@@ -89,7 +89,7 @@ Spectator.describe Geode::Matrix do
     end
   end
 
-  describe "#*" do
+  describe "#*(matrix)" do
     let(m1) { Geode::Matrix[[1, 2, 3], [4, 5, 6]] }
     let(m2) { Geode::Matrix[[1, 2], [3, 4], [5, 6]] }
 
@@ -719,7 +719,7 @@ Spectator.describe Geode::Matrix do
       end
     end
 
-    describe "#*" do
+    describe "#*(number)" do
       it "scales a matrix" do
         expect(matrix * 3).to eq(Geode::Matrix[[3, 6, 9], [12, 15, 18]])
       end
@@ -736,6 +736,74 @@ Spectator.describe Geode::Matrix do
       it "scales the matrix" do
         matrix = Geode::Matrix[[6, 4], [2, 0]]
         expect(matrix // 2).to eq(Geode::Matrix[[3, 2], [1, 0]])
+      end
+    end
+  end
+
+  context Geode::MatrixVectors do
+    describe "#row?" do
+      subject { matrix.row? }
+
+      context "with a row vector (M = 1)" do
+        let(matrix) { Geode::Matrix[[1, 2, 3]] }
+
+        it "is true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with a non-row vector (M != 1)" do
+        it "is false" do
+          is_expected.to be_false
+        end
+      end
+    end
+
+    describe "#column?" do
+      subject { matrix.column? }
+
+      context "with a column vector (N = 1)" do
+        let(matrix) { Geode::Matrix[[1], [2], [3]] }
+
+        it "is true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with a non-column vector (N != 1)" do
+        it "is false" do
+          is_expected.to be_false
+        end
+      end
+    end
+
+    describe "#to_vector" do
+      subject { matrix.to_vector }
+
+      context "with a row vector (M = 1)" do
+        let(matrix) { Geode::Matrix[[1, 2, 3]] }
+
+        it "returns a vector" do
+          is_expected.to eq(Geode::Vector[1, 2, 3])
+        end
+      end
+
+      context "with a column vector (N = 1)" do
+        let(matrix) { Geode::Matrix[[1], [2], [3]] }
+
+        it "returns a vector" do
+          is_expected.to eq(Geode::Vector[1, 2, 3])
+        end
+      end
+    end
+
+    describe "#*(vector)" do
+      let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+      let(vector) { Geode::Vector[1, 10, 100] }
+      subject { matrix * vector }
+
+      it "multiplies the matrix and vector" do
+        is_expected.to eq(Geode::Vector[321, 654, 987])
       end
     end
   end

@@ -1,6 +1,7 @@
 require "../vectors/common"
 require "./comparison"
 require "./operations"
+require "./vectors"
 
 module Geode
   # Common functionality across all matrix types.
@@ -24,6 +25,7 @@ module Geode
     include Indexable(T)
     include MatrixComparison(M, N)
     include MatrixOperations(M, N)
+    include MatrixVectors(M, N)
 
     # Ensures that another matrix and this one have the same size at compile-time.
     #
