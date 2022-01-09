@@ -6,7 +6,6 @@ module Geode
   module VectorComparison(N)
     # Compares components of this vector to another.
     #
-    # Returns a bool vector.
     # Each component of the resulting vector is an integer.
     # The value will be:
     # - -1 if the component from this vector is less than the corresponding component from *other*.
@@ -123,8 +122,8 @@ module Geode
     # Returns true if all components are equal, false otherwise.
     #
     # ```
-    # Vector[1, 2, 3].eq?(Vector3[1, 2, 3]) # => true
-    # Vector[1, 2, 3].eq?(Vector3[3, 2, 1]) # => false
+    # Vector[1, 2, 3] == Vector3[1, 2, 3] # => true
+    # Vector[1, 2, 3] == Vector3[3, 2, 1] # => false
     # ```
     def ==(other : CommonVector(T, N)) forall T
       # This check shouldn't be needed, but the N type parameter doesn't seem to be enforced in all cases.
