@@ -127,7 +127,7 @@ module Geode
       sign = unsafe_fetch(0) * other.unsafe_fetch(1) - unsafe_fetch(1) * other.unsafe_fetch(0)
       Math.copysign(angle, sign)
     end
-  
+
     # Computes a new vector from rotating this one.
     #
     # The *angle* must be a `Number` in radians or an `Angle`.
