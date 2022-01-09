@@ -26,4 +26,5 @@ module Geode
 end
 
 require "./geode/angles"
+require "./geode/matrices"
 require "./geode/vectors"
