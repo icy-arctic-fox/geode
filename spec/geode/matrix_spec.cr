@@ -380,4 +380,144 @@ Spectator.describe Geode::Matrix do
       end
     end
   end
+
+  context Geode::MatrixComparison do
+    let(m1) { Geode::Matrix[[1, 2, 3], [6, 5, 4]] }
+    let(m2) { Geode::Matrix[[3, 2, 1], [4, 5, 6]] }
+
+    describe "#compare" do
+      it "compares elements" do
+        expect(m1.compare(m2)).to eq(Geode::Matrix[[-1, 0, 1], [1, 0, -1]])
+      end
+    end
+
+    describe "#eq?" do
+      it "compares elements" do
+        expect(m1.eq?(m2)).to eq(Geode::Matrix[[false, true, false], [false, true, false]])
+      end
+    end
+
+    describe "#lt?" do
+      it "compares elements" do
+        expect(m1.lt?(m2)).to eq(Geode::Matrix[[true, false, false], [false, false, true]])
+      end
+    end
+
+    describe "#le?" do
+      it "compares elements" do
+        expect(m1.le?(m2)).to eq(Geode::Matrix[[true, true, false], [false, true, true]])
+      end
+    end
+
+    describe "#gt?" do
+      it "compares elements" do
+        expect(m1.gt?(m2)).to eq(Geode::Matrix[[false, false, true], [true, false, false]])
+      end
+    end
+
+    describe "#ge?" do
+      it "compares elements" do
+        expect(m1.ge?(m2)).to eq(Geode::Matrix[[false, true, true], [true, true, false]])
+      end
+    end
+
+    describe "#zero?" do
+      subject { matrix.zero? }
+
+      context "with a zero matrix" do
+        let(matrix) { Geode::Matrix(Int32, 3, 3).zero }
+
+        it "returns true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with a non-zero vector" do
+        it "returns false" do
+          is_expected.to be_false
+        end
+      end
+    end
+
+    describe "#near_zero?" do
+      subject { matrix.near_zero?(0.1) }
+
+      context "with elements within tolerance of zero" do
+        let(matrix) { Geode::Matrix[[0.1, 0.01], [0.0, 0.05]] }
+
+        it "returns true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with elements not within tolerance of zero" do
+        it "returns false" do
+          is_expected.to be_false
+        end
+      end
+    end
+
+    describe "#==" do
+      subject { matrix == other }
+      let(other) { matrix }
+
+      context "with the same matrix" do
+        it "returns true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "with a generic matrix" do
+        context "with equal values" do
+          let(other) { Geode::Matrix[[1, 2, 3], [4, 5, 6]] }
+
+          it "returns true" do
+            is_expected.to be_true
+          end
+        end
+
+        context "with unequal values" do
+          let(other) { Geode::Matrix[[6, 5, 4], [3, 2, 1]] }
+
+          it "returns false" do
+            is_expected.to be_false
+          end
+        end
+
+        context "with a different sized matrix" do
+          let(other) { Geode::Matrix[[1, 2], [3, 4]] }
+
+          it "returns false" do
+            is_expected.to be_false
+          end
+        end
+      end
+
+      context "with a nxm-dimension matrix" do
+        context "with equal values" do
+          # let(other) { Geode::Matrix2x3[[1, 2, 3], [4, 5, 6]] }
+
+          xit "returns true" do
+            is_expected.to be_true
+          end
+        end
+
+        context "with unequal values" do
+          # let(other) { Geode::Matrix3x2[[6, 5, 4], [3, 2, 1]] }
+
+          xit "returns false" do
+            is_expected.to be_false
+          end
+        end
+
+        context "with a different size" do
+          # let(other) { Geode::Matrix3[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+
+          xit "returns false" do
+            is_expected.to be_false
+          end
+        end
+      end
+    end
+  end
 end

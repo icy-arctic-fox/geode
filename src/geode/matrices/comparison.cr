@@ -44,7 +44,7 @@ module Geode
     # ```
     # Matrix[[0, 1], [2, 3]].lt?(Matrix[[0, 3], [2, 1]]) # => [[false, true], [false, false]]
     # ```
-    def lt?(other : CommonMatrix(T, N)) : CommonMatrix(Bool, N) forall T
+    def lt?(other : CommonMatrix(T, M, N)) : CommonMatrix(Bool, M, N) forall T
       zip_map(other) { |a, b| a < b }
     end
 
@@ -58,7 +58,7 @@ module Geode
     # ```
     # Matrix[[0, 1], [2, 3]].le?(Matrix[[0, 3], [2, 1]]) # => [[true, true], [true, false]]
     # ```
-    def le?(other : CommonMatrix(T, N)) : CommonMatrix(Bool, N) forall T
+    def le?(other : CommonMatrix(T, M, N)) : CommonMatrix(Bool, M, N) forall T
       zip_map(other) { |a, b| a <= b }
     end
 
@@ -72,7 +72,7 @@ module Geode
     # ```
     # Matrix[[0, 1], [2, 3]].gt?(Matrix[[0, 3], [2, 1]]) # => [[false, false], [false, true]]
     # ```
-    def gt?(other : CommonMatrix(T, N)) : CommonMatrix(Bool, N) forall T
+    def gt?(other : CommonMatrix(T, M, N)) : CommonMatrix(Bool, M, N) forall T
       zip_map(other) { |a, b| a > b }
     end
 
@@ -86,7 +86,7 @@ module Geode
     # ```
     # Matrix[[0, 1], [2, 3]].ge?(Matrix[[0, 3], [2, 1]]) # => [[false, true], [true, true]]
     # ```
-    def ge?(other : CommonMatrix(T, N)) : CommonMatrix(Bool, N) forall T
+    def ge?(other : CommonMatrix(T, M, N)) : CommonMatrix(Bool, M, N) forall T
       zip_map(other) { |a, b| a >= b }
     end
 
