@@ -556,6 +556,72 @@ Spectator.describe Geode::Matrix do
     end
   end
 
+  context Geode::MatrixIterators do
+    describe "#each_indices" do
+      subject { matrix.each_indices }
+
+      it "iterates through each pair of indices" do
+        expect(subject.to_a).to eq([{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}])
+      end
+    end
+
+    describe "#each_with_indices" do
+      subject { matrix.each_with_indices }
+
+      it "iterates through each element and its indices" do
+        expect(subject.to_a).to eq([{1, 0, 0}, {2, 0, 1}, {3, 0, 2}, {4, 1, 0}, {5, 1, 1}, {6, 1, 2}])
+      end
+    end
+
+    describe "#each_row" do
+      subject { matrix.each_row }
+
+      it "iterates through each row" do
+        expect(subject.to_a).to eq([Geode::Vector[1, 2, 3], Geode::Vector[4, 5, 6]])
+      end
+    end
+
+    describe "#each_row_with_index" do
+      subject { matrix.each_row_with_index }
+
+      it "iterates through each row" do
+        expect(subject.to_a).to eq([{Geode::Vector[1, 2, 3], 0}, {Geode::Vector[4, 5, 6], 1}])
+      end
+
+      context "with an offset" do
+        subject { matrix.each_row_with_index(5) }
+
+        it "applies the offset" do
+          expect(subject.to_a).to eq([{Geode::Vector[1, 2, 3], 5}, {Geode::Vector[4, 5, 6], 6}])
+        end
+      end
+    end
+
+    describe "#each_column" do
+      subject { matrix.each_column }
+
+      it "iterates through each column" do
+        expect(subject.to_a).to eq([Geode::Vector[1, 4], Geode::Vector[2, 5], Geode::Vector[3, 6]])
+      end
+    end
+
+    describe "#each_column_with_index" do
+      subject { matrix.each_column_with_index }
+
+      it "iterates through each column" do
+        expect(subject.to_a).to eq([{Geode::Vector[1, 4], 0}, {Geode::Vector[2, 5], 1}, {Geode::Vector[3, 6], 2}])
+      end
+
+      context "with an offset" do
+        subject { matrix.each_column_with_index(5) }
+
+        it "applies the offset" do
+          expect(subject.to_a).to eq([{Geode::Vector[1, 4], 5}, {Geode::Vector[2, 5], 6}, {Geode::Vector[3, 6], 7}])
+        end
+      end
+    end
+  end
+
   context Geode::MatrixOperations do
     describe "#abs" do
       it "returns the absolute value" do

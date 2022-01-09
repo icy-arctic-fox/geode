@@ -1,5 +1,6 @@
 require "../vectors/common"
 require "./comparison"
+require "./iterators"
 require "./operations"
 require "./vectors"
 
@@ -24,6 +25,7 @@ module Geode
   module CommonMatrix(T, M, N)
     include Indexable(T)
     include MatrixComparison(M, N)
+    include MatrixIterators(T, M, N)
     include MatrixOperations(M, N)
     include MatrixVectors(M, N)
 
