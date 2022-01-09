@@ -246,19 +246,6 @@ module Geode
       map &.*(scalar)
     end
 
-    # Multiplies this matrix by another.
-    #
-    # The other matrix's row count (*M*) must be equal to this matrix's column count (*N*).
-    # Produces a new matrix with the row count from this matrix and the column count from *other*.
-    # Matrices can be of any size and type as long as this condition is met.
-    #
-    # ```
-    # m1 = Matrix[[1, 2, 3], [4, 5, 6]]
-    # m2 = Matrix[[1, 2], [3, 4], [5, 6]]
-    # m1 * m2 # => [[28, 29], [49, 64]]
-    # ```
-    abstract def *(other : CommonMatrix(U, N, P)) : CommonMatrix forall U, P
-
     # Scales each element by the specified amount.
     #
     # ```
