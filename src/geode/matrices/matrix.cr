@@ -207,6 +207,31 @@ module Geode
       {% end %}
     end
 
+    # Multiplies this matrix by another.
+    #
+    # The other matrix's row count (*M*) must be equal to this matrix's column count (*N*).
+    # Produces a new matrix with the row count from this matrix and the column count from *other*.
+    # Matrices can be of any size and type as long as this condition is met.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # m1 = Matrix[[1, 2, 3], [4, 5, 6]]
+    # m2 = Matrix[[1, 2], [3, 4], [5, 6]]
+    # m1 &* m2 # => [[28, 29], [49, 64]]
+    # ```
+    def &*(other : CommonMatrix(U, N, P)) : Matrix forall U, P
+      {% raise "Mismatched matrix sizes for multiplication #{@type.type_vars[1]}x#{@type.type_vars[2]} x #{N}x#{P}" if @type.type_vars[2] != N %}
+
+      {% begin %}
+        {{@type.name(generic_args: false)}}(typeof(first &* other.first), M, P).new do |i, j|
+          row = unsafe_fetch_row(i)
+          column = other.unsafe_fetch_column(j)
+          row.dot!(column)
+        end
+      {% end %}
+    end
+
     # Retrieves the scalar value of the component at the given *index*,
     # without checking size boundaries.
     #

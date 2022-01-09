@@ -154,6 +154,17 @@ module Geode
       {{@type.name(generic_args: false)}}.new(value)
     end
 
+    # Adds two angles together.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # 30.degrees &+ 45.degrees # => 75°
+    # ```
+    def &+(other : self) : self
+      self.class.new(value &+ other.value)
+    end
+
     # Subtracts another angle from this one.
     #
     # ```
@@ -173,6 +184,17 @@ module Geode
       {{@type.name(generic_args: false)}}.new(value)
     end
 
+    # Subtracts another angle from this one.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # 90.degrees &- 30.degrees # => 60°
+    # ```
+    def &-(other : self) : self
+      self.class.new(value &- other.value)
+    end
+
     # Multiplies the angle by the specified amount.
     #
     # ```
@@ -180,6 +202,17 @@ module Geode
     # ```
     def *(amount : Number) : Angle
       {{@type.name(generic_args: false)}}.new(value * amount)
+    end
+
+    # Multiplies the angle by the specified amount.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # 15.degrees &* 5 # => 75°
+    # ```
+    def &*(amount : Number) : Angle
+      {{@type.name(generic_args: false)}}.new(value &* amount)
     end
 
     # Divides the angle by the specified amount.

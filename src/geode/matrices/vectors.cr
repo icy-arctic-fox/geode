@@ -63,5 +63,32 @@ module Geode
         end.sum
       end
     end
+
+    # Multiplies the matrix by a vector.
+    #
+    # The vector is treated as a single column matrix.
+    # Returns a vector of equal size.
+    # This method requires that the matrix is square (M == N)
+    # and the size of the vector matches the side length of this matrix.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    # vector = Vector[1, 10, 100]
+    # matrix &* vector # => (321, 654, 987)
+    # ```
+    def &*(vector : CommonVector(U, P)) : CommonVector forall U, P
+      {% raise "Vector length must equal matrix side length for this operation (#{M}x#{N} != #{P})" if N != M || N != P %}
+
+      vector.map_with_index do |_, index|
+        row = unsafe_fetch_row(index)
+        sum = U.zero
+        vector.each_index do |i|
+          sum &+= row.unsafe_fetch(i) &* vector.unsafe_fetch(i)
+        end
+        sum
+      end
+    end
   end
 end

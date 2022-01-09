@@ -190,6 +190,17 @@ module Geode
       zip_map(matrix) { |a, b| a * b }
     end
 
+    # Returns a matrix with each element scaled by the corresponding element value.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Matrix[[1, 0], [-1, -2]].scale!(Matrix[[2, 3], [5, 1]]) # => [[2, 0], [-5, -2]]
+    # ```
+    def scale!(matrix : CommonMatrix(T, M, N)) : CommonMatrix forall T
+      zip_map(matrix) { |a, b| a &* b }
+    end
+
     # Scales each element by the specified amount.
     #
     # ```
@@ -197,6 +208,17 @@ module Geode
     # ```
     def scale(amount : Number) : CommonMatrix
       map &.*(amount)
+    end
+
+    # Scales each element by the specified amount.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Matrix[[5, -2], [0, 1]].scale!(3) # => [[15, -6], [0, 3]]
+    # ```
+    def scale!(amount : Number) : CommonMatrix
+      map &.&*(amount)
     end
 
     # Calculates the linear interpolation between two matrices.
@@ -228,6 +250,17 @@ module Geode
       zip_map(other) { |a, b| a + b }
     end
 
+    # Adds two matrices together.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Matrix[[5, -2], [0, 1]] &+ Matrix[[2, -1], [4, -2]] # => [[7, -3], [4, -1]]
+    # ```
+    def &+(other : CommonMatrix(T, M, N)) : CommonMatrix forall T
+      zip_map(other) { |a, b| a &+ b }
+    end
+
     # Subtracts another matrix from this one.
     #
     # ```
@@ -237,6 +270,17 @@ module Geode
       zip_map(other) { |a, b| a - b }
     end
 
+    # Subtracts another matrix from this one.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Matrix[[5, -2], [0, 1]] &- Matrix[[2, -1], [4, -2]] # => [[3, -1], [-4, 3]]
+    # ```
+    def &-(other : CommonMatrix(T, M, N)) : CommonMatrix forall T
+      zip_map(other) { |a, b| a &- b }
+    end
+
     # Scales each element by the specified amount.
     #
     # ```
@@ -244,6 +288,17 @@ module Geode
     # ```
     def *(scalar : Number) : CommonMatrix
       map &.*(scalar)
+    end
+
+    # Scales each element by the specified amount.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Matrix[[5, -2], [0, 1]] &* 3 # => [[15, -6], [0, 3]]
+    # ```
+    def &*(scalar : Number) : CommonMatrix
+      map &.&*(scalar)
     end
 
     # Scales each element by the specified amount.

@@ -565,6 +565,12 @@ Spectator.describe Geode::Radians do
     end
   end
 
+  describe "#&+" do
+    it "adds the angles together" do
+      expect(Geode::Radians.new(3) &+ Geode::Radians.new(2)).to be_within(TOLERANCE).of(Geode::Radians.new(5))
+    end
+  end
+
   describe "#-" do
     it "subtracts one angle from another" do
       expect(Geode::Radians.new(0.5) - Geode::Radians.new(0.3)).to be_within(TOLERANCE).of(Geode::Radians.new(0.2))
@@ -581,9 +587,21 @@ Spectator.describe Geode::Radians do
     end
   end
 
+  describe "#&-" do
+    it "subtracts one angle from another" do
+      expect(Geode::Radians.new(5) &- Geode::Radians.new(3)).to be_within(TOLERANCE).of(Geode::Radians.new(2))
+    end
+  end
+
   describe "#*" do
     it "multiples the value" do
       expect(Geode::Radians(Float64).quarter * 2).to be_within(TOLERANCE).of(Geode::Radians(Float64).half)
+    end
+  end
+
+  describe "#&*" do
+    it "multiples the value" do
+      expect(Geode::Radians.new(3) &* 2).to eq(Geode::Radians.new(6))
     end
   end
 

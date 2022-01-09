@@ -78,6 +78,23 @@ module Geode
       sum
     end
 
+    # Computes the dot-product of this vector and another.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Vector[2, 5, 7].dot!(Vector[1, 0, -5]) # => -33
+    # ```
+    def dot!(other : CommonVector(T, N)) forall T
+      same_size!(N)
+
+      sum = T.zero
+      each_with_index do |v, i|
+        sum &+= v &* other.unsafe_fetch(i)
+      end
+      sum
+    end
+
     # Computes the angle between this vector and another.
     #
     # Returns the value as radians.

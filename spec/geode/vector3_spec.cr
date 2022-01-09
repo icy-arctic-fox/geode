@@ -357,6 +357,22 @@ Spectator.describe Geode::Vector3 do
       end
     end
 
+    describe "#scale!" do
+      context "with a vector" do
+        let(other) { Geode::Vector3[2, 3, 4] }
+
+        it "scales each component separately" do
+          expect(vector.scale!(other)).to eq(Geode::Vector3[2, 6, 12])
+        end
+      end
+
+      context "with a scalar" do
+        it "scales each component by the same amount" do
+          expect(vector.scale!(5)).to eq(Geode::Vector3[5, 10, 15])
+        end
+      end
+    end
+
     describe "#lerp" do
       let(v1) { Geode::Vector3[3.0, 5.0, 7.0] }
       let(v2) { Geode::Vector3[23.0, 35.0, 47.0] }
@@ -403,6 +419,14 @@ Spectator.describe Geode::Vector3 do
       end
     end
 
+    describe "#&+" do
+      it "adds two vectors" do
+        v1 = Geode::Vector3[5, -2, 0]
+        v2 = Geode::Vector3[2, -1, 4]
+        expect(v1 &+ v2).to eq(Geode::Vector3[7, -3, 4])
+      end
+    end
+
     describe "#-" do
       it "subtracts two vectors" do
         v1 = Geode::Vector3[5, -2, 0]
@@ -411,9 +435,23 @@ Spectator.describe Geode::Vector3 do
       end
     end
 
+    describe "#&-" do
+      it "subtracts two vectors" do
+        v1 = Geode::Vector3[5, -2, 0]
+        v2 = Geode::Vector3[2, -1, 4]
+        expect(v1 &- v2).to eq(Geode::Vector3[3, -1, -4])
+      end
+    end
+
     describe "#*" do
       it "scales a vector" do
         expect(vector * 3).to eq(Geode::Vector3[3, 6, 9])
+      end
+    end
+
+    describe "#&*" do
+      it "scales a vector" do
+        expect(vector &* 3).to eq(Geode::Vector3[3, 6, 9])
       end
     end
 
@@ -636,6 +674,15 @@ Spectator.describe Geode::Vector3 do
 
     describe "#dot" do
       subject { vector.dot(other) }
+      let(other) { Geode::Vector3[10, 20, 30] }
+
+      it "computes the dot-product" do
+        is_expected.to eq(140)
+      end
+    end
+
+    describe "#dot!" do
+      subject { vector.dot!(other) }
       let(other) { Geode::Vector3[10, 20, 30] }
 
       it "computes the dot-product" do

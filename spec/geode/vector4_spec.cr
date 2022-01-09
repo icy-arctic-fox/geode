@@ -268,6 +268,22 @@ Spectator.describe Geode::Vector4 do
       end
     end
 
+    describe "#scale!" do
+      context "with a vector" do
+        let(other) { Geode::Vector4[2, 3, 4, 5] }
+
+        it "scales each component separately" do
+          expect(vector.scale!(other)).to eq(Geode::Vector4[2, 6, 12, 20])
+        end
+      end
+
+      context "with a scalar" do
+        it "scales each component by the same amount" do
+          expect(vector.scale!(5)).to eq(Geode::Vector4[5, 10, 15, 20])
+        end
+      end
+    end
+
     describe "#lerp" do
       let(v1) { Geode::Vector4[3.0, 5.0, 7.0, 9.0] }
       let(v2) { Geode::Vector4[23.0, 35.0, 47.0, 59.0] }
@@ -317,6 +333,14 @@ Spectator.describe Geode::Vector4 do
       end
     end
 
+    describe "#&+" do
+      it "adds two vectors" do
+        v1 = Geode::Vector4[5, -2, 0, 1]
+        v2 = Geode::Vector4[2, -1, 4, -1]
+        expect(v1 &+ v2).to eq(Geode::Vector4[7, -3, 4, 0])
+      end
+    end
+
     describe "#-" do
       it "subtracts two vectors" do
         v1 = Geode::Vector4[5, -2, 0, 2]
@@ -325,9 +349,23 @@ Spectator.describe Geode::Vector4 do
       end
     end
 
+    describe "#&-" do
+      it "subtracts two vectors" do
+        v1 = Geode::Vector4[5, -2, 0, 2]
+        v2 = Geode::Vector4[2, -1, 4, 1]
+        expect(v1 &- v2).to eq(Geode::Vector4[3, -1, -4, 1])
+      end
+    end
+
     describe "#*" do
       it "scales a vector" do
         expect(vector * 3).to eq(Geode::Vector4[3, 6, 9, 12])
+      end
+    end
+
+    describe "#&*" do
+      it "scales a vector" do
+        expect(vector &* 3).to eq(Geode::Vector4[3, 6, 9, 12])
       end
     end
 
@@ -552,6 +590,15 @@ Spectator.describe Geode::Vector4 do
 
     describe "#dot" do
       subject { vector.dot(other) }
+      let(other) { Geode::Vector4[10, 20, 30, 40] }
+
+      it "computes the dot-product" do
+        is_expected.to eq(300)
+      end
+    end
+
+    describe "#dot!" do
+      subject { vector.dot!(other) }
       let(other) { Geode::Vector4[10, 20, 30, 40] }
 
       it "computes the dot-product" do

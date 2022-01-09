@@ -565,6 +565,12 @@ Spectator.describe Geode::Turns do
     end
   end
 
+  describe "#&+" do
+    it "adds the angles together" do
+      expect(Geode::Turns.new(3) &+ Geode::Turns.new(2)).to eq(Geode::Turns.new(5))
+    end
+  end
+
   describe "#-" do
     it "subtracts one angle from another" do
       expect(Geode::Turns.new(5) - Geode::Turns.new(3)).to eq(Geode::Turns.new(2))
@@ -581,9 +587,21 @@ Spectator.describe Geode::Turns do
     end
   end
 
+  describe "#&-" do
+    it "subtracts one angle from another" do
+      expect(Geode::Turns.new(5) &- Geode::Turns.new(3)).to eq(Geode::Turns.new(2))
+    end
+  end
+
   describe "#*" do
     it "multiples the value" do
       expect(Geode::Turns(Float64).quarter * 2).to be_within(TOLERANCE).of(Geode::Turns(Float64).half)
+    end
+  end
+
+  describe "#&*" do
+    it "multiples the value" do
+      expect(Geode::Turns.new(3) &* 2).to eq(Geode::Turns.new(6))
     end
   end
 

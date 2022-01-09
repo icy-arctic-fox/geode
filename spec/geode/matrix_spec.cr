@@ -98,6 +98,15 @@ Spectator.describe Geode::Matrix do
     end
   end
 
+  describe "#&*(matrix)" do
+    let(m1) { Geode::Matrix[[1, 2, 3], [4, 5, 6]] }
+    let(m2) { Geode::Matrix[[1, 2], [3, 4], [5, 6]] }
+
+    it "multiplies matrices together" do
+      expect(m1 &* m2).to eq(Geode::Matrix[[22, 28], [49, 64]])
+    end
+  end
+
   describe "#to_slice" do
     it "is the size of the matrix" do
       slice = matrix.to_slice
@@ -662,6 +671,22 @@ Spectator.describe Geode::Matrix do
       end
     end
 
+    describe "#scale!" do
+      context "with a matrix" do
+        let(other) { Geode::Matrix[[1, 2, 1], [3, 4, 3]] }
+
+        it "scales each element separately" do
+          expect(matrix.scale!(other)).to eq(Geode::Matrix[[1, 4, 3], [12, 20, 18]])
+        end
+      end
+
+      context "with a scalar" do
+        it "scales each element by the same amount" do
+          expect(matrix.scale!(5)).to eq(Geode::Matrix[[5, 10, 15], [20, 25, 30]])
+        end
+      end
+    end
+
     describe "#lerp" do
       let(m1) { Geode::Matrix[[3.0, 5.0], [7.0, 9.0]] }
       let(m2) { Geode::Matrix[[23.0, 35.0], [47.0, 59.0]] }
@@ -711,6 +736,14 @@ Spectator.describe Geode::Matrix do
       end
     end
 
+    describe "#&+" do
+      it "adds two matrices" do
+        m1 = Geode::Matrix[[5, -2], [0, 1]]
+        m2 = Geode::Matrix[[2, -1], [4, 1]]
+        expect(m1 &+ m2).to eq(Geode::Matrix[[7, -3], [4, 2]])
+      end
+    end
+
     describe "#-" do
       it "subtracts two matrices" do
         m1 = Geode::Matrix[[5, -2], [0, 1]]
@@ -719,9 +752,23 @@ Spectator.describe Geode::Matrix do
       end
     end
 
+    describe "#&-" do
+      it "subtracts two matrices" do
+        m1 = Geode::Matrix[[5, -2], [0, 1]]
+        m2 = Geode::Matrix[[2, -1], [4, 1]]
+        expect(m1 &- m2).to eq(Geode::Matrix[[3, -1], [-4, 0]])
+      end
+    end
+
     describe "#*(number)" do
       it "scales a matrix" do
         expect(matrix * 3).to eq(Geode::Matrix[[3, 6, 9], [12, 15, 18]])
+      end
+    end
+
+    describe "#&*(number)" do
+      it "scales a matrix" do
+        expect(matrix &* 3).to eq(Geode::Matrix[[3, 6, 9], [12, 15, 18]])
       end
     end
 
@@ -801,6 +848,16 @@ Spectator.describe Geode::Matrix do
       let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
       let(vector) { Geode::Vector[1, 10, 100] }
       subject { matrix * vector }
+
+      it "multiplies the matrix and vector" do
+        is_expected.to eq(Geode::Vector[321, 654, 987])
+      end
+    end
+
+    describe "#&*(vector)" do
+      let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+      let(vector) { Geode::Vector[1, 10, 100] }
+      subject { matrix &* vector }
 
       it "multiplies the matrix and vector" do
         is_expected.to eq(Geode::Vector[321, 654, 987])

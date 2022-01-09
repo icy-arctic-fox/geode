@@ -565,6 +565,12 @@ Spectator.describe Geode::Degrees do
     end
   end
 
+  describe "#&+" do
+    it "adds the angles together" do
+      expect(Geode::Degrees.new(30) &+ Geode::Degrees.new(20)).to eq(Geode::Degrees.new(50))
+    end
+  end
+
   describe "#-" do
     it "subtracts one angle from another" do
       expect(Geode::Degrees.new(50) - Geode::Degrees.new(30)).to eq(Geode::Degrees.new(20))
@@ -581,9 +587,21 @@ Spectator.describe Geode::Degrees do
     end
   end
 
+  describe "#&-" do
+    it "subtracts one angle from another" do
+      expect(Geode::Degrees.new(50) &- Geode::Degrees.new(30)).to eq(Geode::Degrees.new(20))
+    end
+  end
+
   describe "#*" do
     it "multiples the value" do
       expect(Geode::Degrees(Float64).quarter * 2).to be_within(TOLERANCE).of(Geode::Degrees(Float64).half)
+    end
+  end
+
+  describe "#&*" do
+    it "multiples the value" do
+      expect(Geode::Degrees.new(3) &* 2).to eq(Geode::Degrees.new(6))
     end
   end
 

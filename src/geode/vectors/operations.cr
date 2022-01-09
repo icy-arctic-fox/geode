@@ -169,6 +169,17 @@ module Geode
       zip_map(vector) { |a, b| a * b }
     end
 
+    # Returns a vector with each component scaled by the corresponding component value.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Vector[1, 0, -1].scale!(Vector[2, 3, 5]) # => (2, 0, -5)
+    # ```
+    def scale!(vector : CommonVector(T, N)) : CommonVector forall T
+      zip_map(vector) { |a, b| a &* b }
+    end
+
     # Scales each component by the specified amount.
     #
     # ```
@@ -176,6 +187,17 @@ module Geode
     # ```
     def scale(amount : Number) : CommonVector
       map &.*(amount)
+    end
+
+    # Scales each component by the specified amount.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Vector[5, -2, 0].scale!(3) # => (15, -6, 0)
+    # ```
+    def scale!(amount : Number) : CommonVector
+      map &.&*(amount)
     end
 
     # Calculates the linear interpolation between two vectors.
@@ -207,6 +229,17 @@ module Geode
       zip_map(other) { |a, b| a + b }
     end
 
+    # Adds two vectors together.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Vector[5, -2, 0] &+ Vector[2, -1, 4] # => (7, -3, 4)
+    # ```
+    def &+(other : CommonVector(T, N)) : CommonVector forall T
+      zip_map(other) { |a, b| a &+ b }
+    end
+
     # Subtracts another vector from this one.
     #
     # ```
@@ -216,6 +249,17 @@ module Geode
       zip_map(other) { |a, b| a - b }
     end
 
+    # Subtracts another vector from this one.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Vector[5, -2, 0] &- Vector[2, -1, 4] # => (3, -1, -4)
+    # ```
+    def &-(other : CommonVector(T, N)) : CommonVector forall T
+      zip_map(other) { |a, b| a &- b }
+    end
+
     # Scales each component by the specified amount.
     #
     # ```
@@ -223,6 +267,17 @@ module Geode
     # ```
     def *(scalar : Number) : CommonVector
       map &.*(scalar)
+    end
+
+    # Scales each component by the specified amount.
+    #
+    # Values will wrap instead of overflowing and raising an error.
+    #
+    # ```
+    # Vector[5, -2, 0] &* 3 # => (15, -6, 0)
+    # ```
+    def &*(scalar : Number) : CommonVector
+      map &.&*(scalar)
     end
 
     # Scales each component by the specified amount.
