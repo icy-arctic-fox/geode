@@ -338,8 +338,7 @@ module Geode
     # ```
     def unsafe_fetch_row(i : Int) : CommonVector(T, N)
       Vector(T, N).new do |j|
-        index = flat_index(i, j)
-        unsafe_fetch(index)
+        unsafe_fetch(i, j)
       end
     end
 
@@ -388,9 +387,20 @@ module Geode
     # ```
     def unsafe_fetch_column(j : Int) : CommonVector(T, M)
       Vector(T, M).new do |i|
-        index = flat_index(i, j)
-        unsafe_fetch(index)
+        unsafe_fetch(i, j)
       end
+    end
+
+    # Retrieves the scalar value of the component at the given indices,
+    # without checking size boundaries.
+    #
+    # End-users should never invoke this method directly.
+    # Instead, methods like `#[]` and `#[]?` should be used.
+    #
+    # This method should only be directly invoked if *i* and *j* are certain to be in bounds.
+    def unsafe_fetch(i : Int, j : Int) : T
+      index = flat_index(i, j)
+      unsafe_fetch(index)
     end
 
     # Retrieves multiple rows at the specified indices.
