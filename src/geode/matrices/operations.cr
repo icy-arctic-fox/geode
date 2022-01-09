@@ -1,6 +1,10 @@
 require "./common"
 
 module Geode
+  # Common operations for matrices.
+  #
+  # Intended to be used as a mix-in on matrix types.
+  # *M* and *N* are the number of rows and columns respectively.
   module MatrixOperations(M, N)
     # Returns a new matrix that is transposed from this one.
     #
