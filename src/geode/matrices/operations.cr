@@ -6,25 +6,6 @@ module Geode
   # Intended to be used as a mix-in on matrix types.
   # *M* and *N* are the number of rows and columns respectively.
   module MatrixOperations(M, N)
-    # Returns a new matrix that is transposed from this one.
-    #
-    # ```
-    # matrix = Matrix[[1, 2, 3], [4, 5, 6]]
-    # matrix.transpose # => [[1, 4], [2, 5], [3, 6]]
-    # ```
-    abstract def transpose : CommonMatrix
-
-    # Returns a smaller matrix by removing a row and column.
-    #
-    # The row indicated by *i* and the column indicated by *j* are removed in the resulting matrix.
-    # This method can only be called if the matrix has two or more rows and columns.
-    #
-    # ```
-    # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    # matrix.sub(1, 1) # => [[1, 3], [7, 9]]
-    # ```
-    abstract def sub(i : Int, j : Int) : CommonMatrix
-
     # Returns a matrix containing the absolute value of each element.
     #
     # ```
