@@ -81,7 +81,7 @@ abstract struct Number
   # Returns a `Geode::Gradians` of `self` radians.
   #
   # ```
-  # (Math::PI / 4).to_turns # => 100.0 grad
+  # (Math::PI / 4).to_gradians # => 100.0 grad
   # ```
   #
   # See: `Geode::Gradians`
