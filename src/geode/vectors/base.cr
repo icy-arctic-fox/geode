@@ -16,7 +16,8 @@ module Geode
     end
 
     # Copies the contents of another vector.
-    def initialize(other : CommonVector(T, N))
+    def initialize(other : CommonVector(T, M)) forall M
+      {% raise "Source vector to copy from must be the same size" if M != N %}
       @array = StaticArray(T, N).new { |i| other.unsafe_fetch(i) }
     end
 
