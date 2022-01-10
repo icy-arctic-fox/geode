@@ -29,20 +29,6 @@ module Geode
     include MatrixOperations(M, N)
     include MatrixVectors(M, N)
 
-    # Ensures that another matrix and this one have the same size at compile-time.
-    #
-    # The *rows* and *columns* arguments should be the type arguments from the other matrix type.
-    #
-    # ```
-    # def something(other : CommonMatrix(T, M, N))
-    #   same_size!(M, N)
-    #   # ...
-    # end
-    # ```
-    private macro same_size!(rows, columns)
-      \{% raise "Matrices must have the same dimensions for this operation (#{{{rows}}}x#{{{columns}}} != #{@type.type_vars[1]}x#{@type.type_vars[2]})" if {{rows}} != @type.type_vars[1] || {{columns}} != @type.type_vars[2] %}
-    end
-
     # Returns the number of rows in this matrix.
     #
     # Is always equal to the type argument *M*.
@@ -521,6 +507,20 @@ module Geode
     @[AlwaysInline]
     private def flat_index?(i, j)
       flat_index(i, j) if in_range?(i, j)
+    end
+
+    # Ensures that another matrix and this one have the same size at compile-time.
+    #
+    # The *rows* and *columns* arguments should be the type arguments from the other matrix type.
+    #
+    # ```
+    # def something(other : CommonMatrix(T, M, N))
+    #   same_size!(M, N)
+    #   # ...
+    # end
+    # ```
+    private macro same_size!(rows, columns)
+      \{% raise "Matrices must have the same dimensions for this operation (#{{{rows}}}x#{{{columns}}} != #{@type.type_vars[1]}x#{@type.type_vars[2]})" if {{rows}} != @type.type_vars[1] || {{columns}} != @type.type_vars[2] %}
     end
   end
 end
