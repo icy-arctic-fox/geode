@@ -24,6 +24,12 @@ module Geode
       {{@type.name(generic_args: false)}}.new(StaticArray[{{*components}}])
     end
 
+    # Copies the contents of another vector.
+    def initialize(vector : CommonVector(T, N))
+      {% raise "Source vector to copy from must be the same size" if N != @type.type_vars.last %}
+      @array = StaticArray(T, N).new { |i| vector.unsafe_fetch(i) }
+    end
+
     # Constructs the vector with pre-existing values.
     def initialize(@array : StaticArray(T, N))
     end

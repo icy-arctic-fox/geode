@@ -13,6 +13,14 @@ Spectator.describe Geode::Vector do
     end
   end
 
+  describe "#initialize" do
+    it "copies from another vector" do
+      other = Geode::Vector3[1, 10, 100]
+      vector = Geode::Vector.new(other)
+      expect(vector).to eq(other)
+    end
+  end
+
   describe ".zero" do
     subject(zero) { Geode::Vector(Int32, 3).zero }
 
