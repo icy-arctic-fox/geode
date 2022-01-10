@@ -930,4 +930,48 @@ Spectator.describe Geode::Matrix do
       end
     end
   end
+
+  context Geode::SquareMatrix do
+    subject(matrix) { Geode::Matrix[[1, 4, 7], [5, 8, 2], [9, 3, 6]] }
+
+    describe "#diagonal" do
+      subject { matrix.diagonal }
+
+      it "returns the diagonal elements" do
+        is_expected.to eq(Geode::Vector[1, 8, 6])
+      end
+    end
+
+    describe "#each_diagonal (block)" do
+      it "iterates over the diagonal" do
+        elements = [] of Int32
+        matrix.each_diagonal { |e| elements << e }
+        expect(elements).to eq([1, 8, 6])
+      end
+    end
+
+    describe "#each_diagonal (iterator)" do
+      subject { matrix.each_diagonal }
+
+      it "iterates over the diagonal" do
+        expect(subject.to_a).to eq([1, 8, 6])
+      end
+    end
+
+    describe "#trace" do
+      subject { matrix.trace }
+
+      it "is the sum of the diagonal" do
+        is_expected.to eq(15)
+      end
+    end
+
+    describe "#determinant" do
+      subject { matrix.determinant }
+
+      xit "computes the determinant" do
+        is_expected.to eq(-405)
+      end
+    end
+  end
 end

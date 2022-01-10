@@ -1,4 +1,5 @@
 require "./common"
+require "./square"
 
 module Geode
   # Generic matrix type.
@@ -10,6 +11,7 @@ module Geode
   # Unless noted otherwise, all operations are in row-major order.
   struct Matrix(T, M, N)
     include CommonMatrix(T, M, N)
+    include SquareMatrix(T, M, N)
 
     # Storage for the matrix is placed on the heap.
     # This allows arbitrarily large matrices.
