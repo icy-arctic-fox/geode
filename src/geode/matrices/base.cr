@@ -31,7 +31,7 @@ module Geode
       # Copies contents from another matrix.
       def initialize(matrix : CommonMatrix(T, {{rows}}, {{columns}}))
         @array = uninitialized StaticArray(T, {{size}})
-        @array.to_unsafe.copy_from(matrix.to_unsafe)
+        @array.to_unsafe.copy_from(matrix.to_unsafe, {{size}})
       end
 
       # Creates a new matrix by iterating through each element.
