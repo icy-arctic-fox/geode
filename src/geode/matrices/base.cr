@@ -19,10 +19,8 @@ module Geode
       # The type of the components is derived from the type of each argument.
       # The size of *rows* must be {{rows}} and the size of each row must be {{columns}}.
       macro [](*rows)
-        \{% m = rows.size %}
-        \{% n = rows.first.size %}
-        \{% raise "Row count doesn't match type (#{m} != {{rows}})" if m != {{rows}} %}
-        \{% raise "Rows in the matrix have different sizes" if rows.any? { |row| row.size != n } %}
+        \{% raise "Row count doesn't match type (#{rows.size} != {{rows}})" if rows.size != {{rows}} %}
+        \{% raise "Column count doesn't match type" if rows.any? { |row| row.size != {{columns}} } %}
 
         \%rows = { \{{rows.map(&.splat).splat}} }
         \{{@type.name(generic_args: false)}}(typeof(\%rows.first)).new(\%rows)
