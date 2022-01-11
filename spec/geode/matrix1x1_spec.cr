@@ -20,7 +20,7 @@ Spectator.describe Geode::Matrix1x1 do
       expect(matrix[0, 0]).to eq(3)
     end
 
-    xit "accepts another matrix" do
+    it "accepts another matrix" do
       other = Geode::Matrix[[3]]
       matrix = Geode::Matrix1x1.new(other)
       expect(matrix[0, 0]).to eq(3)
@@ -350,9 +350,7 @@ Spectator.describe Geode::Matrix1x1 do
         subject { matrix.to_s }
 
         it "contains the elements" do
-          aggregate_failures do
-            is_expected.to contain("5")
-          end
+          is_expected.to contain("5")
         end
 
         it "is formatted correctly" do
