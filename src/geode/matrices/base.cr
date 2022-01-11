@@ -218,8 +218,8 @@ module Geode
         {% for n in 0...columns %}
           # Retrieves the element at ({{m}}, {{n}})
           @[AlwaysInline]
-          def {{letters[m * n].id}} : T
-            unsafe_fetch({{m * n}})
+          def {{letters[m * columns + n].id}} : T
+            unsafe_fetch({{m * columns + n}})
           end
         {% end %}
       {% end %}

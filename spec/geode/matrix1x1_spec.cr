@@ -100,6 +100,14 @@ Spectator.describe Geode::Matrix1x1 do
     end
   end
 
+  describe "#a" do
+    subject { matrix.a }
+
+    it "returns element (0, 0)" do
+      is_expected.to eq(matrix[0, 0])
+    end
+  end
+
   context Geode::CommonMatrix do
     describe "#rows" do
       subject { matrix.rows }
