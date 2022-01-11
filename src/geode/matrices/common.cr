@@ -432,7 +432,7 @@ module Geode
     # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     # matrix.to_rows # => [(1, 2, 3), (4, 5, 6), (7, 8, 9)]
     # ```
-    def to_rows : Array(Vector(T, N))
+    def to_rows : Array
       Array.new(M) do |i|
         unsafe_fetch_row(i)
       end
@@ -447,7 +447,7 @@ module Geode
     # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     # matrix.to_columns # => [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
     # ```
-    def to_columns : Array(Vector(T, M))
+    def to_columns : Array
       Array.new(N) do |j|
         unsafe_fetch_column(j)
       end

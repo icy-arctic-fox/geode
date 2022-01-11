@@ -19,7 +19,11 @@ module Geode
   # *T* is the scalar type.
   # Indices *i* and *j* refer to the zero-based row and column index respectively.
   # Unless noted otherwise, all operations are in row-major order.
-  define_matrix 1, 2
+  define_matrix 1, 2 do
+    def unsafe_fetch_row(i : Int) : Vector2(T)
+      Vector2[a, b]
+    end
+  end
 
   # Matrix with 1 row and 3 columns.
   # Provides a rectangular array of scalars of the same type.
@@ -27,7 +31,11 @@ module Geode
   # *T* is the scalar type.
   # Indices *i* and *j* refer to the zero-based row and column index respectively.
   # Unless noted otherwise, all operations are in row-major order.
-  define_matrix 1, 3
+  define_matrix 1, 3 do
+    def unsafe_fetch_row(i : Int) : Vector3(T)
+      Vector3[a, b, c]
+    end
+  end
 
   # Matrix with 1 row and 4 columns.
   # Provides a rectangular array of scalars of the same type.
@@ -35,7 +43,11 @@ module Geode
   # *T* is the scalar type.
   # Indices *i* and *j* refer to the zero-based row and column index respectively.
   # Unless noted otherwise, all operations are in row-major order.
-  define_matrix 1, 4
+  define_matrix 1, 4 do
+    def unsafe_fetch_row(i : Int) : Vector4(T)
+      Vector4[a, b, c, d]
+    end
+  end
 
   # Short-hand for a 1x1 matrix.
   alias Matrix1 = Matrix1x1
