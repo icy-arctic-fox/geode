@@ -234,6 +234,7 @@ Spectator.describe Geode::Matrix do
         result = m1.zip_map(m2) { |a, b| a // b }
         expect(result).to eq(Geode::Matrix[[1, 2], [3, 4]])
       end
+    end
 
       describe "#each_row" do
         it "enumerates each row" do
