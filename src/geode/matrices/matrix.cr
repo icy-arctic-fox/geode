@@ -37,6 +37,13 @@ module Geode
       {{@type.name(generic_args: false)}}(typeof(%rows.first), {{m}}, {{n}}).new(%rows)
     end
 
+    # Copies contents from another matrix.
+    def initialize(matrix : CommonMatrix(T, M, N))
+      {% raise "Source matrix to copy from must be the same size (#{@type.type_vars[1]}x#{@type.type_vars[2]} != #{M}x#{N})" if @type.type_vars[1] != M || @type.type_vars[2] != N %}
+      @elements = Pointer(T).malloc(size)
+      @elements.copy_from(matrix.to_unsafe, size)
+    end
+
     # Creates a new matrix by iterating through each element.
     #
     # Yields the indices (*i* and *j*) for the matrix element.
@@ -78,12 +85,14 @@ module Geode
       raise IndexError.new("Rows does not match matrix size, got #{rows.size}, expected #{M}") if rows.size != M
       raise IndexError.new("Columns does not match matrix size, expected #{N}") if rows.any? { |row| row.size != N }
 
-      initialize { |i, j| rows[i][j] }
+      initialize do |i, j|
+        rows.unsafe_fetch(i).unsafe_fetch(j)
+      end
     end
 
     # Creates a new matrix from a flat collection of elements.
     #
-    # The size of *elements* must equal to *M* x *N*.
+    # The size of *elements* must be equal to *M* x *N*.
     # Items in *elements* are consumed in row-major order.
     #
     # ```
@@ -129,7 +138,7 @@ module Geode
       end
     end
 
-    # Returns a new matrix where elements are mapped by the given block.
+    # Returns a new matrix with elements mapped by the given block.
     #
     # ```
     # matrix = Matrix[[1, 2], [3, 4], [5, 6]]

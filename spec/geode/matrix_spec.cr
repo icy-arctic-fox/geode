@@ -42,6 +42,20 @@ Spectator.describe Geode::Matrix do
         expect(matrix[1, 2]).to eq(6)
       end
     end
+
+    xit "accepts another matrix" do
+      other = Geode::Matrix2x3[[1, 2, 3], [4, 5, 6]]
+      matrix = Geode::Matrix.new(other)
+
+      aggregate_failures do
+        expect(matrix[0, 0]).to eq(1)
+        expect(matrix[0, 1]).to eq(2)
+        expect(matrix[0, 2]).to eq(3)
+        expect(matrix[1, 0]).to eq(4)
+        expect(matrix[1, 1]).to eq(5)
+        expect(matrix[1, 2]).to eq(6)
+      end
+    end
   end
 
   describe ".zero" do
@@ -236,183 +250,182 @@ Spectator.describe Geode::Matrix do
       end
     end
 
-      describe "#each_row" do
-        it "enumerates each row" do
-          rows = [] of Geode::CommonVector(Int32, 3)
-          matrix.each_row { |row| rows << row }
-          expect(rows).to eq([Geode::Vector[1, 2, 3], Geode::Vector[4, 5, 6]])
+    describe "#each_row" do
+      it "enumerates each row" do
+        rows = [] of Geode::CommonVector(Int32, 3)
+        matrix.each_row { |row| rows << row }
+        expect(rows).to eq([Geode::Vector[1, 2, 3], Geode::Vector[4, 5, 6]])
+      end
+    end
+
+    describe "#each_row_with_index" do
+      it "enumerates each row" do
+        rows = [] of Tuple(Geode::CommonVector(Int32, 3), Int32)
+        matrix.each_row_with_index { |row, i| rows << {row, i} }
+        expect(rows).to eq([{Geode::Vector[1, 2, 3], 0}, {Geode::Vector[4, 5, 6], 1}])
+      end
+
+      it "applies the offset" do
+        rows = [] of Tuple(Geode::CommonVector(Int32, 3), Int32)
+        matrix.each_row_with_index(5) { |row, i| rows << {row, i} }
+        expect(rows).to eq([{Geode::Vector[1, 2, 3], 5}, {Geode::Vector[4, 5, 6], 6}])
+      end
+    end
+
+    describe "#each_column" do
+      it "enumerates each column" do
+        columns = [] of Geode::CommonVector(Int32, 2)
+        matrix.each_column { |column| columns << column }
+        expect(columns).to eq([Geode::Vector[1, 4], Geode::Vector[2, 5], Geode::Vector[3, 6]])
+      end
+    end
+
+    describe "#each_column_with_index" do
+      it "enumerates each column" do
+        columns = [] of Tuple(Geode::CommonVector(Int32, 2), Int32)
+        matrix.each_column_with_index { |column, i| columns << {column, i} }
+        expect(columns).to eq([{Geode::Vector[1, 4], 0}, {Geode::Vector[2, 5], 1}, {Geode::Vector[3, 6], 2}])
+      end
+
+      it "applies the offset" do
+        columns = [] of Tuple(Geode::CommonVector(Int32, 2), Int32)
+        matrix.each_column_with_index(5) { |column, i| columns << {column, i} }
+        expect(columns).to eq([{Geode::Vector[1, 4], 5}, {Geode::Vector[2, 5], 6}, {Geode::Vector[3, 6], 7}])
+      end
+    end
+
+    describe "#[]" do
+      context "with a flat index" do
+        it "returns the correct element" do
+          expect(matrix[4]).to eq(5)
+        end
+
+        it "raises for an out-of-bound index" do
+          expect { matrix[20] }.to raise_error(IndexError)
         end
       end
 
-      describe "#each_row_with_index" do
-        it "enumerates each row" do
-          rows = [] of Tuple(Geode::CommonVector(Int32, 3), Int32)
-          matrix.each_row_with_index { |row, i| rows << {row, i} }
-          expect(rows).to eq([{Geode::Vector[1, 2, 3], 0}, {Geode::Vector[4, 5, 6], 1}])
+      context "with two indices" do
+        it "returns the correct value" do
+          expect(matrix[1, 2]).to eq(6)
         end
 
-        it "applies the offset" do
-          rows = [] of Tuple(Geode::CommonVector(Int32, 3), Int32)
-          matrix.each_row_with_index(5) { |row, i| rows << {row, i} }
-          expect(rows).to eq([{Geode::Vector[1, 2, 3], 5}, {Geode::Vector[4, 5, 6], 6}])
+        it "raises for out-of-bound indices" do
+          expect { matrix[3, 3] }.to raise_error(IndexError)
+        end
+      end
+    end
+
+    describe "#[]?" do
+      context "with a flat index" do
+        it "returns the correct element" do
+          expect(matrix[4]?).to eq(5)
+        end
+
+        it "returns nil for an out-of-bound index" do
+          expect(matrix[20]?).to be_nil
         end
       end
 
-      describe "#each_column" do
-        it "enumerates each column" do
-          columns = [] of Geode::CommonVector(Int32, 2)
-          matrix.each_column { |column| columns << column }
-          expect(columns).to eq([Geode::Vector[1, 4], Geode::Vector[2, 5], Geode::Vector[3, 6]])
+      context "with two indices" do
+        it "returns the correct value" do
+          expect(matrix[1, 2]?).to eq(6)
+        end
+
+        it "returns nil for out-of-bound indices" do
+          expect(matrix[3, 3]?).to be_nil
+        end
+      end
+    end
+
+    describe "#row" do
+      it "returns the correct elements" do
+        expect(matrix.row(1)).to eq(Geode::Vector[4, 5, 6])
+      end
+
+      it "raises for an out-of-bounds index" do
+        expect { matrix.row(3) }.to raise_error(IndexError)
+      end
+    end
+
+    describe "#row?" do
+      it "returns the correct elements" do
+        expect(matrix.row?(1)).to eq(Geode::Vector[4, 5, 6])
+      end
+
+      it "return nil for an out-of-bounds index" do
+        expect(matrix.row?(3)).to be_nil
+      end
+    end
+
+    describe "#column" do
+      it "returns the correct elements" do
+        expect(matrix.column(1)).to eq(Geode::Vector[2, 5])
+      end
+
+      it "raises for an out-of-bounds index" do
+        expect { matrix.column(3) }.to raise_error(IndexError)
+      end
+    end
+
+    describe "#column?" do
+      it "returns the correct elements" do
+        expect(matrix.column?(1)).to eq(Geode::Vector[2, 5])
+      end
+
+      it "return nil for an out-of-bounds index" do
+        expect(matrix.column?(3)).to be_nil
+      end
+    end
+
+    describe "#rows_at" do
+      let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+
+      it "returns the correct rows" do
+        expect(matrix.rows_at(2, 0)).to eq({Geode::Vector[7, 8, 9], Geode::Vector[1, 2, 3]})
+      end
+    end
+
+    describe "#columns_at" do
+      let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+
+      it "returns the correct columns" do
+        expect(matrix.columns_at(2, 0)).to eq({Geode::Vector[3, 6, 9], Geode::Vector[1, 4, 7]})
+      end
+    end
+
+    describe "#to_rows" do
+      subject { matrix.to_rows }
+
+      it "returns row vectors in an array" do
+        is_expected.to eq([Geode::Vector[1, 2, 3], Geode::Vector[4, 5, 6]])
+      end
+    end
+
+    describe "#to_columns" do
+      subject { matrix.to_columns }
+
+      it "returns column vectors in an array" do
+        is_expected.to eq([Geode::Vector[1, 4], Geode::Vector[2, 5], Geode::Vector[3, 6]])
+      end
+    end
+
+    describe "#to_s" do
+      subject { matrix.to_s }
+
+      it "contains the elements" do
+        aggregate_failures do
+          is_expected.to contain("1")
+          is_expected.to contain("2")
+          is_expected.to contain("3")
+          is_expected.to contain("4")
+          is_expected.to contain("5")
+          is_expected.to contain("6")
         end
       end
 
-      describe "#each_column_with_index" do
-        it "enumerates each column" do
-          columns = [] of Tuple(Geode::CommonVector(Int32, 2), Int32)
-          matrix.each_column_with_index { |column, i| columns << {column, i} }
-          expect(columns).to eq([{Geode::Vector[1, 4], 0}, {Geode::Vector[2, 5], 1}, {Geode::Vector[3, 6], 2}])
-        end
-
-        it "applies the offset" do
-          columns = [] of Tuple(Geode::CommonVector(Int32, 2), Int32)
-          matrix.each_column_with_index(5) { |column, i| columns << {column, i} }
-          expect(columns).to eq([{Geode::Vector[1, 4], 5}, {Geode::Vector[2, 5], 6}, {Geode::Vector[3, 6], 7}])
-        end
-      end
-
-      describe "#[]" do
-        context "with a flat index" do
-          it "returns the correct element" do
-            expect(matrix[4]).to eq(5)
-          end
-
-          it "raises for an out-of-bound index" do
-            expect { matrix[20] }.to raise_error(IndexError)
-          end
-        end
-
-        context "with two indices" do
-          it "returns the correct value" do
-            expect(matrix[1, 2]).to eq(6)
-          end
-
-          it "raises for out-of-bound indices" do
-            expect { matrix[3, 3] }.to raise_error(IndexError)
-          end
-        end
-      end
-
-      describe "#[]?" do
-        context "with a flat index" do
-          it "returns the correct element" do
-            expect(matrix[4]?).to eq(5)
-          end
-
-          it "returns nil for an out-of-bound index" do
-            expect(matrix[20]?).to be_nil
-          end
-        end
-
-        context "with two indices" do
-          it "returns the correct value" do
-            expect(matrix[1, 2]?).to eq(6)
-          end
-
-          it "returns nil for out-of-bound indices" do
-            expect(matrix[3, 3]?).to be_nil
-          end
-        end
-      end
-
-      describe "#row" do
-        it "returns the correct elements" do
-          expect(matrix.row(1)).to eq(Geode::Vector[4, 5, 6])
-        end
-
-        it "raises for an out-of-bounds index" do
-          expect { matrix.row(3) }.to raise_error(IndexError)
-        end
-      end
-
-      describe "#row?" do
-        it "returns the correct elements" do
-          expect(matrix.row?(1)).to eq(Geode::Vector[4, 5, 6])
-        end
-
-        it "return nil for an out-of-bounds index" do
-          expect(matrix.row?(3)).to be_nil
-        end
-      end
-
-      describe "#column" do
-        it "returns the correct elements" do
-          expect(matrix.column(1)).to eq(Geode::Vector[2, 5])
-        end
-
-        it "raises for an out-of-bounds index" do
-          expect { matrix.column(3) }.to raise_error(IndexError)
-        end
-      end
-
-      describe "#column?" do
-        it "returns the correct elements" do
-          expect(matrix.column?(1)).to eq(Geode::Vector[2, 5])
-        end
-
-        it "return nil for an out-of-bounds index" do
-          expect(matrix.column?(3)).to be_nil
-        end
-      end
-
-      describe "#rows_at" do
-        let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
-
-        it "returns the correct rows" do
-          expect(matrix.rows_at(2, 0)).to eq({Geode::Vector[7, 8, 9], Geode::Vector[1, 2, 3]})
-        end
-      end
-
-      describe "#columns_at" do
-        let(matrix) { Geode::Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
-
-        it "returns the correct columns" do
-          expect(matrix.columns_at(2, 0)).to eq({Geode::Vector[3, 6, 9], Geode::Vector[1, 4, 7]})
-        end
-      end
-
-      describe "#to_rows" do
-        subject { matrix.to_rows }
-
-        it "returns row vectors in an array" do
-          is_expected.to eq([Geode::Vector[1, 2, 3], Geode::Vector[4, 5, 6]])
-        end
-      end
-
-      describe "#to_columns" do
-        subject { matrix.to_columns }
-
-        it "returns column vectors in an array" do
-          is_expected.to eq([Geode::Vector[1, 4], Geode::Vector[2, 5], Geode::Vector[3, 6]])
-        end
-      end
-
-      describe "#to_s" do
-        subject { matrix.to_s }
-
-        it "contains the elements" do
-          aggregate_failures do
-            is_expected.to contain("1")
-            is_expected.to contain("2")
-            is_expected.to contain("3")
-            is_expected.to contain("4")
-            is_expected.to contain("5")
-            is_expected.to contain("6")
-          end
-        end
-
-        it "is formatted correctly" do
-          is_expected.to match(/^\[\[\d+, \d+, \d+\], \[\d+, \d+, \d+\]\]$/)
-        end
+      it "is formatted correctly" do
+        is_expected.to match(/^\[\[\d+, \d+, \d+\], \[\d+, \d+, \d+\]\]$/)
       end
     end
   end
