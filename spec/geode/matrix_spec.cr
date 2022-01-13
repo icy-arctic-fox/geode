@@ -981,10 +981,22 @@ Spectator.describe Geode::Matrix do
     end
 
     describe "#determinant" do
+      let(matrix) do
+        Geode::Matrix[
+          [13, -4, -3, 0, 1, -10, -18],
+          [16, -6, -12, -3, -8, 13, 17],
+          [22, -5, 23, -8, -25, -17, -18],
+          [6, -1, 10, -2, -7, -19, 16],
+          [-2, -25, -16, -21, -5, -4, 11],
+          [6, -11, -14, -20, 17, -9, -20],
+          [15, 5, 8, 18, -22, 0, -14],
+        ]
+      end
+
       subject { matrix.determinant }
 
       xit "computes the determinant" do
-        is_expected.to eq(-405)
+        is_expected.to eq(-1082655380)
       end
     end
   end
