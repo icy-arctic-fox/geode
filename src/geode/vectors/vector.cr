@@ -9,8 +9,11 @@ module Geode
   struct Vector(T, N)
     include CommonVector(T, N)
 
-    # Storage for the vector is implemented with a static array.
-    @array : StaticArray(T, N)
+    # Storage for the vector is placed on the heap.
+    # This allows arbitrarily large vectors.
+    # A pointer is used because it only takes 8 bytes (on 64-bit systems),
+    # compared to 16 for a `Slice` and 24 for an `Array`.
+    @components : Pointer(T)
 
     # Constructs the vector with existing components.
     #
@@ -27,11 +30,36 @@ module Geode
     # Copies the contents of another vector.
     def initialize(vector : CommonVector(T, N))
       {% raise "Source vector to copy from must be the same size" if N != @type.type_vars.last %}
-      @array = StaticArray(T, N).new { |i| vector.unsafe_fetch(i) }
+      @components = Pointer(T).malloc(N)
+      @components.copy_from(vector.to_unsafe, N)
     end
 
     # Constructs the vector with pre-existing values.
-    def initialize(@array : StaticArray(T, N))
+    #
+    # The memory allocated for *components* must match the size of the vector.
+    def initialize(array : StaticArray(T, N))
+      {% raise "Components to copy from must be the same size" if N != @type.type_vars.last %}
+      @components = Pointer(T).malloc(N)
+      @components.copy_from(array.to_unsafe, N)
+    end
+
+    # Creates a new matrix from a collection of components.
+    #
+    # The size of *components* must be equal to *N*.
+    #
+    # ```
+    # Vector(Int32, 5).new([1, 2, 3, 4, 5]) # => (1, 2, 3, 4, 5)
+    # ```
+    def initialize(elements : Indexable(T))
+      raise IndexError.new("Components must be #{N} in size") if components.size != N
+
+      @components = Pointer(T).malloc(size) { |i| components.unsafe_fetch(i) }
+    end
+
+    # Constructs the vector with pre-existing values.
+    #
+    # The memory allocated for *components* must match the size of the vector.
+    protected def initialize(@components : Pointer(T))
     end
 
     # Constructs the vector by yielding for each component.
@@ -43,7 +71,7 @@ module Geode
     # Vector(Int32, 3).new { |i| i * 5 } # => (0, 5, 10)
     # ```
     def initialize(& : Int32 -> T)
-      @array = StaticArray(T, N).new { |i| yield i }
+      @components = Pointer(T).malloc(N) { |i| yield i }
     end
 
     # Constructs a zero-vector.
@@ -78,27 +106,21 @@ module Geode
     # This method should only be directly invoked if the index is certain to be in bounds.
     @[AlwaysInline]
     def unsafe_fetch(index : Int)
-      @array.unsafe_fetch(index)
+      @components[index]
     end
 
     # Returns a slice that points to the components in this vector.
-    #
-    # NOTE: The returned slice is only valid for the caller's scope and sub-calls.
-    #   The slice points to memory on the stack, it will be invalid after the caller returns.
     @[AlwaysInline]
     def to_slice : Slice(T)
-      @array.to_slice
+      @components.to_slice(N)
     end
 
     # Returns a pointer to the data for this vector.
     #
     # The components are tightly packed and ordered consecutively in memory.
-    #
-    # NOTE: The returned pointer is only valid for the caller's scope and sub-calls.
-    #   The pointer refers to memory on the stack, it will be invalid after the caller returns.
     @[AlwaysInline]
     def to_unsafe : Pointer(T)
-      @array.to_unsafe
+      @components
     end
   end
 end
