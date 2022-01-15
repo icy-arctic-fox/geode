@@ -1110,7 +1110,7 @@ Spectator.describe Geode::Matrix4x4 do
       let(matrix) { Geode::Matrix4x4[[9, 3, 6, -1], [5, 1, 8, -2], [2, 7, 4, -3], [-4, -5, -6, -7]] }
       subject { matrix.determinant }
 
-      xit "computes the determinant" do
+      it "computes the determinant" do
         is_expected.to eq(2730)
       end
     end

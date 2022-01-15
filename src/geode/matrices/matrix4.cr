@@ -63,6 +63,13 @@ module Geode
     def diagonal : Vector4(T)
       Vector4(T).new(a, f, k, p)
     end
+
+    def determinant
+      a * sub(0, 0).determinant -
+      b * sub(0, 1).determinant +
+      c * sub(0, 2).determinant -
+      d * sub(0, 3).determinant
+    end
   end
 
   # Short-hand for a 4x4 matrix.
