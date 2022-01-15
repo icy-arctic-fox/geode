@@ -522,9 +522,9 @@ Spectator.describe Geode::Matrix1x1 do
         end
 
         context "with a different size" do
-          # let(other) { Geode::Matrix3[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+          let(other) { Geode::Matrix3[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
 
-          xit "returns false" do
+          it "returns false" do
             is_expected.to be_false
           end
         end

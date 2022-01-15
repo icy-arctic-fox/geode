@@ -43,7 +43,7 @@ Spectator.describe Geode::Matrix do
       end
     end
 
-    xit "accepts another matrix" do
+    it "accepts another matrix" do
       other = Geode::Matrix2x3[[1, 2, 3], [4, 5, 6]]
       matrix = Geode::Matrix.new(other)
 
@@ -544,25 +544,25 @@ Spectator.describe Geode::Matrix do
 
       context "with a nxm-dimension matrix" do
         context "with equal values" do
-          # let(other) { Geode::Matrix2x3[[1, 2, 3], [4, 5, 6]] }
+          let(other) { Geode::Matrix2x3[[1, 2, 3], [4, 5, 6]] }
 
-          xit "returns true" do
+          it "returns true" do
             is_expected.to be_true
           end
         end
 
         context "with unequal values" do
-          # let(other) { Geode::Matrix3x2[[6, 5, 4], [3, 2, 1]] }
+          let(other) { Geode::Matrix2x3[[6, 5, 4], [3, 2, 1]] }
 
-          xit "returns false" do
+          it "returns false" do
             is_expected.to be_false
           end
         end
 
         context "with a different size" do
-          # let(other) { Geode::Matrix3[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+          let(other) { Geode::Matrix3[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
 
-          xit "returns false" do
+          it "returns false" do
             is_expected.to be_false
           end
         end

@@ -50,7 +50,7 @@ Spectator.describe Geode::Matrix3x3 do
       end
     end
 
-    xit "accepts another matrix" do
+    it "accepts another matrix" do
       other = Geode::Matrix[[3, 2, 1], [6, 5, 4], [9, 8, 7]]
       matrix = Geode::Matrix3x3.new(other)
       aggregate_failures do
@@ -614,9 +614,9 @@ Spectator.describe Geode::Matrix3x3 do
         end
 
         context "with a different size" do
-          # let(other) { Geode::Matrix3[[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+          let(other) { Geode::Matrix2[[1, 2], [3, 4]] }
 
-          xit "returns false" do
+          it "returns false" do
             is_expected.to be_false
           end
         end
