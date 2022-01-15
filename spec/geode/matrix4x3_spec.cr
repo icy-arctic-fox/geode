@@ -102,8 +102,8 @@ Spectator.describe Geode::Matrix4x3 do
   describe "#transpose" do
     subject { matrix.transpose }
 
-    xit "transposes the matrix" do
-      is_expected.to eq(Geode::Matrix2x3[[4.0, 8.0, 12.0], [2.0, 6.0, 10.0], [4.0, 8.0, 12.0], [2.0, 6.0, 10.0]])
+    it "transposes the matrix" do
+      is_expected.to eq(Geode::Matrix3x4[[2, 1, 4, 5], [1, 4, 3, 6], [2, 3, 6, 5]])
     end
   end
 
