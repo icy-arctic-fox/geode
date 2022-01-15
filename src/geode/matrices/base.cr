@@ -125,8 +125,8 @@ module Geode
         # Returns a smaller matrix by removing a row and column.
         #
         # The row indicated by *i* and the column indicated by *j* are removed in the resulting matrix.
-        def sub(i : Int, j : Int) : Matrix{{columns - 1}}x{{rows - 1}}(T)
-          array = uninitialized StaticArray(T, {{(columns - 1) * (rows - 1)}})
+        def sub(i : Int, j : Int) : Matrix{{rows - 1}}x{{columns - 1}}(T)
+          array = uninitialized StaticArray(T, {{(rows - 1) * (columns - 1)}})
           index = 0
           each_with_indices do |e, si, sj|
             next if si == i || sj == j
@@ -135,7 +135,7 @@ module Geode
             index += 1
           end
 
-          Matrix{{columns - 1}}x{{rows - 1}}(T).new(array)
+          Matrix{{rows - 1}}x{{columns - 1}}(T).new(array)
         end
       {% end %}
 

@@ -83,6 +83,15 @@ Spectator.describe Geode::Matrix3x2 do
     end
   end
 
+  describe "#sub" do
+    let(matrix) { Geode::Matrix3x2[[1, 2], [3, 4], [5, 6]] }
+    subject { matrix.sub(1, 1) }
+
+    it "produces a sub-matrix" do
+      is_expected.to eq(Geode::Matrix[[1], [5]])
+    end
+  end
+
   describe "#*(matrix)" do
     let(m1) { Geode::Matrix3x2[[2, 1], [4, 3], [6, 5]] }
     let(m2) { Geode::Matrix[[1, 10, 100], [2, 20, 200]] }
