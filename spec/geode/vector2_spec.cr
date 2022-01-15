@@ -179,15 +179,8 @@ Spectator.describe Geode::Vector2 do
   describe "#to_s" do
     subject { vector.to_s }
 
-    it "contains the components" do
-      aggregate_failures do
-        is_expected.to contain("1")
-        is_expected.to contain("2")
-      end
-    end
-
     it "is formatted correctly" do
-      is_expected.to match(/^\(\d+, \d+\)$/)
+      is_expected.to eq("(1, 2)")
     end
   end
 

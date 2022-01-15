@@ -413,19 +413,8 @@ Spectator.describe Geode::Matrix do
     describe "#to_s" do
       subject { matrix.to_s }
 
-      it "contains the elements" do
-        aggregate_failures do
-          is_expected.to contain("1")
-          is_expected.to contain("2")
-          is_expected.to contain("3")
-          is_expected.to contain("4")
-          is_expected.to contain("5")
-          is_expected.to contain("6")
-        end
-      end
-
       it "is formatted correctly" do
-        is_expected.to match(/^\[\[\d+, \d+, \d+\], \[\d+, \d+, \d+\]\]$/)
+        is_expected.to eq("[[1, 2, 3], [4, 5, 6]]")
       end
     end
   end

@@ -358,12 +358,8 @@ Spectator.describe Geode::Matrix1x1 do
     describe "#to_s" do
       subject { matrix.to_s }
 
-      it "contains the elements" do
-        is_expected.to contain("5")
-      end
-
       it "is formatted correctly" do
-        is_expected.to match(/^\[\[\d+\]\]$/)
+        is_expected.to eq("[[5]]")
       end
     end
   end
