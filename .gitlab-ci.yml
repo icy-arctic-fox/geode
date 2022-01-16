@@ -50,7 +50,7 @@ spec-matrix3:
 spec-matrix4:
   extends: spec
   script:
-    - crystal spec --error-on-warnings --junit_output=. spec/geode/matricesFix paths again/matrix4*_spec.cr
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix4*_spec.cr
 
 spec-vectors:
   extends: spec
