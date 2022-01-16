@@ -1,5 +1,6 @@
 require "./comparison"
 require "./geometry"
+require "./matrices"
 require "./operations"
 
 module Geode
@@ -10,6 +11,7 @@ module Geode
     include Indexable(T)
     include VectorComparison(N)
     include VectorGeometry(N)
+    include VectorMatrices(T, N)
     include VectorOperations(N)
 
     # Ensures that another vector and this one have the same size at compile-time.

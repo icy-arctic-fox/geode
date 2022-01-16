@@ -143,6 +143,28 @@ module Geode
       y = T.new(self.x * sin + self.y * cos)
       self.class.new(x, y)
     end
+
+    # Converts this vector to a row vector,
+    # in other words a matrix with one row.
+    #
+    # ```
+    # vector = Vector2[1, 2]
+    # vector.to_row # => [[1, 2]]
+    # ```
+    def to_row : Matrix1x2(T)
+      Matrix1x2.new(@array)
+    end
+
+    # Converts this vector to a column vector,
+    # in other words a matrix with one column.
+    #
+    # ```
+    # vector = Vector2[1, 2]
+    # vector.to_column # => [[1], [2]]
+    # ```
+    def to_column : Matrix2x1(T)
+      Matrix2x1.new(@array)
+    end
   end
 
   # A two-dimensional vector.

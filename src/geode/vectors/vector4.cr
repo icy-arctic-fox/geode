@@ -92,6 +92,28 @@ module Geode
     def tuple : Tuple(T, T, T, T)
       {x, y, z, w}
     end
+
+    # Converts this vector to a row vector,
+    # in other words a matrix with one row.
+    #
+    # ```
+    # vector = Vector4[1, 2, 3, 4]
+    # vector.to_row # => [[1, 2, 3, 4]]
+    # ```
+    def to_row : Matrix1x4(T)
+      Matrix1x4.new(@array)
+    end
+
+    # Converts this vector to a column vector,
+    # in other words a matrix with one column.
+    #
+    # ```
+    # vector = Vector4[1, 2, 3, 4]
+    # vector.to_column # => [[1], [2], [3], [4]]
+    # ```
+    def to_column : Matrix4x1(T)
+      Matrix4x1.new(@array)
+    end
   end
 
   # A four-dimensional vector.

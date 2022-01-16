@@ -749,4 +749,40 @@ Spectator.describe Geode::Vector3 do
       end
     end
   end
+
+  context Geode::VectorMatrices do
+    describe "#to_row" do
+      subject { vector.to_row }
+
+      it "returns a row vector" do
+        is_expected.to eq(Geode::Matrix[[1, 2, 3]])
+      end
+    end
+
+    describe "#to_column" do
+      subject { vector.to_column }
+
+      it "returns a column vector" do
+        is_expected.to eq(Geode::Matrix[[1], [2], [3]])
+      end
+    end
+
+    describe "#*(matrix)" do
+      let(matrix) { Geode::Matrix[[1, 10, 100], [2, 20, 200], [3, 30, 300]] }
+      subject { vector * matrix }
+
+      it "multiplies the vector and matrix" do
+        is_expected.to eq(Geode::Vector[14, 140, 1400])
+      end
+    end
+
+    describe "#&*(matrix)" do
+      let(matrix) { Geode::Matrix[[1, 10, 100], [2, 20, 200], [3, 30, 300]] }
+      subject { vector &* matrix }
+
+      it "multiplies the vector and matrix" do
+        is_expected.to eq(Geode::Vector[14, 140, 1400])
+      end
+    end
+  end
 end

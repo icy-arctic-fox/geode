@@ -76,6 +76,28 @@ module Geode
     def tuple : Tuple(T)
       {x}
     end
+
+    # Converts this vector to a row vector,
+    # in other words a matrix with one row.
+    #
+    # ```
+    # vector = Vector1[5]
+    # vector.to_row # => [[5]]
+    # ```
+    def to_row : Matrix1x1(T)
+      Matrix1x1.new(@array)
+    end
+
+    # Converts this vector to a column vector,
+    # in other words a matrix with one column.
+    #
+    # ```
+    # vector = Vector1[5]
+    # vector.to_column # => [[5]]
+    # ```
+    def to_column : Matrix1x1(T)
+      Matrix1x1.new(@array)
+    end
   end
 
   # A one-dimensional vector.
