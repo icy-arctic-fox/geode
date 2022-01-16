@@ -139,6 +139,36 @@ module Geode
         end
       {% end %}
 
+      {% for n in 1..4 %}
+        # Multiplies this matrix by another.
+        #
+        # The other matrix's row count (*M*) must be equal to this matrix's column count (*N*).
+        # Produces a new matrix with the row count from this matrix and the column count from *other*.
+        # Matrices can be of any size and type as long as this condition is met.
+        def *(other : Matrix{{columns}}x{{n}}(U)) : Matrix{{rows}}x{{n}} forall U
+          Matrix{{rows}}x{{n}}(typeof(first * other.first)).new do |i, j|
+            row = unsafe_fetch_row(i)
+            column = other.unsafe_fetch_column(j)
+            row.dot(column)
+          end
+        end
+
+        # Multiplies this matrix by another.
+        #
+        # The other matrix's row count (*M*) must be equal to this matrix's column count (*N*).
+        # Produces a new matrix with the row count from this matrix and the column count from *other*.
+        # Matrices can be of any size and type as long as this condition is met.
+        #
+        # Values will wrap instead of overflowing and raising an error.
+        def &*(other : Matrix{{columns}}x{{n}}(U)) : Matrix{{rows}}x{{n}} forall U
+          Matrix{{rows}}x{{n}}(typeof(first * other.first)).new do |i, j|
+            row = unsafe_fetch_row(i)
+            column = other.unsafe_fetch_column(j)
+            row.dot!(column)
+          end
+        end
+      {% end %}
+
       # Multiplies this matrix by another.
       #
       # The other matrix's row count (*M*) must be equal to this matrix's column count (*N*).
