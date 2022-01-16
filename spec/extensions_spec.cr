@@ -60,4 +60,12 @@ Spectator.describe "Geode extension methods" do
       end
     end
   end
+
+  context "matrices" do
+    describe "Number#*" do
+      it "scales a matrix" do
+        expect(3 * Geode::Matrix[[1, 2, 3], [4, 5, 6]]).to eq(Geode::Matrix[[3, 6, 9], [12, 15, 18]])
+      end
+    end
+  end
 end
