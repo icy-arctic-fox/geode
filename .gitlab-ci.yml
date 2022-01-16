@@ -14,7 +14,84 @@ before_script:
 spec:
   script:
     - shards
-    - crystal spec --error-on-warnings --junit_output=.
+    - crystal spec --error-on-warnings --junit_output=. spec/geode_spec.cr spec/extensions_spec.cr
+  artifacts:
+    when: always
+    paths:
+      - output.xml
+    reports:
+      junit: output.xml
+
+spec-angles:
+  script:
+    - shards
+    - crystal spec --error-on-warnings --junit_output=. spec/angles/**
+  artifacts:
+    when: always
+    paths:
+      - output.xml
+    reports:
+      junit: output.xml
+
+spec-matrices:
+  script:
+    - shards
+    - crystal spec --error-on-warnings --junit_output=. spec/matrix/matrix_spec.cr
+  artifacts:
+    when: always
+    paths:
+      - output.xml
+    reports:
+      junit: output.xml
+
+spec-matrix1:
+  script:
+    - shards
+    - crystal spec --error-on-warnings --junit_output=. spec/matrix/matrix1*_spec.cr
+  artifacts:
+    when: always
+    paths:
+      - output.xml
+    reports:
+      junit: output.xml
+
+spec-matrix2:
+  script:
+    - shards
+    - crystal spec --error-on-warnings --junit_output=. spec/matrix/matrix2*_spec.cr
+  artifacts:
+    when: always
+    paths:
+      - output.xml
+    reports:
+      junit: output.xml
+
+spec-matrix3:
+  script:
+    - shards
+    - crystal spec --error-on-warnings --junit_output=. spec/matrix/matrix3*_spec.cr
+  artifacts:
+    when: always
+    paths:
+      - output.xml
+    reports:
+      junit: output.xml
+
+spec-matrix4:
+  script:
+    - shards
+    - crystal spec --error-on-warnings --junit_output=. spec/matrix/matrix4*_spec.cr
+  artifacts:
+    when: always
+    paths:
+      - output.xml
+    reports:
+      junit: output.xml
+
+spec-vectors:
+  script:
+    - shards
+    - crystal spec --error-on-warnings --junit_output=. spec/vectors/**
   artifacts:
     when: always
     paths:
@@ -32,24 +109,17 @@ style:
     - shards
     - bin/ameba
 
-nightly:
-  image: "crystallang/crystal:nightly"
-  allow_failure: true
-  script:
-    - shards --ignore-crystal-version
-    - crystal spec --error-on-warnings --junit_output=.
-    - crystal tool format --check
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
-
 pages:
   stage: deploy
   dependencies:
     - spec
+    - spec-angles
+    - spec-matrices
+    - spec-matrix1
+    - spec-matrix2
+    - spec-matrix3
+    - spec-matrix4
+    - spec-vectors
   script:
     - crystal docs
     - mv docs/ public/

@@ -1,4 +1,4 @@
-require "../spec_helper"
+require "../../spec_helper"
 
 Spectator.describe Geode::Matrix2x4 do
   TOLERANCE = 0.000000000000001

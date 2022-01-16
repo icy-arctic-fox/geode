@@ -1,4 +1,4 @@
-require "../spec_helper"
+require "../../spec_helper"
 
 Spectator.describe Geode do
   let(v1) { Geode::Vector[3, 5, 7] }

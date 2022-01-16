@@ -1,69 +1,61 @@
-require "../spec_helper"
+require "../../spec_helper"
 
-Spectator.describe Geode::Matrix4x1 do
+Spectator.describe Geode::Matrix2x1 do
   TOLERANCE = 0.000000000000001
 
-  subject(matrix) { Geode::Matrix4x1[[3], [5], [7], [9]] }
+  subject(matrix) { Geode::Matrix2x1[[3], [5]] }
 
   it "stores values for elements" do
     aggregate_failures do
       expect(matrix[0, 0]).to eq(3)
       expect(matrix[1, 0]).to eq(5)
-      expect(matrix[2, 0]).to eq(7)
-      expect(matrix[3, 0]).to eq(9)
     end
   end
 
   describe "#initialize" do
     it "accepts a flat list of elements" do
-      matrix = Geode::Matrix4x1.new({3, 5, 7, 9})
+      matrix = Geode::Matrix2x1.new({3, 5})
       aggregate_failures do
         expect(matrix[0, 0]).to eq(3)
         expect(matrix[1, 0]).to eq(5)
-        expect(matrix[2, 0]).to eq(7)
-        expect(matrix[3, 0]).to eq(9)
       end
     end
 
     it "accepts a list of rows" do
-      matrix = Geode::Matrix4x1.new({ {3}, {5}, {7}, {9} })
+      matrix = Geode::Matrix2x1.new({ {3}, {5} })
       aggregate_failures do
         expect(matrix[0, 0]).to eq(3)
         expect(matrix[1, 0]).to eq(5)
-        expect(matrix[2, 0]).to eq(7)
-        expect(matrix[3, 0]).to eq(9)
       end
     end
 
     it "accepts another matrix" do
-      other = Geode::Matrix[[3], [5], [7], [9]]
-      matrix = Geode::Matrix4x1.new(other)
+      other = Geode::Matrix[[3], [5]]
+      matrix = Geode::Matrix2x1.new(other)
       aggregate_failures do
         expect(matrix[0, 0]).to eq(3)
         expect(matrix[1, 0]).to eq(5)
-        expect(matrix[2, 0]).to eq(7)
-        expect(matrix[3, 0]).to eq(9)
       end
     end
   end
 
   describe ".zero" do
-    subject(zero) { Geode::Matrix4x1(Int32).zero }
+    subject(zero) { Geode::Matrix2x1(Int32).zero }
 
     it "returns a zero matrix" do
-      expect(zero).to eq(Geode::Matrix4x1[[0], [0], [0], [0]])
+      expect(zero).to eq(Geode::Matrix2x1[[0], [0]])
     end
   end
 
   describe "#map" do
     it "creates a matrix" do
       mapped = matrix.map(&.itself)
-      expect(mapped).to be_a(Geode::Matrix4x1(Int32))
+      expect(mapped).to be_a(Geode::Matrix2x1(Int32))
     end
 
     it "uses the new values" do
       mapped = matrix.map { |e| e.to_f * 2 }
-      expect(mapped).to eq(Geode::Matrix4x1[[6.0], [10.0], [14.0], [18.0]])
+      expect(mapped).to eq(Geode::Matrix2x1[[6.0], [10.0]])
     end
   end
 
@@ -71,19 +63,19 @@ Spectator.describe Geode::Matrix4x1 do
     subject { matrix.transpose }
 
     it "transposes the matrix" do
-      is_expected.to eq(Geode::Matrix1x4[[3, 5, 7, 9]])
+      is_expected.to eq(Geode::Matrix1x2[[3, 5]])
     end
   end
 
   describe "#*(matrix)" do
-    let(m1) { Geode::Matrix4x1[[3], [5], [7], [9]] }
+    let(m1) { Geode::Matrix2x1[[3], [5]] }
     subject { m1 * m2 }
 
     context "with a generic matrix" do
       let(m2) { Geode::Matrix[[1, 2, 3]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[3, 6, 9], [5, 10, 15], [7, 14, 21], [9, 18, 27]])
+        is_expected.to eq(Geode::Matrix[[3, 6, 9], [5, 10, 15]])
       end
     end
 
@@ -91,7 +83,7 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x1[[5]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15], [25], [35], [45]])
+        is_expected.to eq(Geode::Matrix[[15], [25]])
       end
     end
 
@@ -99,7 +91,7 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x2[[5, 7]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15, 21], [25, 35], [35, 49], [45, 63]])
+        is_expected.to eq(Geode::Matrix[[15, 21], [25, 35]])
       end
     end
 
@@ -107,7 +99,7 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x3[[5, 7, 9]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15, 21, 27], [25, 35, 45], [35, 49, 63], [45, 63, 81]])
+        is_expected.to eq(Geode::Matrix[[15, 21, 27], [25, 35, 45]])
       end
     end
 
@@ -115,20 +107,20 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x4[[5, 7, 9, 1]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15, 21, 27, 3], [25, 35, 45, 5], [35, 49, 63, 7], [45, 63, 81, 9]])
+        is_expected.to eq(Geode::Matrix[[15, 21, 27, 3], [25, 35, 45, 5]])
       end
     end
   end
 
   describe "#&*(matrix)" do
-    let(m1) { Geode::Matrix4x1[[3], [5], [7], [9]] }
+    let(m1) { Geode::Matrix2x1[[3], [5]] }
     subject { m1 &* m2 }
 
     context "with a generic matrix" do
       let(m2) { Geode::Matrix[[1, 2, 3]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[3, 6, 9], [5, 10, 15], [7, 14, 21], [9, 18, 27]])
+        is_expected.to eq(Geode::Matrix[[3, 6, 9], [5, 10, 15]])
       end
     end
 
@@ -136,7 +128,7 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x1[[5]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15], [25], [35], [45]])
+        is_expected.to eq(Geode::Matrix[[15], [25]])
       end
     end
 
@@ -144,7 +136,7 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x2[[5, 7]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15, 21], [25, 35], [35, 49], [45, 63]])
+        is_expected.to eq(Geode::Matrix[[15, 21], [25, 35]])
       end
     end
 
@@ -152,7 +144,7 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x3[[5, 7, 9]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15, 21, 27], [25, 35, 45], [35, 49, 63], [45, 63, 81]])
+        is_expected.to eq(Geode::Matrix[[15, 21, 27], [25, 35, 45]])
       end
     end
 
@@ -160,7 +152,7 @@ Spectator.describe Geode::Matrix4x1 do
       let(m2) { Geode::Matrix1x4[[5, 7, 9, 1]] }
 
       it "multiplies matrices together" do
-        is_expected.to eq(Geode::Matrix[[15, 21, 27, 3], [25, 35, 45, 5], [35, 49, 63, 7], [45, 63, 81, 9]])
+        is_expected.to eq(Geode::Matrix[[15, 21, 27, 3], [25, 35, 45, 5]])
       end
     end
   end
@@ -168,12 +160,12 @@ Spectator.describe Geode::Matrix4x1 do
   describe "#to_slice" do
     it "is the size of the matrix" do
       slice = matrix.to_slice
-      expect(slice.size).to eq(4)
+      expect(slice.size).to eq(2)
     end
 
     it "contains the elements" do
       slice = matrix.to_slice
-      expect(slice).to eq(Slice[3, 5, 7, 9])
+      expect(slice).to eq(Slice[3, 5])
     end
   end
 
@@ -183,8 +175,6 @@ Spectator.describe Geode::Matrix4x1 do
       aggregate_failures do
         expect(pointer[0]).to eq(3)
         expect(pointer[1]).to eq(5)
-        expect(pointer[2]).to eq(7)
-        expect(pointer[3]).to eq(9)
       end
     end
   end
@@ -205,28 +195,12 @@ Spectator.describe Geode::Matrix4x1 do
     end
   end
 
-  describe "#c" do
-    subject { matrix.c }
-
-    it "returns element (2, 0)" do
-      is_expected.to eq(matrix[2, 0])
-    end
-  end
-
-  describe "#d" do
-    subject { matrix.d }
-
-    it "returns element (3, 0)" do
-      is_expected.to eq(matrix[3, 0])
-    end
-  end
-
   context Geode::CommonMatrix do
     describe "#rows" do
       subject { matrix.rows }
 
       it "is the correct value" do
-        is_expected.to eq(4)
+        is_expected.to eq(2)
       end
     end
 
@@ -242,7 +216,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.size }
 
       it "is the correct value" do
-        is_expected.to eq(4)
+        is_expected.to eq(2)
       end
     end
 
@@ -260,7 +234,7 @@ Spectator.describe Geode::Matrix4x1 do
         matrix.each_indices do |i, j|
           indices << {i, j}
         end
-        expect(indices).to eq([{0, 0}, {1, 0}, {2, 0}, {3, 0}])
+        expect(indices).to eq([{0, 0}, {1, 0}])
       end
     end
 
@@ -270,45 +244,45 @@ Spectator.describe Geode::Matrix4x1 do
         matrix.each_with_indices do |e, i, j|
           indices << {e, i, j}
         end
-        expect(indices).to eq([{3, 0, 0}, {5, 1, 0}, {7, 2, 0}, {9, 3, 0}])
+        expect(indices).to eq([{3, 0, 0}, {5, 1, 0}])
       end
     end
 
     describe "#map_with_index" do
-      it "creates a Matrix4x1" do
+      it "creates a Matrix2x1" do
         mapped = matrix.map_with_index(&.itself)
-        expect(mapped).to be_a(Geode::Matrix4x1(Int32))
+        expect(mapped).to be_a(Geode::Matrix2x1(Int32))
       end
 
       it "uses the new values" do
         mapped = matrix.map_with_index { |e, i| e.to_f * i }
-        expect(mapped).to eq(Geode::Matrix4x1[[0.0], [5.0], [14.0], [27.0]])
+        expect(mapped).to eq(Geode::Matrix2x1[[0.0], [5.0]])
       end
 
       it "adds the offset" do
         mapped = matrix.map_with_index(3) { |e, i| e * i }
-        expect(mapped).to eq(Geode::Matrix4x1[[9], [20], [35], [54]])
+        expect(mapped).to eq(Geode::Matrix2x1[[9], [20]])
       end
     end
 
     describe "#map_with_indices" do
-      it "creates a Matrix4x1" do
+      it "creates a Matrix2x1" do
         mapped = matrix.map_with_indices(&.itself)
-        expect(mapped).to be_a(Geode::Matrix4x1(Int32))
+        expect(mapped).to be_a(Geode::Matrix2x1(Int32))
       end
 
       it "uses the new values" do
         mapped = matrix.map_with_indices { |e, i, j| e.to_f * i + j }
-        expect(mapped).to eq(Geode::Matrix4x1[[0.0], [5.0], [14.0], [27.0]])
+        expect(mapped).to eq(Geode::Matrix2x1[[0.0], [5.0]])
       end
     end
 
     describe "#zip_map" do
       it "iterates two matrices" do
-        m1 = Geode::Matrix4x1[[6], [4], [9], [2]]
-        m2 = Geode::Matrix4x1[[3], [4], [3], [5]]
+        m1 = Geode::Matrix2x1[[6], [4]]
+        m2 = Geode::Matrix2x1[[3], [4]]
         result = m1.zip_map(m2) { |a, b| a // b }
-        expect(result).to eq(Geode::Matrix4x1[[2], [1], [3], [0]])
+        expect(result).to eq(Geode::Matrix2x1[[2], [1]])
       end
     end
 
@@ -316,7 +290,7 @@ Spectator.describe Geode::Matrix4x1 do
       it "enumerates each row" do
         rows = [] of Geode::CommonVector(Int32, 1)
         matrix.each_row { |row| rows << row }
-        expect(rows).to eq([Geode::Vector[3], Geode::Vector[5], Geode::Vector[7], Geode::Vector[9]])
+        expect(rows).to eq([Geode::Vector[3], Geode::Vector[5]])
       end
     end
 
@@ -324,35 +298,35 @@ Spectator.describe Geode::Matrix4x1 do
       it "enumerates each row" do
         rows = [] of Tuple(Geode::CommonVector(Int32, 1), Int32)
         matrix.each_row_with_index { |row, i| rows << {row, i} }
-        expect(rows).to eq([{Geode::Vector[3], 0}, {Geode::Vector[5], 1}, {Geode::Vector[7], 2}, {Geode::Vector[9], 3}])
+        expect(rows).to eq([{Geode::Vector[3], 0}, {Geode::Vector[5], 1}])
       end
 
       it "applies the offset" do
         rows = [] of Tuple(Geode::CommonVector(Int32, 1), Int32)
         matrix.each_row_with_index(5) { |row, i| rows << {row, i} }
-        expect(rows).to eq([{Geode::Vector[3], 5}, {Geode::Vector[5], 6}, {Geode::Vector[7], 7}, {Geode::Vector[9], 8}])
+        expect(rows).to eq([{Geode::Vector[3], 5}, {Geode::Vector[5], 6}])
       end
     end
 
     describe "#each_column" do
       it "enumerates each column" do
-        columns = [] of Geode::CommonVector(Int32, 4)
+        columns = [] of Geode::CommonVector(Int32, 2)
         matrix.each_column { |column| columns << column }
-        expect(columns).to eq([Geode::Vector[3, 5, 7, 9]])
+        expect(columns).to eq([Geode::Vector[3, 5]])
       end
     end
 
     describe "#each_column_with_index" do
       it "enumerates each column" do
-        columns = [] of Tuple(Geode::CommonVector(Int32, 4), Int32)
+        columns = [] of Tuple(Geode::CommonVector(Int32, 2), Int32)
         matrix.each_column_with_index { |column, i| columns << {column, i} }
-        expect(columns).to eq([{Geode::Vector[3, 5, 7, 9], 0}])
+        expect(columns).to eq([{Geode::Vector[3, 5], 0}])
       end
 
       it "applies the offset" do
-        columns = [] of Tuple(Geode::CommonVector(Int32, 4), Int32)
+        columns = [] of Tuple(Geode::CommonVector(Int32, 2), Int32)
         matrix.each_column_with_index(3) { |column, i| columns << {column, i} }
-        expect(columns).to eq([{Geode::Vector[3, 5, 7, 9], 3}])
+        expect(columns).to eq([{Geode::Vector[3, 5], 3}])
       end
     end
 
@@ -402,53 +376,53 @@ Spectator.describe Geode::Matrix4x1 do
 
     describe "#row" do
       it "returns the correct elements" do
-        expect(matrix.row(2)).to eq(Geode::Vector[7])
+        expect(matrix.row(1)).to eq(Geode::Vector[5])
       end
 
       it "raises for an out-of-bounds index" do
-        expect { matrix.row(5) }.to raise_error(IndexError)
+        expect { matrix.row(3) }.to raise_error(IndexError)
       end
     end
 
     describe "#row?" do
       it "returns the correct elements" do
-        expect(matrix.row?(2)).to eq(Geode::Vector[7])
+        expect(matrix.row?(1)).to eq(Geode::Vector[5])
       end
 
       it "return nil for an out-of-bounds index" do
-        expect(matrix.row?(5)).to be_nil
+        expect(matrix.row?(3)).to be_nil
       end
     end
 
     describe "#column" do
       it "returns the correct elements" do
-        expect(matrix.column(0)).to eq(Geode::Vector[3, 5, 7, 9])
+        expect(matrix.column(0)).to eq(Geode::Vector[3, 5])
       end
 
       it "raises for an out-of-bounds index" do
-        expect { matrix.column(5) }.to raise_error(IndexError)
+        expect { matrix.column(3) }.to raise_error(IndexError)
       end
     end
 
     describe "#column?" do
       it "returns the correct elements" do
-        expect(matrix.column?(0)).to eq(Geode::Vector[3, 5, 7, 9])
+        expect(matrix.column?(0)).to eq(Geode::Vector[3, 5])
       end
 
       it "return nil for an out-of-bounds index" do
-        expect(matrix.column?(5)).to be_nil
+        expect(matrix.column?(3)).to be_nil
       end
     end
 
     describe "#rows_at" do
       it "returns the correct rows" do
-        expect(matrix.rows_at(1, 3)).to eq({Geode::Vector[5], Geode::Vector[9]})
+        expect(matrix.rows_at(0, 1)).to eq({Geode::Vector[3], Geode::Vector[5]})
       end
     end
 
     describe "#columns_at" do
       it "returns the correct columns" do
-        expect(matrix.columns_at(0)).to eq({Geode::Vector[3, 5, 7, 9]})
+        expect(matrix.columns_at(0)).to eq({Geode::Vector[3, 5]})
       end
     end
 
@@ -456,7 +430,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.to_rows }
 
       it "returns row vectors in an array" do
-        is_expected.to eq([Geode::Vector[3], Geode::Vector[5], Geode::Vector[7], Geode::Vector[9]])
+        is_expected.to eq([Geode::Vector[3], Geode::Vector[5]])
       end
     end
 
@@ -464,7 +438,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.to_columns }
 
       it "returns column vectors in an array" do
-        is_expected.to eq([Geode::Vector[3, 5, 7, 9]])
+        is_expected.to eq([Geode::Vector[3, 5]])
       end
     end
 
@@ -472,48 +446,72 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.to_s }
 
       it "is formatted correctly" do
-        is_expected.to eq("[[3], [5], [7], [9]]")
+        is_expected.to eq("[[3], [5]]")
       end
     end
   end
 
   context Geode::MatrixComparison do
-    let(m1) { Geode::Matrix[[3], [5], [7], [0]] }
-    let(m2) { Geode::Matrix[[7], [5], [3], [0]] }
+    let(m1) { Geode::Matrix[[3], [7]] }
+    let(m2) { Geode::Matrix[[5], [3]] }
 
     describe "#compare" do
       it "compares elements" do
-        expect(m1.compare(m2)).to eq(Geode::Matrix[[-1], [0], [1], [0]])
+        aggregate_failures do
+          expect(m1.compare(m2)).to eq(Geode::Matrix[[-1], [1]])
+          expect(m2.compare(m1)).to eq(Geode::Matrix[[1], [-1]])
+          expect(m1.compare(m1)).to eq(Geode::Matrix[[0], [0]])
+        end
       end
     end
 
     describe "#eq?" do
       it "compares elements" do
-        expect(m1.eq?(m2)).to eq(Geode::Matrix[[false], [true], [false], [true]])
+        aggregate_failures do
+          expect(m1.eq?(m2)).to eq(Geode::Matrix[[false], [false]])
+          expect(m2.eq?(m1)).to eq(Geode::Matrix[[false], [false]])
+          expect(m1.eq?(m1)).to eq(Geode::Matrix[[true], [true]])
+        end
       end
     end
 
     describe "#lt?" do
       it "compares elements" do
-        expect(m1.lt?(m2)).to eq(Geode::Matrix[[true], [false], [false], [false]])
+        aggregate_failures do
+          expect(m1.lt?(m2)).to eq(Geode::Matrix[[true], [false]])
+          expect(m2.lt?(m1)).to eq(Geode::Matrix[[false], [true]])
+          expect(m1.lt?(m1)).to eq(Geode::Matrix[[false], [false]])
+        end
       end
     end
 
     describe "#le?" do
       it "compares elements" do
-        expect(m1.le?(m2)).to eq(Geode::Matrix[[true], [true], [false], [true]])
+        aggregate_failures do
+          expect(m1.le?(m2)).to eq(Geode::Matrix[[true], [false]])
+          expect(m2.le?(m1)).to eq(Geode::Matrix[[false], [true]])
+          expect(m1.le?(m1)).to eq(Geode::Matrix[[true], [true]])
+        end
       end
     end
 
     describe "#gt?" do
       it "compares elements" do
-        expect(m1.gt?(m2)).to eq(Geode::Matrix[[false], [false], [true], [false]])
+        aggregate_failures do
+          expect(m1.gt?(m2)).to eq(Geode::Matrix[[false], [true]])
+          expect(m2.gt?(m1)).to eq(Geode::Matrix[[true], [false]])
+          expect(m1.gt?(m1)).to eq(Geode::Matrix[[false], [false]])
+        end
       end
     end
 
     describe "#ge?" do
       it "compares elements" do
-        expect(m1.ge?(m2)).to eq(Geode::Matrix[[false], [true], [true], [true]])
+        aggregate_failures do
+          expect(m1.ge?(m2)).to eq(Geode::Matrix[[false], [true]])
+          expect(m2.ge?(m1)).to eq(Geode::Matrix[[true], [false]])
+          expect(m1.ge?(m1)).to eq(Geode::Matrix[[true], [true]])
+        end
       end
     end
 
@@ -521,7 +519,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.zero? }
 
       context "with a zero matrix" do
-        let(matrix) { Geode::Matrix4x1(Int32).zero }
+        let(matrix) { Geode::Matrix2x1(Int32).zero }
 
         it "returns true" do
           is_expected.to be_true
@@ -539,7 +537,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.near_zero?(0.1) }
 
       context "with elements within tolerance of zero" do
-        let(matrix) { Geode::Matrix4x1[[0.05], [0.1], [0.0], [0.001]] }
+        let(matrix) { Geode::Matrix2x1[[0.05], [0.1]] }
 
         it "returns true" do
           is_expected.to be_true
@@ -565,7 +563,7 @@ Spectator.describe Geode::Matrix4x1 do
 
       context "with a generic matrix" do
         context "with equal values" do
-          let(other) { Geode::Matrix[[3], [5], [7], [9]] }
+          let(other) { Geode::Matrix[[3], [5]] }
 
           it "returns true" do
             is_expected.to be_true
@@ -573,7 +571,7 @@ Spectator.describe Geode::Matrix4x1 do
         end
 
         context "with unequal values" do
-          let(other) { Geode::Matrix[[9], [7], [5], [3]] }
+          let(other) { Geode::Matrix[[5], [3]] }
 
           it "returns false" do
             is_expected.to be_false
@@ -581,7 +579,7 @@ Spectator.describe Geode::Matrix4x1 do
         end
 
         context "with a different sized matrix" do
-          let(other) { Geode::Matrix[[3, 5], [7, 9]] }
+          let(other) { Geode::Matrix[[1, 2], [3, 4]] }
 
           it "returns false" do
             is_expected.to be_false
@@ -591,7 +589,7 @@ Spectator.describe Geode::Matrix4x1 do
 
       context "with a nxm-dimension matrix" do
         context "with equal values" do
-          let(other) { Geode::Matrix4x1[[3], [5], [7], [9]] }
+          let(other) { Geode::Matrix2x1[[3], [5]] }
 
           it "returns true" do
             is_expected.to be_true
@@ -599,7 +597,7 @@ Spectator.describe Geode::Matrix4x1 do
         end
 
         context "with unequal values" do
-          let(other) { Geode::Matrix4x1[[9], [7], [5], [3]] }
+          let(other) { Geode::Matrix2x1[[5], [3]] }
 
           it "returns false" do
             is_expected.to be_false
@@ -622,7 +620,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.each_indices }
 
       it "iterates through each pair of indices" do
-        expect(subject.to_a).to eq([{0, 0}, {1, 0}, {2, 0}, {3, 0}])
+        expect(subject.to_a).to eq([{0, 0}, {1, 0}])
       end
     end
 
@@ -630,7 +628,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.each_with_indices }
 
       it "iterates through each element and its indices" do
-        expect(subject.to_a).to eq([{3, 0, 0}, {5, 1, 0}, {7, 2, 0}, {9, 3, 0}])
+        expect(subject.to_a).to eq([{3, 0, 0}, {5, 1, 0}])
       end
     end
 
@@ -638,7 +636,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.each_row }
 
       it "iterates through each row" do
-        expect(subject.to_a).to eq([Geode::Vector[3], Geode::Vector[5], Geode::Vector[7], Geode::Vector[9]])
+        expect(subject.to_a).to eq([Geode::Vector[3], Geode::Vector[5]])
       end
     end
 
@@ -646,14 +644,14 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.each_row_with_index }
 
       it "iterates through each row" do
-        expect(subject.to_a).to eq([{Geode::Vector[3], 0}, {Geode::Vector[5], 1}, {Geode::Vector[7], 2}, {Geode::Vector[9], 3}])
+        expect(subject.to_a).to eq([{Geode::Vector[3], 0}, {Geode::Vector[5], 1}])
       end
 
       context "with an offset" do
         subject { matrix.each_row_with_index(3) }
 
         it "applies the offset" do
-          expect(subject.to_a).to eq([{Geode::Vector[3], 3}, {Geode::Vector[5], 4}, {Geode::Vector[7], 5}, {Geode::Vector[9], 6}])
+          expect(subject.to_a).to eq([{Geode::Vector[3], 3}, {Geode::Vector[5], 4}])
         end
       end
     end
@@ -662,7 +660,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.each_column }
 
       it "iterates through each column" do
-        expect(subject.to_a).to eq([Geode::Vector[3, 5, 7, 9]])
+        expect(subject.to_a).to eq([Geode::Vector[3, 5]])
       end
     end
 
@@ -670,14 +668,14 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.each_column_with_index }
 
       it "iterates through each column" do
-        expect(subject.to_a).to eq([{Geode::Vector[3, 5, 7, 9], 0}])
+        expect(subject.to_a).to eq([{Geode::Vector[3, 5], 0}])
       end
 
       context "with an offset" do
         subject { matrix.each_column_with_index(3) }
 
         it "applies the offset" do
-          expect(subject.to_a).to eq([{Geode::Vector[3, 5, 7, 9], 3}])
+          expect(subject.to_a).to eq([{Geode::Vector[3, 5], 3}])
         end
       end
     end
@@ -686,54 +684,69 @@ Spectator.describe Geode::Matrix4x1 do
   context Geode::MatrixOperations do
     describe "#abs" do
       it "returns the absolute value" do
-        expect(Geode::Matrix4x1[[3], [-5], [0], [1]].abs).to eq(Geode::Matrix4x1[[3], [5], [0], [1]])
+        expect(Geode::Matrix2x1[[3], [-5]].abs).to eq(Geode::Matrix2x1[[3], [5]])
       end
     end
 
     describe "#abs2" do
       it "returns the absolute value squared" do
-        expect(Geode::Matrix4x1[[3], [-5], [0], [1]].abs2).to eq(Geode::Matrix4x1[[9], [25], [0], [1]])
+        expect(Geode::Matrix2x1[[3], [-5]].abs2).to eq(Geode::Matrix2x1[[9], [25]])
       end
     end
 
     describe "#round" do
       it "rounds the elements" do
-        expect(Geode::Matrix4x1[[1.2], [-5.7], [1.5], [0.0]].round).to eq(Geode::Matrix4x1[[1.0], [-6.0], [2.0], [0.0]])
+        aggregate_failures do
+          expect(Geode::Matrix2x1[[1.2], [-5.7]].round).to eq(Geode::Matrix2x1[[1.0], [-6.0]])
+          expect(Geode::Matrix2x1[[3.0], [1.5]].round).to eq(Geode::Matrix2x1[[3.0], [2.0]])
+        end
       end
 
       context "with digits" do
         it "rounds the elements" do
-          expect(Geode::Matrix4x1[[1.25], [-5.77], [1.5], [0.0]].round(1)).to eq(Geode::Matrix4x1[[1.2], [-5.8], [1.5], [0.0]])
+          aggregate_failures do
+            expect(Geode::Matrix2x1[[1.25], [-5.77]].round(1)).to eq(Geode::Matrix2x1[[1.2], [-5.8]])
+            expect(Geode::Matrix2x1[[3.01], [1.5]].round(1)).to eq(Geode::Matrix2x1[[3.0], [1.5]])
+          end
         end
       end
     end
 
     describe "#sign" do
       it "returns the sign of each element" do
-        expect(Geode::Matrix4x1[[5], [-5], [0], [1]].sign).to eq(Geode::Matrix4x1[[1], [-1], [0], [1]])
+        expect(Geode::Matrix2x1[[5], [-5]].sign).to eq(Geode::Matrix2x1[[1], [-1]])
       end
     end
 
     describe "#ceil" do
       it "returns the elements rounded up" do
-        expect(Geode::Matrix4x1[[1.2], [-5.7], [1.5], [0.0]].ceil).to eq(Geode::Matrix4x1[[2.0], [-5.0], [2.0], [0.0]])
+        aggregate_failures do
+          expect(Geode::Matrix2x1[[1.2], [-5.7]].ceil).to eq(Geode::Matrix2x1[[2.0], [-5.0]])
+          expect(Geode::Matrix2x1[[3.0], [1.5]].ceil).to eq(Geode::Matrix2x1[[3.0], [2.0]])
+        end
       end
     end
 
     describe "#floor" do
       it "returns the elements rounded down" do
-        expect(Geode::Matrix4x1[[1.2], [-5.7], [1.5], [0.0]].floor).to eq(Geode::Matrix4x1[[1.0], [-6.0], [1.0], [0.0]])
+        aggregate_failures do
+          expect(Geode::Matrix2x1[[1.2], [-5.7]].floor).to eq(Geode::Matrix2x1[[1.0], [-6.0]])
+          expect(Geode::Matrix2x1[[3.0], [1.5]].floor).to eq(Geode::Matrix2x1[[3.0], [1.0]])
+        end
       end
     end
 
     describe "#fraction" do
       it "returns the fraction part of each element" do
-        fraction = Geode::Matrix4x1[[1.2], [-5.7], [0.5], [0.0]].fraction
+        fraction = Geode::Matrix2x1[[1.2], [-5.7]].fraction
         aggregate_failures do
           expect(fraction[0, 0]).to be_within(TOLERANCE).of(0.2)
           expect(fraction[1, 0]).to be_within(TOLERANCE).of(0.3)
-          expect(fraction[2, 0]).to be_within(TOLERANCE).of(0.5)
-          expect(fraction[3, 0]).to be_within(TOLERANCE).of(0.0)
+        end
+        fraction = Geode::Matrix2x1[[3.0], [1.5]].fraction
+        aggregate_failures do
+          expect(fraction[0, 0]).to be_within(TOLERANCE).of(0.0)
+          expect(fraction[1, 0]).to be_within(TOLERANCE).of(0.5)
         end
       end
     end
@@ -741,29 +754,29 @@ Spectator.describe Geode::Matrix4x1 do
     describe "#clamp" do
       context "with a min and max matrices" do
         it "restricts elements" do
-          min = Geode::Matrix4x1[[-1], [-2], [-3], [-4]]
-          max = Geode::Matrix4x1[[1], [2], [3], [4]]
-          expect(Geode::Matrix4x1[[-2], [3], [1], [0]].clamp(min, max)).to eq(Geode::Matrix4x1[[-1], [2], [1], [0]])
+          min = Geode::Matrix2x1[[-1], [-2]]
+          max = Geode::Matrix2x1[[1], [2]]
+          expect(Geode::Matrix2x1[[-2], [3]].clamp(min, max)).to eq(Geode::Matrix2x1[[-1], [2]])
         end
       end
 
       context "with a range of matrices" do
         it "restricts elements" do
-          min = Geode::Matrix4x1[[-1], [-2], [-3], [-4]]
-          max = Geode::Matrix4x1[[1], [2], [3], [4]]
-          expect(Geode::Matrix4x1[[-2], [3], [1], [0]].clamp(min..max)).to eq(Geode::Matrix4x1[[-1], [2], [1], [0]])
+          min = Geode::Matrix2x1[[-1], [-2]]
+          max = Geode::Matrix2x1[[1], [2]]
+          expect(Geode::Matrix2x1[[-2], [3]].clamp(min..max)).to eq(Geode::Matrix2x1[[-1], [2]])
         end
       end
 
       context "with a min and max" do
         it "restricts elements" do
-          expect(Geode::Matrix4x1[[-2], [2], [0], [1]].clamp(-1, 1)).to eq(Geode::Matrix4x1[[-1], [1], [0], [1]])
+          expect(Geode::Matrix2x1[[-2], [2]].clamp(-1, 1)).to eq(Geode::Matrix2x1[[-1], [1]])
         end
       end
 
       context "with a range" do
         it "restricts elements" do
-          expect(Geode::Matrix4x1[[-2], [2], [0], [1]].clamp(-1..1)).to eq(Geode::Matrix4x1[[-1], [1], [0], [1]])
+          expect(Geode::Matrix2x1[[-2], [2]].clamp(-1..1)).to eq(Geode::Matrix2x1[[-1], [1]])
         end
       end
     end
@@ -771,145 +784,139 @@ Spectator.describe Geode::Matrix4x1 do
     describe "#edge" do
       context "with a scalar value" do
         it "returns correct zero and one elements" do
-          expect(matrix.edge(6)).to eq(Geode::Matrix4x1[[0], [0], [1], [1]])
+          expect(matrix.edge(4)).to eq(Geode::Matrix2x1[[0], [1]])
         end
       end
 
       context "with a matrix" do
         it "returns correct zero and one elements" do
-          expect(matrix.edge(Geode::Matrix4x1[[2], [9], [7], [0]])).to eq(Geode::Matrix4x1[[1], [0], [1], [1]])
+          expect(matrix.edge(Geode::Matrix2x1[[2], [9]])).to eq(Geode::Matrix2x1[[1], [0]])
         end
       end
     end
 
     describe "#scale" do
       context "with a matrix" do
-        let(other) { Geode::Matrix4x1[[3], [4], [5], [6]] }
+        let(other) { Geode::Matrix2x1[[3], [4]] }
 
         it "scales each element separately" do
-          expect(matrix.scale(other)).to eq(Geode::Matrix4x1[[9], [20], [35], [54]])
+          expect(matrix.scale(other)).to eq(Geode::Matrix2x1[[9], [20]])
         end
       end
 
       context "with a scalar" do
         it "scales each element by the same amount" do
-          expect(matrix.scale(5)).to eq(Geode::Matrix4x1[[15], [25], [35], [45]])
+          expect(matrix.scale(5)).to eq(Geode::Matrix2x1[[15], [25]])
         end
       end
     end
 
     describe "#scale!" do
       context "with a matrix" do
-        let(other) { Geode::Matrix4x1[[3], [4], [5], [6]] }
+        let(other) { Geode::Matrix2x1[[3], [4]] }
 
         it "scales each element separately" do
-          expect(matrix.scale!(other)).to eq(Geode::Matrix4x1[[9], [20], [35], [54]])
+          expect(matrix.scale!(other)).to eq(Geode::Matrix2x1[[9], [20]])
         end
       end
 
       context "with a scalar" do
         it "scales each element by the same amount" do
-          expect(matrix.scale!(5)).to eq(Geode::Matrix4x1[[15], [25], [35], [45]])
+          expect(matrix.scale!(5)).to eq(Geode::Matrix2x1[[15], [25]])
         end
       end
     end
 
     describe "#lerp" do
-      let(m1) { Geode::Matrix4x1[[3.0], [5.0], [7.0], [9.0]] }
-      let(m2) { Geode::Matrix4x1[[13.0], [25.0], [37.0], [49.0]] }
+      let(m1) { Geode::Matrix2x1[[5.0], [7.0]] }
+      let(m2) { Geode::Matrix2x1[[25.0], [37.0]] }
 
       it "returns m1 when t = 0" do
         matrix = m1.lerp(m2, 0.0)
         aggregate_failures do
-          expect(matrix[0, 0]).to be_within(TOLERANCE).of(3.0)
-          expect(matrix[1, 0]).to be_within(TOLERANCE).of(5.0)
-          expect(matrix[2, 0]).to be_within(TOLERANCE).of(7.0)
-          expect(matrix[3, 0]).to be_within(TOLERANCE).of(9.0)
+          expect(matrix[0, 0]).to be_within(TOLERANCE).of(5.0)
+          expect(matrix[1, 0]).to be_within(TOLERANCE).of(7.0)
         end
       end
 
       it "returns m2 when t = 1" do
         matrix = m1.lerp(m2, 1.0)
         aggregate_failures do
-          expect(matrix[0, 0]).to be_within(TOLERANCE).of(13.0)
-          expect(matrix[1, 0]).to be_within(TOLERANCE).of(25.0)
-          expect(matrix[2, 0]).to be_within(TOLERANCE).of(37.0)
-          expect(matrix[3, 0]).to be_within(TOLERANCE).of(49.0)
+          expect(matrix[0, 0]).to be_within(TOLERANCE).of(25.0)
+          expect(matrix[1, 0]).to be_within(TOLERANCE).of(37.0)
         end
       end
 
       it "returns a mid-value" do
         matrix = m1.lerp(m2, 0.4)
         aggregate_failures do
-          expect(matrix[0, 0]).to be_within(TOLERANCE).of(7.0)
-          expect(matrix[1, 0]).to be_within(TOLERANCE).of(13.0)
-          expect(matrix[2, 0]).to be_within(TOLERANCE).of(19.0)
-          expect(matrix[3, 0]).to be_within(TOLERANCE).of(25.0)
+          expect(matrix[0, 0]).to be_within(TOLERANCE).of(13.0)
+          expect(matrix[1, 0]).to be_within(TOLERANCE).of(19.0)
         end
       end
     end
 
     describe "#- (negation)" do
       it "negates the matrix" do
-        expect(-Geode::Matrix4x1[[3], [-3], [0], [1]]).to eq(Geode::Matrix4x1[[-3], [3], [0], [-1]])
+        expect(-Geode::Matrix2x1[[3], [-3]]).to eq(Geode::Matrix2x1[[-3], [3]])
       end
     end
 
     describe "#+" do
       it "adds two matrices" do
-        m1 = Geode::Matrix4x1[[5], [7], [9], [0]]
-        m2 = Geode::Matrix4x1[[2], [4], [-3], [1]]
-        expect(m1 + m2).to eq(Geode::Matrix4x1[[7], [11], [6], [1]])
+        m1 = Geode::Matrix2x1[[5], [7]]
+        m2 = Geode::Matrix2x1[[2], [4]]
+        expect(m1 + m2).to eq(Geode::Matrix2x1[[7], [11]])
       end
     end
 
     describe "#&+" do
       it "adds two matrices" do
-        m1 = Geode::Matrix4x1[[5], [7], [9], [0]]
-        m2 = Geode::Matrix4x1[[2], [4], [-3], [1]]
-        expect(m1 &+ m2).to eq(Geode::Matrix4x1[[7], [11], [6], [1]])
+        m1 = Geode::Matrix2x1[[5], [7]]
+        m2 = Geode::Matrix2x1[[2], [4]]
+        expect(m1 &+ m2).to eq(Geode::Matrix2x1[[7], [11]])
       end
     end
 
     describe "#-" do
       it "subtracts two matrices" do
-        m1 = Geode::Matrix4x1[[5], [7], [-3], [1]]
-        m2 = Geode::Matrix4x1[[2], [5], [-4], [1]]
-        expect(m1 - m2).to eq(Geode::Matrix4x1[[3], [2], [1], [0]])
+        m1 = Geode::Matrix2x1[[5], [7]]
+        m2 = Geode::Matrix2x1[[2], [5]]
+        expect(m1 - m2).to eq(Geode::Matrix2x1[[3], [2]])
       end
     end
 
     describe "#&-" do
       it "subtracts two matrices" do
-        m1 = Geode::Matrix4x1[[5], [7], [-3], [1]]
-        m2 = Geode::Matrix4x1[[2], [5], [-4], [1]]
-        expect(m1 &- m2).to eq(Geode::Matrix4x1[[3], [2], [1], [0]])
+        m1 = Geode::Matrix2x1[[5], [7]]
+        m2 = Geode::Matrix2x1[[2], [5]]
+        expect(m1 &- m2).to eq(Geode::Matrix2x1[[3], [2]])
       end
     end
 
     describe "#*(number)" do
       it "scales a matrix" do
-        expect(matrix * 3).to eq(Geode::Matrix4x1[[9], [15], [21], [27]])
+        expect(matrix * 3).to eq(Geode::Matrix2x1[[9], [15]])
       end
     end
 
     describe "#&*(number)" do
       it "scales a matrix" do
-        expect(matrix &* 3).to eq(Geode::Matrix4x1[[9], [15], [21], [27]])
+        expect(matrix &* 3).to eq(Geode::Matrix2x1[[9], [15]])
       end
     end
 
     describe "#/" do
       it "scales a matrix" do
-        matrix = Geode::Matrix4x1[[4.0], [6.0], [8.0], [10.0]]
-        expect(matrix / 2).to eq(Geode::Matrix4x1[[2.0], [3.0], [4.0], [5.0]])
+        matrix = Geode::Matrix2x1[[4.0], [6.0]]
+        expect(matrix / 2).to eq(Geode::Matrix2x1[[2.0], [3.0]])
       end
     end
 
     describe "#//" do
       it "scales the matrix" do
-        matrix = Geode::Matrix4x1[[4], [6], [8], [10]]
-        expect(matrix // 2).to eq(Geode::Matrix4x1[[2], [3], [4], [5]])
+        matrix = Geode::Matrix2x1[[4], [6]]
+        expect(matrix // 2).to eq(Geode::Matrix2x1[[2], [3]])
       end
     end
   end
@@ -935,7 +942,7 @@ Spectator.describe Geode::Matrix4x1 do
       subject { matrix.to_vector }
 
       it "returns a vector" do
-        is_expected.to eq(Geode::Vector[3, 5, 7, 9])
+        is_expected.to eq(Geode::Vector[3, 5])
       end
     end
   end

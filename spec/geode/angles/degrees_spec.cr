@@ -1,4 +1,4 @@
-require "../spec_helper"
+require "../../spec_helper"
 
 Spectator.describe Geode::Degrees do
   TOLERANCE_VALUE = 0.000000000000001

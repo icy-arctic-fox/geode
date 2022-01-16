@@ -1,4 +1,4 @@
-require "../spec_helper"
+require "../../spec_helper"
 
 Spectator.describe Geode::Vector3 do
   TOLERANCE = 0.000000000000001
