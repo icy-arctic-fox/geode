@@ -30,27 +30,27 @@ spec-angles:
 spec-matrices:
   extends: spec
   script:
-    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix_spec.cr
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix_spec.cr
 
 spec-matrix1:
   extends: spec
   script:
-    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix1*_spec.cr
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix1*_spec.cr
 
 spec-matrix2:
   extends: spec
   script:
-    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix2*_spec.cr
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix2*_spec.cr
 
 spec-matrix3:
   extends: spec
   script:
-    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix3*_spec.cr
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix3*_spec.cr
 
 spec-matrix4:
   extends: spec
   script:
-    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix4*_spec.cr
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/matricesFix paths again/matrix4*_spec.cr
 
 spec-vectors:
   extends: spec
