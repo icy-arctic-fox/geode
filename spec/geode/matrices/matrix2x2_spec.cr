@@ -940,45 +940,63 @@ Spectator.describe Geode::Matrix2x2 do
       end
     end
 
-    context Geode::SquareMatrix do
-      describe "#diagonal" do
-        subject { matrix.diagonal }
+    describe "#*(vector)" do
+      let(vector) { Geode::Vector[10, 20] }
+      subject { matrix * vector }
 
-        it "returns the diagonal elements" do
-          is_expected.to eq(Geode::Vector[3, 9])
-        end
+      it "multiplies the matrix and vector" do
+        is_expected.to eq(Geode::Vector[130, 250])
       end
+    end
 
-      describe "#each_diagonal (block)" do
-        it "iterates over the diagonal" do
-          elements = [] of Int32
-          matrix.each_diagonal { |e| elements << e }
-          expect(elements).to eq([3, 9])
-        end
+    describe "#&*(vector)" do
+      let(vector) { Geode::Vector[10, 20] }
+      subject { matrix &* vector }
+
+      it "multiplies the matrix and vector" do
+        is_expected.to eq(Geode::Vector[130, 250])
       end
+    end
+  end
 
-      describe "#each_diagonal (iterator)" do
-        subject { matrix.each_diagonal }
+  context Geode::SquareMatrix do
+    describe "#diagonal" do
+      subject { matrix.diagonal }
 
-        it "iterates over the diagonal" do
-          expect(subject.to_a).to eq([3, 9])
-        end
+      it "returns the diagonal elements" do
+        is_expected.to eq(Geode::Vector[3, 9])
       end
+    end
 
-      describe "#trace" do
-        subject { matrix.trace }
-
-        it "is the sum of the diagonal" do
-          is_expected.to eq(12)
-        end
+    describe "#each_diagonal (block)" do
+      it "iterates over the diagonal" do
+        elements = [] of Int32
+        matrix.each_diagonal { |e| elements << e }
+        expect(elements).to eq([3, 9])
       end
+    end
 
-      describe "#determinant" do
-        subject { matrix.determinant }
+    describe "#each_diagonal (iterator)" do
+      subject { matrix.each_diagonal }
 
-        it "computes the determinant" do
-          is_expected.to eq(-8)
-        end
+      it "iterates over the diagonal" do
+        expect(subject.to_a).to eq([3, 9])
+      end
+    end
+
+    describe "#trace" do
+      subject { matrix.trace }
+
+      it "is the sum of the diagonal" do
+        is_expected.to eq(12)
+      end
+    end
+
+    describe "#determinant" do
+      subject { matrix.determinant }
+
+      it "computes the determinant" do
+        is_expected.to eq(-8)
       end
     end
   end

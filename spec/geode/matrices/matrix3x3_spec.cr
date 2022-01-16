@@ -1024,6 +1024,24 @@ Spectator.describe Geode::Matrix3x3 do
         is_expected.to be_false
       end
     end
+
+    describe "#*(vector)" do
+      let(vector) { Geode::Vector[10, 20, 30] }
+      subject { matrix * vector }
+
+      it "multiplies the matrix and vector" do
+        is_expected.to eq(Geode::Vector[100, 280, 460])
+      end
+    end
+
+    describe "#&*(vector)" do
+      let(vector) { Geode::Vector[10, 20, 30] }
+      subject { matrix &* vector }
+
+      it "multiplies the matrix and vector" do
+        is_expected.to eq(Geode::Vector[100, 280, 460])
+      end
+    end
   end
 
   context Geode::SquareMatrix do
