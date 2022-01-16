@@ -117,20 +117,92 @@ Spectator.describe Geode::Matrix3x4 do
   end
 
   describe "#*(matrix)" do
-    let(m1) { Geode::Matrix3x4[[2, 1, 2, 1], [4, 3, 4, 3], [6, 5, 6, 5]] }
-    let(m2) { Geode::Matrix[[1, 10, 100], [2, 20, 200], [3, 30, 300], [4, 40, 400]] }
+    let(m1) { Geode::Matrix3x4[[3, 5, 7, 9], [2, 4, 6, 8], [7, 5, 3, 1]] }
+    subject { m1 * m2 }
 
-    it "multiplies matrices together" do
-      expect(m1 * m2).to eq(Geode::Matrix[[14, 140, 1400], [34, 340, 3400], [54, 540, 5400]])
+    context "with a generic matrix" do
+      let(m2) { Geode::Matrix[[1, 2], [3, 4], [5, 6], [7, 8]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[116, 140], [100, 120], [44, 60]])
+      end
+    end
+
+    context "with a 4x1 matrix" do
+      let(m2) { Geode::Matrix4x1[[1], [2], [3], [4]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70], [60], [30]])
+      end
+    end
+
+    context "with a 4x2 matrix" do
+      let(m2) { Geode::Matrix4x2[[1, 10], [2, 20], [3, 30], [4, 40]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70, 700], [60, 600], [30, 300]])
+      end
+    end
+
+    context "with a 4x3 matrix" do
+      let(m2) { Geode::Matrix4x3[[1, 10, 100], [2, 20, 200], [3, 30, 300], [4, 40, 400]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70, 700, 7000], [60, 600, 6000], [30, 300, 3000]])
+      end
+    end
+
+    context "with a 4x4 matrix" do
+      let(m2) { Geode::Matrix4x4[[1, 10, 100, 1000], [2, 20, 200, 2000], [3, 30, 300, 3000], [4, 40, 400, 4000]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70, 700, 7000, 70000], [60, 600, 6000, 60000], [30, 300, 3000, 30000]])
+      end
     end
   end
 
   describe "#&*(matrix)" do
-    let(m1) { Geode::Matrix3x4[[2, 1, 2, 1], [4, 3, 4, 3], [6, 5, 6, 5]] }
-    let(m2) { Geode::Matrix[[1, 10, 100], [2, 20, 200], [3, 30, 300], [4, 40, 400]] }
+    let(m1) { Geode::Matrix3x4[[3, 5, 7, 9], [2, 4, 6, 8], [7, 5, 3, 1]] }
+    subject { m1 &* m2 }
 
-    it "multiplies matrices together" do
-      expect(m1 &* m2).to eq(Geode::Matrix[[14, 140, 1400], [34, 340, 3400], [54, 540, 5400]])
+    context "with a generic matrix" do
+      let(m2) { Geode::Matrix[[1, 2], [3, 4], [5, 6], [7, 8]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[116, 140], [100, 120], [44, 60]])
+      end
+    end
+
+    context "with a 4x1 matrix" do
+      let(m2) { Geode::Matrix4x1[[1], [2], [3], [4]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70], [60], [30]])
+      end
+    end
+
+    context "with a 4x2 matrix" do
+      let(m2) { Geode::Matrix4x2[[1, 10], [2, 20], [3, 30], [4, 40]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70, 700], [60, 600], [30, 300]])
+      end
+    end
+
+    context "with a 4x3 matrix" do
+      let(m2) { Geode::Matrix4x3[[1, 10, 100], [2, 20, 200], [3, 30, 300], [4, 40, 400]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70, 700, 7000], [60, 600, 6000], [30, 300, 3000]])
+      end
+    end
+
+    context "with a 4x4 matrix" do
+      let(m2) { Geode::Matrix4x4[[1, 10, 100, 1000], [2, 20, 200, 2000], [3, 30, 300, 3000], [4, 40, 400, 4000]] }
+
+      it "multiplies matrices together" do
+        is_expected.to eq(Geode::Matrix[[70, 700, 7000, 70000], [60, 600, 6000, 60000], [30, 300, 3000, 30000]])
+      end
     end
   end
 
