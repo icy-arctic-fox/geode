@@ -150,7 +150,7 @@ module Geode
     # Matrix[[0, 1], [2, 3]].edge(2) # => [[0, 0], [1, 1]]
     # ```
     def edge(edge : T) : self forall T
-      map { |v| v < edge ? T.zero : T.new(1) }
+      map { |v| Geode.edge(v, edge) }
     end
 
     # Returns a new matrix where each element is 0 if it's less than the corresponding edge value, or 1 if it's greater.
@@ -159,7 +159,7 @@ module Geode
     # Matrix[[0, 1], [2, 3]].edge(Matrix[[3, 2], [1, 0]]) # => [[0, 0], [1, 1]]
     # ```
     def edge(edge : CommonMatrix(T, M, N)) : self forall T
-      zip_map(edge) { |v, e| v < e ? T.zero : T.new(1) }
+      zip_map(edge) { |v, e| Geode.edge(v, e) }
     end
 
     # Returns a matrix with each element scaled by the corresponding element value.

@@ -10,7 +10,7 @@ module Geode
   # 2.edge(1) # => 1
   # ```
   def self.edge(value : T, edge : T) forall T
-    value < edge ? T.zero : T.new(1)
+    value < edge ? T.zero : T.multiplicative_identity
   end
 
   # Calculates the linear interpolation between two values.

@@ -139,7 +139,7 @@ module Geode
     # ```
     def reflect(surface : CommonVector(T, N)) : CommonVector forall T
       norm = surface.normalize
-      self - norm * dot(norm) * T.new(2)
+      self - norm * dot(norm) * T.multiplicative_identity * 2
     end
 
     # Computes a refracted vector through a surface.
@@ -154,7 +154,7 @@ module Geode
     def refract(surface : CommonVector(T, N), eta : Number) : CommonVector forall T
       norm = surface.normalize
       dot = dot(norm)
-      k = T.new(1) - eta.abs2 * (T.new(1) - dot.abs2)
+      k = T.multiplicative_identity - eta.abs2 * (T.multiplicative_identity - dot.abs2)
       return self.class.zero if k < 0
 
       self * eta - (norm * (eta * dot + Math.sqrt(k)))

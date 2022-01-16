@@ -97,7 +97,7 @@ module Geode
           array = StaticArray(T, {{size}}).new(T.zero)
           {% index = 0 %}
           {% for i in 0...rows %}
-            array.unsafe_put({{index}}, T.new(1))
+            array.unsafe_put({{index}}, T.multiplicative_identity)
             {% index += columns + 1 %}
           {% end %}
           new(array)

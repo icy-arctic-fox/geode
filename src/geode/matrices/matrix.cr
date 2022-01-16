@@ -134,7 +134,7 @@ module Geode
       {% raise "Identity matrix must be a square matrix (M == N)" if M != N %}
 
       new do |i, j|
-        i == j ? T.new(1) : T.zero
+        i == j ? T.multiplicative_identity : T.zero
       end
     end
 
