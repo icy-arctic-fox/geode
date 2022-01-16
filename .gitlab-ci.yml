@@ -9,11 +9,11 @@ cache:
     - bin
 
 before_script:
-  - crystal -v # Print out Crystal version for debugging
+  - crystal -v
+  - shards
 
 spec:
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode_spec.cr spec/extensions_spec.cr
   artifacts:
     when: always
@@ -23,103 +23,50 @@ spec:
       junit: output.xml
 
 spec-angles:
+  extends: spec
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode/angles/**
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
 
 spec-matrices:
+  extends: spec
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix_spec.cr
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
 
 spec-matrix1:
+  extends: spec
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix1*_spec.cr
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
 
 spec-matrix2:
+  extends: spec
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix2*_spec.cr
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
 
 spec-matrix3:
+  extends: spec
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix3*_spec.cr
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
 
 spec-matrix4:
+  extends: spec
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrix/matrix4*_spec.cr
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
 
 spec-vectors:
+  extends: spec
   script:
-    - shards
     - crystal spec --error-on-warnings --junit_output=. spec/geode/vectors/**
-  artifacts:
-    when: always
-    paths:
-      - output.xml
-    reports:
-      junit: output.xml
 
 format:
   script:
-    - shards
     - crystal tool format --check
 
-style:
+lint:
   script:
-    - shards
     - bin/ameba
 
 pages:
   stage: deploy
-  dependencies:
-    - spec
-    - spec-angles
-    - spec-matrices
-    - spec-matrix1
-    - spec-matrix2
-    - spec-matrix3
-    - spec-matrix4
-    - spec-vectors
   script:
     - crystal docs
     - mv docs/ public/
