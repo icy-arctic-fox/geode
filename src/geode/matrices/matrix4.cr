@@ -66,9 +66,9 @@ module Geode
 
     def determinant
       a * sub(0, 0).determinant -
-      b * sub(0, 1).determinant +
-      c * sub(0, 2).determinant -
-      d * sub(0, 3).determinant
+        b * sub(0, 1).determinant +
+        c * sub(0, 2).determinant -
+        d * sub(0, 3).determinant
     end
   end
 
