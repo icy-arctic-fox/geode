@@ -8,6 +8,18 @@ module Geode
   # Indices *i* and *j* refer to the zero-based row and column index respectively.
   # Unless noted otherwise, all operations are in row-major order.
   define_matrix 1, 1 do
+    def unsafe_fetch_row(i : Int) : Vector1(T)
+      Vector1[a]
+    end
+
+    def unsafe_fetch_column(j : Int) : Vector1(T)
+      Vector1[a]
+    end
+
+    def diagonal
+      Vector1[a]
+    end
+
     def determinant
       a
     end
@@ -23,6 +35,10 @@ module Geode
     def unsafe_fetch_row(i : Int) : Vector2(T)
       Vector2[a, b]
     end
+
+    def unsafe_fetch_column(j : Int) : Vector1(T)
+      Vector1[unsafe_fetch(j)]
+    end
   end
 
   # Matrix with 1 row and 3 columns.
@@ -35,6 +51,10 @@ module Geode
     def unsafe_fetch_row(i : Int) : Vector3(T)
       Vector3[a, b, c]
     end
+
+    def unsafe_fetch_column(j : Int) : Vector1(T)
+      Vector1[unsafe_fetch(j)]
+    end
   end
 
   # Matrix with 1 row and 4 columns.
@@ -46,6 +66,10 @@ module Geode
   define_matrix 1, 4 do
     def unsafe_fetch_row(i : Int) : Vector4(T)
       Vector4[a, b, c, d]
+    end
+
+    def unsafe_fetch_column(j : Int) : Vector1(T)
+      Vector1[unsafe_fetch(j)]
     end
   end
 

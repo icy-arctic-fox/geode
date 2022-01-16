@@ -8,6 +8,10 @@ module Geode
   # Indices *i* and *j* refer to the zero-based row and column index respectively.
   # Unless noted otherwise, all operations are in row-major order.
   define_matrix 3, 1 do
+    def unsafe_fetch_row(i : Int) : Vector1(T)
+      Vector1[unsafe_fetch(i)]
+    end
+
     def unsafe_fetch_column(j : Int) : Vector3(T)
       Vector3[a, b, c]
     end
