@@ -138,6 +138,15 @@ module Geode
       self.class.new(x, y, z)
     end
 
+    # Computes a new vector that is rotated around an arbitrary axis.
+    #
+    # The *angle* bus be a `Number` in radians or an `Angle`.
+    #
+    # TODO: Not implemented.
+    def rotate(angle : Number | Angle, axis : self) : self
+      raise NotImplementedError.new("#rotate")
+    end
+
     # Computes a new vector that is rotated around the x-axis.
     #
     # The *angle* must be a `Number` in radians or an `Angle`.
