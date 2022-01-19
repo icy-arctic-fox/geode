@@ -30,7 +30,7 @@ spec-angles:
 spec-matrices:
   extends: spec
   script:
-    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix_spec.cr
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix_spec.cr spec/geode/matrices/matrices_spec.cr
 
 spec-matrix1:
   extends: spec
