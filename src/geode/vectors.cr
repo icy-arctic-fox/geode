@@ -1,7 +1,7 @@
 require "./vectors/**"
 
 module Geode
-  # Returns a new vector with the minimum component from each vector
+  # Returns a new vector with the minimum component from each vector.
   #
   # ```
   # Geode.min(Vector[1, 2, 3], Vector[3, 2, 1]) # => (1, 2, 1)
