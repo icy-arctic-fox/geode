@@ -58,6 +58,7 @@ module Geode
 
     # Constructs the vector with pre-existing values.
     #
+    # *components* must be a pointer to pre-allocated memory.
     # The memory allocated for *components* must match the size of the vector.
     protected def initialize(@components : Pointer(T))
     end
