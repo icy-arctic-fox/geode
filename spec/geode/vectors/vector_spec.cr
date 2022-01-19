@@ -1,6 +1,7 @@
 require "../../spec_helper"
 
 Spectator.describe Geode::Vector do
+  include Tolerance
   TOLERANCE = 0.000000000000001
 
   subject(vector) { Geode::Vector[1, 2, 3] }
@@ -152,11 +153,7 @@ Spectator.describe Geode::Vector do
     describe "#fraction" do
       it "returns the fraction part of each component" do
         fraction = Geode::Vector[1.2, -5.7, 3.0].fraction
-        aggregate_failures do
-          expect(fraction[0]).to be_within(TOLERANCE).of(0.2)
-          expect(fraction[1]).to be_within(TOLERANCE).of(0.3)
-          expect(fraction[2]).to be_within(TOLERANCE).of(0.0)
-        end
+        expect_within_tolerance(fraction, 0.2, 0.3, 0.0)
       end
     end
 
@@ -242,29 +239,17 @@ Spectator.describe Geode::Vector do
 
       it "returns v1 when t = 0" do
         vector = v1.lerp(v2, 0.0)
-        aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(3.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(5.0)
-          expect(vector[2]).to be_within(TOLERANCE).of(7.0)
-        end
+        expect_within_tolerance(vector, 3.0, 5.0, 7.0)
       end
 
       it "returns v2 when t = 1" do
         vector = v1.lerp(v2, 1.0)
-        aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(23.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(35.0)
-          expect(vector[2]).to be_within(TOLERANCE).of(47.0)
-        end
+        expect_within_tolerance(vector, 23.0, 35.0, 47.0)
       end
 
       it "returns a mid-value" do
         vector = v1.lerp(v2, 0.4)
-        aggregate_failures do
-          expect(vector[0]).to be_within(TOLERANCE).of(11.0)
-          expect(vector[1]).to be_within(TOLERANCE).of(17.0)
-          expect(vector[2]).to be_within(TOLERANCE).of(23.0)
-        end
+        expect_within_tolerance(vector, 11.0, 17.0, 23.0)
       end
     end
 
@@ -569,20 +554,12 @@ Spectator.describe Geode::Vector do
     describe "#project" do
       it "computes the projected vector" do
         proj = vector.project(Geode::Vector[1, 1, 1].normalize)
-        aggregate_failures do
-          expect(proj[0]).to be_within(TOLERANCE).of(2)
-          expect(proj[1]).to be_within(TOLERANCE).of(2)
-          expect(proj[2]).to be_within(TOLERANCE).of(2)
-        end
+        expect_within_tolerance(proj, 2, 2, 2)
       end
 
       it "handles non-normalized vectors" do
         proj = vector.project(Geode::Vector[3, 4, 5])
-        aggregate_failures do
-          expect(proj[0]).to be_within(TOLERANCE).of(1.56)
-          expect(proj[1]).to be_within(TOLERANCE).of(2.08)
-          expect(proj[2]).to be_within(TOLERANCE).of(2.6)
-        end
+        expect_within_tolerance(proj, 1.56, 2.08, 2.6)
       end
     end
 
