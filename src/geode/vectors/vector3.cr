@@ -13,8 +13,8 @@ module Geode
     # ```
     # Vector3[1, 2, 3] # => (1, 2, 3)
     # ```
-    macro [](x, y, z)
-      {{@type.name(generic_args: false)}}.new({{x}}, {{y}}, {{z}})
+    def self.[](x : T, y : T, z : T)
+      Vector3.new(x, y, z)
     end
 
     # Ensures that another vector and this one have the same size at compile-time.

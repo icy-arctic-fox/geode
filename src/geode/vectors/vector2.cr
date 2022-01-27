@@ -14,8 +14,8 @@ module Geode
     # ```
     # Vector2[1, 2] # => (1, 2)
     # ```
-    macro [](x, y)
-      {{@type.name(generic_args: false)}}.new({{x}}, {{y}})
+    def self.[](x : T, y : T)
+      Vector2.new(x, y)
     end
 
     # Ensures that another vector and this one have the same size at compile-time.
