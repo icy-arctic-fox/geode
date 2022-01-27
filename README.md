@@ -31,7 +31,68 @@ New features are being added and existing functionality improved.
 In no particular order, features that have been implemented and are planned.
 Items not marked as completed may have partial implementations.
 
-**TODO**
+- [ ] Vectors
+    - [X] Vector1
+    - [X] Vector2
+    - [X] Vector3
+    - [X] Vector4
+    - [X] Vector
+    - [X] Common
+    - [X] Operations
+    - [X] Geometry
+    - [X] Matrices
+    - [X] Comparison
+    - [ ] Unit optimizations
+- [ ] Matrices
+    - [X] Matrix1xN (1x1, 1x2, 1x3, 1x4)
+    - [X] Matrix2xN (2x1, 2x2, 2x3, 2x4)
+    - [X] Matrix3xN (3x1, 3x2, 3x3, 3x4)
+    - [X] Matrix4xN (4x1, 4x2, 4x3, 4x4)
+    - [X] Matrix
+    - [X] Common
+    - [X] Operations
+    - [ ] Square
+        - [X] Diagonal
+        - [X] Trace
+        - [ ] Determinant for generic matrices
+        - [ ] Inverse
+    - [X] Vectors
+    - [X] Transforms
+        - [X] 2D
+        - [X] 3D
+        - [ ] Projection
+    - [X] Iterators
+    - [X] Comparison
+- [ ] Quaternions
+- [ ] Polar
+    - [ ] 2D
+    - [ ] Spherical 3D
+    - [ ] Cylindrical 3D
+- [ ] Angles
+    - [X] Radians
+    - [X] Degrees
+    - [X] Turns
+    - [X] Gradians
+    - [ ] Byte degrees
+    - [X] Extensions & conversions
+- [ ] Primitives
+    - [ ] Shapes
+    - [ ] Lines
+    - [ ] Points
+    - [ ] Planes
+- [ ] Curves
+    - [ ] Polynomial
+    - [ ] Bézier
+    - [ ] Splines
+- [ ] Functions
+    - [X] Lerp
+    - [ ] Slerp
+    - [ ] Edge
+    - [X] Min/max
+- [X] Extensions
+    - [X] Angles
+    - [X] Vector scalar
+    - [X] Matrix scalar
 
 Contributing
 ------------
