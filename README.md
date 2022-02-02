@@ -450,7 +450,7 @@ Anywhere in Geode where an angle is accepted, one of these unit types can be use
 
 All angle types have a base type of [`Angle`](https://arctic-fox.gitlab.io/geode/Geode/Angle.html).
 Angles can have basic math operations performed on them (`+`, `-`, `*`, `/`) even with different units.
-The [`#normalize`] method will correct an angle so that it is between 0 and 1 revolution.
+The [`#normalize`](https://arctic-fox.gitlab.io/geode/Geode/Angle.html#normalize%3Aself-instance-method) method will correct an angle so that it is between 0 and 1 revolution.
 
 ```crystal
 Degrees.new(540).normalize # 180 degrees
@@ -472,7 +472,7 @@ The first simply creates an angle of the specified unit from the numerical value
 
 ```crystal
 90.degrees
-(Math::PI).radians
+Math::PI.radians
 ```
 
 is effectively the same as:
@@ -583,7 +583,7 @@ Items not marked as completed may have partial implementations.
 - [ ] Functions
     - [X] Lerp
     - [ ] Slerp
-    - [ ] Edge
+    - [X] Edge
     - [X] Min/max
 - [X] Extensions
     - [X] Angles
