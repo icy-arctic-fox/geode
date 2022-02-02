@@ -63,6 +63,8 @@ struct Vector2DArray(T)
 end
 ```
 
+*NOTE:* The types listed above are fictitious and not actually in Geode.
+
 `Vector2D` and `Vector2DArray` are base types.
 They both include the `CommonVector2D` module.
 The functions in `CommonVector2D` and all other mix-ins will work, regardless of the base type used.
