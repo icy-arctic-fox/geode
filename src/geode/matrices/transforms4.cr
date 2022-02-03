@@ -16,7 +16,9 @@ module Geode
   # ```
   #
   # To combine multiple operations, multiply the matrices from these methods together.
-  module MatrixTransforms4(T)
+  #
+  # This module should be extended.
+  module MatrixTransformConstructors4(T)
     # Creates a 3D rotation matrix with space for translation.
     #
     # Multiplying an object by this matrix will rotate it the specified amount.

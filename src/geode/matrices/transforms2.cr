@@ -16,7 +16,9 @@ module Geode
   # ```
   #
   # To combine multiple operations, multiply the matrices from these methods together.
-  module MatrixTransforms2(T)
+  #
+  # This module should be extended.
+  module MatrixTransformConstructors2(T)
     # Creates a 2D rotation matrix.
     #
     # Multiplying a 2D object by this matrix will rotate it the specified amount.

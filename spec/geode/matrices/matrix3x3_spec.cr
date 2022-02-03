@@ -1114,7 +1114,7 @@ Spectator.describe Geode::Matrix3x3 do
     end
   end
 
-  context Geode::MatrixTransforms3 do
+  context Geode::MatrixTransformConstructors3 do
     SQRT2 = Math.sqrt(2)
 
     let(vector) { Geode::Vector3[1, 1, 1] }
