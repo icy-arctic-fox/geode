@@ -273,5 +273,20 @@ module Geode
         x, y, T.multiplicative_identity,
       ])
     end
+
+    # Creates a 2D transform matrix.
+    #
+    # ```
+    # vector = Vector3[3, 5, 1]
+    # matrix = Matrix3(Int32).translate(1, 2)
+    # vector * matrix # => (4, 7, 1)
+    # ```
+    def translate(x : T, y : T) : self
+      new(StaticArray[
+        T.multiplicative_identity, T.zero, T.zero,
+        T.zero, T.multiplicative_identity, T.zero,
+        x, y, T.multiplicative_identity,
+      ])
+    end
   end
 end

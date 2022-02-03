@@ -1233,4 +1233,22 @@ Spectator.describe Geode::Matrix4x4 do
       end
     end
   end
+
+  context Geode::MatrixTransforms4 do
+    let(vector) { Geode::Vector4[1, 1, 1, 1] }
+    let(transformed) { vector * matrix }
+
+    describe ".translate" do
+      let(matrix) { Geode::Matrix4(Int32).translate(2, 3, 4) }
+
+      it "translates the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(3)
+          expect(transformed.y).to eq(4)
+          expect(transformed.z).to eq(5)
+          expect(transformed.w).to eq(1)
+        end
+      end
+    end
+  end
 end

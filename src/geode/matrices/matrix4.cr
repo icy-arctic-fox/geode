@@ -1,4 +1,5 @@
 require "./base"
+require "./transforms4"
 
 module Geode
   # Matrix with 4 rows and 1 column.
@@ -56,6 +57,8 @@ module Geode
   # Indices *i* and *j* refer to the zero-based row and column index respectively.
   # Unless noted otherwise, all operations are in row-major order.
   define_matrix 4, 4 do
+    extend MatrixTransforms4(T)
+
     def unsafe_fetch_row(i : Int) : Vector4(T)
       Vector4[unsafe_fetch(i, 0), unsafe_fetch(i, 1), unsafe_fetch(i, 2), unsafe_fetch(i, 3)]
     end

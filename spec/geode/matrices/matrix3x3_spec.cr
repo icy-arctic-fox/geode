@@ -1264,5 +1264,17 @@ Spectator.describe Geode::Matrix3x3 do
         end
       end
     end
+
+    describe ".translate" do
+      let(matrix) { Geode::Matrix3(Int32).translate(2, 3) }
+
+      it "translates the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(3)
+          expect(transformed.y).to eq(4)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
   end
 end
