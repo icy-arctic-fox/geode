@@ -1265,14 +1265,150 @@ Spectator.describe Geode::Matrix3x3 do
       end
     end
 
-    describe ".translate" do
-      let(matrix) { Geode::Matrix3(Int32).translate(2, 3) }
+    context "2D transforms" do
+      describe ".rotate" do
+        let(matrix) { Geode::Matrix3(Float64).rotate(45.degrees) }
 
-      it "translates the vector" do
-        aggregate_failures do
-          expect(transformed.x).to eq(3)
-          expect(transformed.y).to eq(4)
-          expect(transformed.z).to eq(1)
+        it "rotates a vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(0)
+            expect(transformed.y).to be_within(TOLERANCE).of(Math.sqrt(2))
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".rotate90" do
+        let(matrix) { Geode::Matrix3(Float64).rotate90 }
+
+        it "rotates a vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(-1)
+            expect(transformed.y).to be_within(TOLERANCE).of(1)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".rotate180" do
+        let(matrix) { Geode::Matrix3(Float64).rotate180 }
+
+        it "rotates a vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(-1)
+            expect(transformed.y).to be_within(TOLERANCE).of(-1)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".rotate270" do
+        let(matrix) { Geode::Matrix3(Float64).rotate270 }
+
+        it "rotates a vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(1)
+            expect(transformed.y).to be_within(TOLERANCE).of(-1)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".scale2(amount)" do
+        let(matrix) { Geode::Matrix3(Float64).scale2(3) }
+
+        it "scales the vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(3)
+            expect(transformed.y).to be_within(TOLERANCE).of(3)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".scale(x, y)" do
+        let(matrix) { Geode::Matrix3(Float64).scale(2, 3) }
+
+        it "scales the vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(2)
+            expect(transformed.y).to be_within(TOLERANCE).of(3)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".reflect_x" do
+        let(matrix) { Geode::Matrix3(Float64).reflect_x }
+
+        it "flips the vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(-1)
+            expect(transformed.y).to be_within(TOLERANCE).of(1)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".reflect_y" do
+        let(matrix) { Geode::Matrix3(Float64).reflect_y }
+
+        it "flips the vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(1)
+            expect(transformed.y).to be_within(TOLERANCE).of(-1)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".reflect_xy" do
+        let(matrix) { Geode::Matrix3(Float64).reflect_xy }
+
+        it "flips the vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(-1)
+            expect(transformed.y).to be_within(TOLERANCE).of(-1)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".shear_x" do
+        let(vector) { Geode::Vector3[2, 3, 1] }
+        let(matrix) { Geode::Matrix3(Float64).shear_x(3) }
+
+        it "shears the vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(11)
+            expect(transformed.y).to be_within(TOLERANCE).of(3)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".shear_y" do
+        let(vector) { Geode::Vector3[2, 3, 1] }
+        let(matrix) { Geode::Matrix3(Float64).shear_y(3) }
+
+        it "shears the vector" do
+          aggregate_failures do
+            expect(transformed.x).to be_within(TOLERANCE).of(2)
+            expect(transformed.y).to be_within(TOLERANCE).of(9)
+            expect(transformed.z).to eq(1)
+          end
+        end
+      end
+
+      describe ".translate" do
+        let(matrix) { Geode::Matrix3(Int32).translate(2, 3) }
+
+        it "translates the vector" do
+          aggregate_failures do
+            expect(transformed.x).to eq(3)
+            expect(transformed.y).to eq(4)
+            expect(transformed.z).to eq(1)
+          end
         end
       end
     end

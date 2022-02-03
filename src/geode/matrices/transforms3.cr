@@ -288,5 +288,210 @@ module Geode
         x, y, T.multiplicative_identity,
       ])
     end
+
+    # Creates a 2D rotation matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will rotate it the specified amount.
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # vector = Vector3[3 / 5, 4 / 5, 1.0]
+    # matrix = Matrix3(Float64).rotate(90.degrees)
+    # vector * matrix # => (-0.8, 0.6, 1.0)
+    # ```
+    def rotate(angle : Number | Angle) : self
+      rad = angle.to_f
+      sin = T.new(Math.sin(rad))
+      cos = T.new(Math.cos(rad))
+
+      new(StaticArray[
+        cos, sin, T.zero,
+        -sin, cos, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D 90-degree rotation matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will rotate it 90 degrees.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Int32).rotate90
+    # vector * matrix # => (-1, 1, 1)
+    # ```
+    def rotate90 : self
+      new(StaticArray[
+        T.zero, T.multiplicative_identity, T.zero,
+        -T.multiplicative_identity, T.zero, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D 180-degree rotation matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will rotate it 180 degrees.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Int32).rotate180
+    # vector * matrix # => (-1, -1, 1)
+    # ```
+    def rotate180 : self
+      new(StaticArray[
+        -T.multiplicative_identity, T.zero, T.zero,
+        T.zero, -T.multiplicative_identity, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D 270-degree rotation matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will rotate it 270 degrees.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Int32).rotate270
+    # vector * matrix # => (1, 1, 1)
+    # ```
+    #
+    # See: `#reflect_xy`
+    def rotate270 : self
+      new(StaticArray[
+        T.zero, -T.multiplicative_identity, T.zero,
+        T.multiplicative_identity, T.zero, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D scaling matrix with space for translation.
+    #
+    # Uniformly scales an object.
+    # Multiplying an object by this matrix will scale it by *amount*.
+    # Values for *amount* smaller than 1 will shrink it.
+    # Values larger than 1 will enlarge it.
+    # Negative values will flip it.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Int32).scale2(2)
+    # vector * matrix # => (4, 6, 1)
+    # ```
+    def scale2(amount : T) : self
+      new(StaticArray[
+        amount, T.zero, T.zero,
+        T.zero, amount, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D scaling matrix with space for translation.
+    #
+    # Non-uniformly scales an object (squash and stretch).
+    # Multiplying an object by this matrix will scale it by *x* amount along the x-axis and *y* amount along the y-axis.
+    # Values for *x* and *y* smaller than 1 will shrink it.
+    # Values larger than 1 will enlarge it.
+    # Negative values will flip it.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Float64).scale(1.5, 2)
+    # vector * matrix # => (3.0, 6.0, 1.0)
+    # ```
+    def scale(x : T, y : T) : self
+      new(StaticArray[
+        x, T.zero, T.zero,
+        T.zero, y, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D reflecting matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will reflect it along the x-axis.
+    #
+    # ```
+    # vector = Vector3[5, 1, 1]
+    # matrix = Matrix3(Int32).reflect_x
+    # vector * matrix # => (-5, 1, 1)
+    # ```
+    def reflect_x : self
+      new(StaticArray[
+        -T.multiplicative_identity, T.zero, T.zero,
+        T.zero, T.multiplicative_identity, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D reflective matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will reflect it along the y-axis.
+    #
+    # ```
+    # vector = Vector3[5, 1, 1]
+    # matrix = Matrix3(Int32).reflect_y
+    # vector * matrix # => (5, -1, 1)
+    # ```
+    def reflect_y : self
+      new(StaticArray[
+        T.multiplicative_identity, T.zero, T.zero,
+        T.zero, -T.multiplicative_identity, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D reflective matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will reflect it along the x and y-axis.
+    # This has the same effect as rotating 180 degrees.
+    #
+    # ```
+    # vector = Vector3[5, 1, 1]
+    # matrix = Matrix3(Int32).reflect_xy
+    # vector * matrix # => (-5, -1, 1)
+    # ```
+    #
+    # See: `#rotate270`
+    def reflect_xy : self
+      new(StaticArray[
+        -T.multiplicative_identity, T.zero, T.zero,
+        T.zero, -T.multiplicative_identity, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D shearing matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will shear it along the x-axis.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Int32).shear_x(2)
+    # vector * matrix # => (8, 3, 1)
+    # ```
+    def shear_x(amount : T) : self
+      new(StaticArray[
+        T.multiplicative_identity, T.zero, T.zero,
+        amount, T.multiplicative_identity, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 2D shearing matrix with space for translation.
+    #
+    # Multiplying an object by this matrix will shear it along the y-axis.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Int32).shear_y(2)
+    # vector * matrix # => (2, 7, 1)
+    # ```
+    def shear_y(amount : T) : self
+      new(StaticArray[
+        T.multiplicative_identity, amount, T.zero,
+        T.zero, T.multiplicative_identity, T.zero,
+        T.zero, T.zero, T.multiplicative_identity,
+      ])
+    end
   end
 end
