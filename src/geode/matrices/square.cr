@@ -117,6 +117,12 @@ module Geode
       raise NotImplementedError.new("#inverse")
     end
 
+    # :ditto:
+    @[AlwaysInline]
+    def inv
+      inverse
+    end
+
     # Ensures that this matrix is square (equal rows and columns).
     #
     # The *rows* and *columns* arguments should be the corresponding type arguments from this matrix trype.
