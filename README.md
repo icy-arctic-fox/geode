@@ -86,7 +86,16 @@ require "geode/extensions"
 ```
 
 Most of these methods provide syntactic sugar.
-See each "extensions" section below for details on what is exposed.
+See each "extensions" section below for details regarding methods exposed for each type.
+
+#### `#inv`
+
+The [`#inv`](https://arctic-fox.gitlab.io/geode/Number.html#inv-instance-method) method returns the inverse of a number.
+
+```crystal
+2.inv   # => 0.5
+0.2.inv # => 5.0
+```
 
 ### Vectors
 

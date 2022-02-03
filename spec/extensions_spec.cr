@@ -3,6 +3,15 @@ require "./spec_helper"
 Spectator.describe "Geode extension methods" do
   TOLERANCE = 0.000000000000001
 
+  describe "#inv" do
+    it "returns the inverse of a number" do
+      aggregate_failures do
+        expect(5.inv).to be_within(TOLERANCE).of(0.2)
+        expect(0.1.inv).to be_within(TOLERANCE).of(10)
+      end
+    end
+  end
+
   context "angles" do
     describe "Number#degrees" do
       it "returns degrees" do
