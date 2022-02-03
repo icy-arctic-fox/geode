@@ -1026,5 +1026,25 @@ Spectator.describe Geode::Matrix1x1 do
         is_expected.to eq(5)
       end
     end
+
+    describe "#inverse" do
+      subject { matrix.inverse }
+
+      context "with an invertible matrix" do
+        let(matrix) { Geode::Matrix1x1[[2]] }
+
+        it "returns an inverted matrix" do
+          is_expected.to eq(Geode::Matrix[[0.5]])
+        end
+      end
+
+      context "with a non-invertible matrix" do
+        let(matrix) { Geode::Matrix1x1[[0]] }
+
+        it "returns nil" do
+          is_expected.to be_nil
+        end
+      end
+    end
   end
 end

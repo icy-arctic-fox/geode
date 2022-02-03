@@ -58,6 +58,28 @@ module Geode
     def determinant
       a * e * i + b * f * g + c * d * h - c * e * g - b * d * i - a * f * h
     end
+
+    def inverse
+      a2 = e * i - f * h
+      b2 = -(d * i - f * g)
+      c2 = d * h - e * g
+
+      det = a * a2 + b * b2 + c * c2
+      return if det.zero?
+
+      d2 = -(b * i - c * h)
+      e2 = a * i - c * g
+      f2 = -(a * h - b * g)
+      g2 = b * f - c * e
+      h2 = -(a * f - c * d)
+      i2 = a * e - b * d
+
+      Matrix3x3.new(StaticArray[
+        a2 / det, d2 / det, g2 / det,
+        b2 / det, e2 / det, h2 / det,
+        c2 / det, f2 / det, i2 / det,
+      ])
+    end
   end
 
   # Matrix with 3 rows and 4 columns.

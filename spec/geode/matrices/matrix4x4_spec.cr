@@ -1,6 +1,8 @@
 require "../../spec_helper"
 
 Spectator.describe Geode::Matrix4x4 do
+  include Tolerance
+
   TOLERANCE = 0.000000000000001
 
   subject(matrix) { Geode::Matrix4x4[[4, 3, 4, 3], [2, 1, 2, 1], [8, 7, 8, 7], [6, 5, 6, 5]] }
@@ -1202,6 +1204,32 @@ Spectator.describe Geode::Matrix4x4 do
 
       it "computes the determinant" do
         is_expected.to eq(2730)
+      end
+    end
+
+    describe "#inverse" do
+      TOLERANCE = 0.000000001
+
+      subject { matrix.inverse }
+
+      context "with an invertible matrix" do
+        let(matrix) { Geode::Matrix4x4[[4, 7, 3, 5], [2, 6, 5, 8], [1, 0, 9, 2], [7, 5, 3, 1]] }
+
+        xit "returns an inverted matrix" do
+          expect_within_tolerance(subject.not_nil!,
+            -0.568093385, 0.338521401, -0.128404669, 0.389105058,
+            0.795719844, -0.484435798, 0.114785992, -0.332684825,
+            0.190661479, -0.147859922, 0.159533074, -0.089494163,
+            -0.573929961, 0.496108949, -0.153696498, 0.208171206)
+        end
+      end
+
+      context "with a non-invertible matrix" do
+        let(matrix) { Geode::Matrix4x4[[2, 3, 4, 5], [4, 6, 8, 10], [6, 9, 12, 15], [8, 12, 16, 20]] }
+
+        xit "returns nil" do
+          is_expected.to be_nil
+        end
       end
     end
   end

@@ -999,6 +999,26 @@ Spectator.describe Geode::Matrix2x2 do
         is_expected.to eq(-8)
       end
     end
+
+    describe "#inverse" do
+      subject { matrix.inverse }
+
+      context "with an invertible matrix" do
+        let(matrix) { Geode::Matrix2x2[[4, 7], [2, 6]] }
+
+        it "returns an inverted matrix" do
+          is_expected.to eq(Geode::Matrix[[0.6, -0.7], [-0.2, 0.4]])
+        end
+      end
+
+      context "with a non-invertible matrix" do
+        let(matrix) { Geode::Matrix2x2[[3, 4], [6, 8]] }
+
+        it "returns nil" do
+          is_expected.to be_nil
+        end
+      end
+    end
   end
 
   context Geode::MatrixTransforms2 do

@@ -96,6 +96,27 @@ module Geode
       raise NotImplementedError.new("#determinant")
     end
 
+    # Computes the inverse of this matrix.
+    #
+    # This method can only be called on square matrices.
+    # Returns nil if there is no inverse.
+    #
+    # ```
+    # matrix = Matrix[[1.0, 4.0, 7.0], [5.0, 8.0, 2.0], [9.0, 3.0, 6.0]]
+    # matrix.inverse # => [
+    # #      [-0.103703704, 0.007407407, 0.118518519],
+    # #      [0.02962963, 0.140740741, −0.081481481],
+    # #      [0.140740741, −0.081481481, 0.02962963]
+    # #    ]
+    # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    # matrix.inverse # => nil
+    # ```
+    def inverse
+      square!(M, N)
+
+      raise NotImplementedError.new("#inverse")
+    end
+
     # Ensures that this matrix is square (equal rows and columns).
     #
     # The *rows* and *columns* arguments should be the corresponding type arguments from this matrix trype.

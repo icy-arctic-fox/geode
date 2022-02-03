@@ -42,6 +42,16 @@ module Geode
     def determinant
       a * d - b * c
     end
+
+    def inverse
+      det = determinant
+      return if det.zero?
+
+      Matrix2x2.new(StaticArray[
+        d / det, -b / det,
+        -c / det, a / det,
+      ])
+    end
   end
 
   # Matrix with 2 rows and 3 columns.

@@ -23,6 +23,13 @@ module Geode
     def determinant
       a
     end
+
+    def inverse
+      return if a.zero?
+
+      inv = T.multiplicative_identity / a
+      Matrix1x1[[inv]]
+    end
   end
 
   # Matrix with 1 row and 2 columns.
