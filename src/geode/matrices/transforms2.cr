@@ -17,7 +17,7 @@ module Geode
   #
   # To combine multiple operations, multiply the matrices from these methods together.
   module MatrixTransforms2(T)
-    # Creates a rotation matrix.
+    # Creates a 2D rotation matrix.
     #
     # Multiplying a 2D object by this matrix will rotate it the specified amount.
     # The *angle* must be a `Number` in radians or an `Angle`.
@@ -31,19 +31,20 @@ module Geode
       rad = angle.to_f
       sin = T.new(Math.sin(rad))
       cos = T.new(Math.cos(rad))
+
       new(StaticArray[
         cos, sin,
         -sin, cos,
       ])
     end
 
-    # Creates a 90-degree rotation matrix.
+    # Creates a 2D 90-degree rotation matrix.
     #
     # Multiplying a 2D object by this matrix will rotate it 90 degrees.
     #
     # ```
     # vector = Vector2[1, 1]
-    # matrix = Matrix2(Float64).rotate90
+    # matrix = Matrix2(Int32).rotate90
     # vector * matrix # => (-1, 1)
     # ```
     def rotate90 : self
@@ -53,13 +54,13 @@ module Geode
       ])
     end
 
-    # Creates a 180-degree rotation matrix.
+    # Creates a 2D 180-degree rotation matrix.
     #
     # Multiplying a 2D object by this matrix will rotate it 180 degrees.
     #
     # ```
     # vector = Vector2[1, 1]
-    # matrix = Matrix2(Float64).rotate180
+    # matrix = Matrix2(Int32).rotate180
     # vector * matrix # => (-1, -1)
     # ```
     def rotate180 : self
@@ -69,13 +70,13 @@ module Geode
       ])
     end
 
-    # Creates a 270-degree rotation matrix.
+    # Creates a 2D 270-degree rotation matrix.
     #
     # Multiplying a 2D object by this matrix will rotate it 270 degrees.
     #
     # ```
     # vector = Vector2[1, 1]
-    # matrix = Matrix2(Float64).rotate270
+    # matrix = Matrix2(Int32).rotate270
     # vector * matrix # => (1, 1)
     # ```
     #
@@ -87,7 +88,7 @@ module Geode
       ])
     end
 
-    # Creates a scaling matrix.
+    # Creates a 2D scaling matrix.
     #
     # Uniformly scales an object.
     # Multiplying a 2D object by this matrix will scale it by *amount*.
@@ -97,8 +98,8 @@ module Geode
     #
     # ```
     # vector = Vector2[2, 3]
-    # matrix = Matrix2(Float64).scale(2)
-    # vector * matrix # => (4.0, 6.0)
+    # matrix = Matrix2(Int32).scale(2)
+    # vector * matrix # => (4, 6)
     # ```
     def scale(amount : T) : self
       new(StaticArray[
@@ -107,7 +108,7 @@ module Geode
       ])
     end
 
-    # Creates a scaling matrix.
+    # Creates a 2D scaling matrix.
     #
     # Non-uniformly scales an object (squash and stretch).
     # Multiplying a 2D object by this matrix will scale it by *x* amount along the x-axis and *y* amount along the y-axis.
@@ -127,13 +128,13 @@ module Geode
       ])
     end
 
-    # Creates reflecting matrix.
+    # Creates a 2D reflecting matrix.
     #
     # Multiplying a 2D object by this matrix will reflect it along the x-axis.
     #
     # ```
     # vector = Vector2[5, 1]
-    # matrix = Matrix2(Float64).reflect_x
+    # matrix = Matrix2(Int32).reflect_x
     # vector * matrix # => (-5, 1)
     # ```
     def reflect_x : self
@@ -143,13 +144,13 @@ module Geode
       ])
     end
 
-    # Creates reflective matrix.
+    # Creates a 2D reflective matrix.
     #
     # Multiplying a 2D object by this matrix will reflect it along the y-axis.
     #
     # ```
     # vector = Vector2[5, 1]
-    # matrix = Matrix2(Float64).reflect_y
+    # matrix = Matrix2(Int32).reflect_y
     # vector * matrix # => (5, -1)
     # ```
     def reflect_y : self
@@ -159,14 +160,14 @@ module Geode
       ])
     end
 
-    # Creates a reflective matrix
+    # Creates a 2D reflective matrix.
     #
     # Multiplying a 2D object by this matrix will reflect it along the x and y-axis.
     # This has the same effect as rotating 180 degrees.
     #
     # ```
     # vector = Vector2[5, 1]
-    # matrix = Matrix2(Float64).reflect_xy
+    # matrix = Matrix2(Int32).reflect_xy
     # vector * matrix # => (-5, -1)
     # ```
     #
@@ -178,14 +179,14 @@ module Geode
       ])
     end
 
-    # Creates a shearing matrix.
+    # Creates a 2D shearing matrix.
     #
     # Multiplying a 2D object by this matrix will shear it along the x-axis.
     #
     # ```
     # vector = Vector2[2, 3]
-    # matrix = Matrix2(Float64).shear_x(2)
-    # vector * matrix # => (8.0, 3.0)
+    # matrix = Matrix2(Int32).shear_x(2)
+    # vector * matrix # => (8, 3)
     # ```
     def shear_x(amount : T) : self
       new(StaticArray[
@@ -194,14 +195,14 @@ module Geode
       ])
     end
 
-    # Creates a shearing matrix.
+    # Creates a 2D shearing matrix.
     #
     # Multiplying a 2D object by this matrix will shear it along the y-axis.
     #
     # ```
     # vector = Vector2[2, 3]
-    # matrix = Matrix2(Float64).shear_y(2)
-    # vector * matrix # => (2.0, 7.0)
+    # matrix = Matrix2(Int32).shear_y(2)
+    # vector * matrix # => (2, 7)
     # ```
     def shear_y(amount : T) : self
       new(StaticArray[

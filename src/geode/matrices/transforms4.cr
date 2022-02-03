@@ -293,7 +293,7 @@ module Geode
     #
     # ```
     # vector = Vector4[3, 5, 7, 1]
-    # matrix = Matrix3(Int32).translate(3, 2, 1)
+    # matrix = Matrix4(Int32).translate(3, 2, 1)
     # vector * matrix # => (6, 7, 8, 1)
     # ```
     def translate(x : T, y : T, z : T) : self

@@ -17,7 +17,7 @@ module Geode
   #
   # To combine multiple operations, multiply the matrices from these methods together.
   module MatrixTransforms3(T)
-    # Creates a rotation matrix.
+    # Creates a 3D rotation matrix.
     #
     # Multiplying a 3D object by this matrix will rotate it the specified amount.
     # The *angle* must be a `Number` in radians or an `Angle`.
@@ -58,7 +58,7 @@ module Geode
       ])
     end
 
-    # Creates a rotation matrix.
+    # Creates a 3D rotation matrix.
     #
     # Multiplying a 3D object by this matrix will rotate it around the x-axis.
     # The *angle* must be a `Number` in radians or an `Angle`.
@@ -72,6 +72,7 @@ module Geode
       rad = angle.to_f
       sin = T.new(Math.sin(rad))
       cos = T.new(Math.cos(rad))
+
       new(StaticArray[
         T.multiplicative_identity, T.zero, T.zero,
         T.zero, cos, sin,
@@ -79,7 +80,7 @@ module Geode
       ])
     end
 
-    # Creates a rotation matrix.
+    # Creates a 3D rotation matrix.
     #
     # Multiplying a 3D object by this matrix will rotate it around the y-axis.
     # The *angle* must be a `Number` in radians or an `Angle`.
@@ -93,6 +94,7 @@ module Geode
       rad = angle.to_f
       sin = T.new(Math.sin(rad))
       cos = T.new(Math.cos(rad))
+
       new(StaticArray[
         cos, T.zero, -sin,
         T.zero, T.multiplicative_identity, T.zero,
@@ -100,7 +102,7 @@ module Geode
       ])
     end
 
-    # Creates a rotation matrix.
+    # Creates a 3D rotation matrix.
     #
     # Multiplying a 3D object by this matrix will rotate it around the z-axis.
     # The *angle* must be a `Number` in radians or an `Angle`.
@@ -114,6 +116,7 @@ module Geode
       rad = angle.to_f
       sin = T.new(Math.sin(rad))
       cos = T.new(Math.cos(rad))
+
       new(StaticArray[
         cos, sin, T.zero,
         -sin, cos, T.zero,
@@ -121,7 +124,7 @@ module Geode
       ])
     end
 
-    # Creates a scaling matrix.
+    # Creates a 3D scaling matrix.
     #
     # Uniformly scales an object.
     # Multiplying a 3D object by this matrix will scale it by *amount*.
@@ -131,8 +134,8 @@ module Geode
     #
     # ```
     # vector = Vector3[2, 3, 4]
-    # matrix = Matrix3(Float64).scale(2)
-    # vector * matrix # => (4.0, 6.0, 8.0)
+    # matrix = Matrix3(Int32).scale(2)
+    # vector * matrix # => (4, 6, 8)
     # ```
     def scale(amount : T) : self
       new(StaticArray[
@@ -142,7 +145,7 @@ module Geode
       ])
     end
 
-    # Creates a scaling matrix.
+    # Creates a 3D scaling matrix.
     #
     # Non-uniformly scales an object (squash and stretch).
     # Multiplying a 3D object by this matrix will scale it by *x* amount along the x-axis and *y* amount along the y-axis.
@@ -163,13 +166,13 @@ module Geode
       ])
     end
 
-    # Creates reflecting matrix.
+    # Creates a 3D reflecting matrix.
     #
     # Multiplying a 3D object by this matrix will reflect it along the x-axis.
     #
     # ```
     # vector = Vector3[1, 2, 3]
-    # matrix = Matrix3(Float64).reflect_x
+    # matrix = Matrix3(Int32).reflect_x
     # vector * matrix # => (-1, 2, 3)
     # ```
     def reflect_x : self
@@ -180,13 +183,13 @@ module Geode
       ])
     end
 
-    # Creates reflective matrix.
+    # Creates a 3D reflective matrix.
     #
     # Multiplying a 3D object by this matrix will reflect it along the y-axis.
     #
     # ```
     # vector = Vector3[1, 2, 3]
-    # matrix = Matrix3(Float64).reflect_y
+    # matrix = Matrix3(Int32).reflect_y
     # vector * matrix # => (1, -2, 3)
     # ```
     def reflect_y : self
@@ -197,13 +200,13 @@ module Geode
       ])
     end
 
-    # Creates reflecting matrix.
+    # Creates a 3D reflecting matrix.
     #
     # Multiplying a 3D object by this matrix will reflect it along the z-axis.
     #
     # ```
     # vector = Vector3[1, 2, 3]
-    # matrix = Matrix3(Float64).reflect_x
+    # matrix = Matrix3(Int32).reflect_x
     # vector * matrix # => (1, 2, -3)
     # ```
     def reflect_z : self
@@ -214,7 +217,7 @@ module Geode
       ])
     end
 
-    # Creates a shearing matrix.
+    # Creates a 3D shearing matrix.
     #
     # Multiplying a 3D object by this matrix
     # will shear it along the y and z-axis based on the x-axis.
@@ -222,9 +225,9 @@ module Geode
     # and the z value will be adjusted by *z*.
     #
     # ```
-    # vector = Vector2[2, 3, 4]
-    # matrix = Matrix3(Float64).shear_x(2, 3)
-    # vector * matrix # => (2.0, 7.0, 10.0)
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Int32).shear_x(2, 3)
+    # vector * matrix # => (2, 7, 10)
     # ```
     def shear_x(y : T, z : T) : self
       new(StaticArray[
@@ -234,7 +237,7 @@ module Geode
       ])
     end
 
-    # Creates a shearing matrix.
+    # Creates a 3D shearing matrix.
     #
     # Multiplying a 3D object by this matrix
     # will shear it along the x and z-axis based on the y-axis.
@@ -242,9 +245,9 @@ module Geode
     # and the z value will be adjusted by *z*.
     #
     # ```
-    # vector = Vector2[2, 3, 4]
-    # matrix = Matrix3(Float64).shear_y(2, 3)
-    # vector * matrix # => (8.0, 3.0, 13.0)
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Int32).shear_y(2, 3)
+    # vector * matrix # => (8, 3, 13)
     # ```
     def shear_y(x : T, z : T) : self
       new(StaticArray[
@@ -254,7 +257,7 @@ module Geode
       ])
     end
 
-    # Creates a shearing matrix.
+    # Creates a 3D shearing matrix.
     #
     # Multiplying a 3D object by this matrix
     # will shear it along the x and y-axis based on the z-axis.
@@ -262,9 +265,9 @@ module Geode
     # and the y value will be adjusted by *y*.
     #
     # ```
-    # vector = Vector2[2, 3, 4]
-    # matrix = Matrix3(Float64).shear_z(2, 3)
-    # vector * matrix # => (10.0, 15.0, 4.0)
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Int32).shear_z(2, 3)
+    # vector * matrix # => (10, 15, 4)
     # ```
     def shear_z(x : T, y : T) : self
       new(StaticArray[
@@ -274,7 +277,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D transform matrix.
+    # Creates a 2D transform matrix with space for translation.
     #
     # ```
     # vector = Vector3[3, 5, 1]
