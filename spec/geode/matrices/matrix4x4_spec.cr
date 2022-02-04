@@ -1222,7 +1222,7 @@ Spectator.describe Geode::Matrix4x4 do
     end
   end
 
-  context Geode::MatrixTransformConstructors4 do
+  context Geode::Matrix4x4Transforms3DConstructors do
     let(vector) { Geode::Vector4[1, 1, 1, 1] }
     let(transformed) { vector * matrix }
 

@@ -1009,7 +1009,7 @@ Spectator.describe Geode::Matrix2x2 do
     end
   end
 
-  context Geode::MatrixTransformConstructors2 do
+  context Geode::Matrix2x2Transforms2DConstructors do
     let(vector) { Geode::Vector2[1, 1] }
     let(transformed) { vector * matrix }
 
@@ -1137,7 +1137,7 @@ Spectator.describe Geode::Matrix2x2 do
     end
   end
 
-  context Geode::MatrixTransforms2 do
+  context Geode::Matrix2x2Transforms2D do
     let(vector) { Geode::Vector2[1, 1] }
     let(original) { Geode::Matrix2[[2, 0], [0, 2]] }
     let(transformed) { vector * matrix }
