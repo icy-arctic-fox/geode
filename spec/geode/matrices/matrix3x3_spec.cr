@@ -1103,7 +1103,8 @@ Spectator.describe Geode::Matrix3x3 do
   end
 
   context Geode::Matrix3x3Transforms3DConstructors do
-    SQRT2 = Math.sqrt(2)
+    TOLERANCE = 0.000000001
+    SQRT2     = Math.sqrt(2)
 
     let(vector) { Geode::Vector3[1, 1, 1] }
     let(transformed) { vector * matrix }
@@ -1249,6 +1250,160 @@ Spectator.describe Geode::Matrix3x3 do
           expect(transformed.x).to be_within(TOLERANCE).of(3)
           expect(transformed.y).to be_within(TOLERANCE).of(4)
           expect(transformed.z).to be_within(TOLERANCE).of(1)
+        end
+      end
+    end
+  end
+
+  context Geode::Matrix3x3Transforms3D do
+    TOLERANCE = 0.000000001
+    SQRT8     = Math.sqrt(8)
+
+    let(vector) { Geode::Vector3[1, 1, 1] }
+    let(original) { Geode::Matrix3[[2, 0, 0], [0, 2, 0], [0, 0, 2]] }
+    let(transformed) { vector * matrix }
+
+    describe "#rotate" do
+      let(axis) { Geode::Vector3[1, 2, 3].normalize }
+      let(matrix) { original.rotate(135.degrees, axis) }
+
+      it "rotates the vector" do
+        aggregate_failures do
+          expect(transformed.x).to be_within(TOLERANCE).of(-0.328943652)
+          expect(transformed.y).to be_within(TOLERANCE).of(2.268184151)
+          expect(transformed.z).to be_within(TOLERANCE).of(2.597525116)
+        end
+      end
+    end
+
+    describe "#rotate_x" do
+      let(matrix) { original.rotate_x(135.degrees) }
+
+      it "rotates the vector" do
+        aggregate_failures do
+          expect(transformed.x).to be_within(TOLERANCE).of(2)
+          expect(transformed.y).to be_within(TOLERANCE).of(-SQRT8)
+          expect(transformed.z).to be_within(TOLERANCE).of(0)
+        end
+      end
+    end
+
+    describe "#rotate_y" do
+      let(matrix) { original.rotate_y(135.degrees) }
+
+      it "rotates the vector" do
+        aggregate_failures do
+          expect(transformed.x).to be_within(TOLERANCE).of(0)
+          expect(transformed.y).to be_within(TOLERANCE).of(2)
+          expect(transformed.z).to be_within(TOLERANCE).of(-SQRT8)
+        end
+      end
+    end
+
+    describe "#rotate_z" do
+      let(matrix) { original.rotate_z(135.degrees) }
+
+      it "rotates the vector" do
+        aggregate_failures do
+          expect(transformed.x).to be_within(TOLERANCE).of(-SQRT8)
+          expect(transformed.y).to be_within(TOLERANCE).of(0)
+          expect(transformed.z).to be_within(TOLERANCE).of(2)
+        end
+      end
+    end
+
+    describe "#scale(amount)" do
+      let(matrix) { original.scale(3) }
+
+      it "scales the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(6)
+          expect(transformed.y).to eq(6)
+          expect(transformed.z).to eq(6)
+        end
+      end
+    end
+
+    describe "#scale(x, y, z)" do
+      let(matrix) { original.scale(3, 4, 5) }
+
+      it "scales the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(6)
+          expect(transformed.y).to eq(8)
+          expect(transformed.z).to eq(10)
+        end
+      end
+    end
+
+    describe "#reflect_x" do
+      let(matrix) { original.reflect_x }
+
+      it "reflects the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(-2)
+          expect(transformed.y).to eq(2)
+          expect(transformed.z).to eq(2)
+        end
+      end
+    end
+
+    describe "#reflect_y" do
+      let(matrix) { original.reflect_y }
+
+      it "reflects the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(2)
+          expect(transformed.y).to eq(-2)
+          expect(transformed.z).to eq(2)
+        end
+      end
+    end
+
+    describe "#reflect_z" do
+      let(matrix) { original.reflect_z }
+
+      it "reflects the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(2)
+          expect(transformed.y).to eq(2)
+          expect(transformed.z).to eq(-2)
+        end
+      end
+    end
+
+    describe "#shear_x" do
+      let(matrix) { original.shear_x(2, 3) }
+
+      it "shears the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(2)
+          expect(transformed.y).to eq(6)
+          expect(transformed.z).to eq(8)
+        end
+      end
+    end
+
+    describe "#shear_y" do
+      let(matrix) { original.shear_y(2, 3) }
+
+      it "shears the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(6)
+          expect(transformed.y).to eq(2)
+          expect(transformed.z).to eq(8)
+        end
+      end
+    end
+
+    describe "#shear_z" do
+      let(matrix) { original.shear_z(2, 3) }
+
+      it "shears the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(6)
+          expect(transformed.y).to eq(8)
+          expect(transformed.z).to eq(2)
         end
       end
     end

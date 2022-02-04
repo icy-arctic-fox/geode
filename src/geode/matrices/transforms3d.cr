@@ -280,6 +280,284 @@ module Geode
     end
   end
 
+  # Transformation that can be performed in three-dimensions with 3x3 matrices.
+  #
+  # These methods produce a new matrix that has the operation performed on it.
+  # This:
+  # ```
+  # matrix.rotate_x(45.degrees)
+  # ```
+  # is effectively the same as:
+  # ```
+  # matrix * Matrix3(Float64).rotate_x(45.degrees)
+  # ```
+  module Matrix3x3Transforms3D(T)
+    # Returns a matrix that has a rotation transform applied.
+    #
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    # The object is rotated around the specified *axis*.
+    #
+    # ```
+    # axis = Vector3[1, 1, 1].normalize
+    # vector = Vector3[1, 2, 3]
+    # matrix = Matrix3(Float64).identity.rotate(45.degrees, axis)
+    # vector * matrix # => (1.701141509, 1.183503419, 3.115355072)
+    # ```
+    def rotate(angle : Number | Angle, axis : CommonVector(U, 3)) : CommonMatrix forall U
+      norm = axis.normalize
+      x = norm.unsafe_fetch(0)
+      y = norm.unsafe_fetch(1)
+      z = norm.unsafe_fetch(2)
+
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+      inv = T.multiplicative_identity - cos
+
+      xx = x.abs2 * inv
+      yy = y.abs2 * inv
+      zz = z.abs2 * inv
+      xy = x * y * inv
+      xz = x * z * inv
+      yz = y * z * inv
+
+      x_sin = x * sin
+      y_sin = y * sin
+      z_sin = z * sin
+
+      a2 = xx + cos
+      b2 = xy + z_sin
+      c2 = xz - y_sin
+      d2 = xy - z_sin
+      e2 = yy + cos
+      f2 = yz + x_sin
+      g2 = xz + y_sin
+      h2 = yz - x_sin
+      i2 = zz + cos
+
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a * a2 + b * d2 + c * g2, a * b2 + b * e2 + c * h2, a * c2 + b * f2 + c * i2,
+        d * a2 + e * d2 + f * g2, d * b2 + e * e2 + f * h2, d * c2 + e * f2 + f * i2,
+        g * a2 + h * d2 + i * g2, g * b2 + h * e2 + i * h2, g * c2 + h * f2 + i * i2,
+      ])
+    end
+
+    # Returns a matrix that has a rotation transform applied.
+    #
+    # Multiplying a 3D object by this matrix will rotate it around the x-axis.
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Float64).identity.rotate_x(45.degrees)
+    # vector * matrix # => (1.0, 0.0, 1.414213562)
+    # ```
+    def rotate_x(angle : Number | Angle) : CommonMatrix
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a, b * cos + c * -sin, b * sin + c * cos,
+        d, e * cos + f * -sin, e * sin + f * cos,
+        g, h * cos + i * -sin, h * sin + i * cos,
+      ])
+    end
+
+    # Returns a matrix that has a rotation transform applied.
+    #
+    # Multiplying a 3D object by this matrix will rotate it around the y-axis.
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Float64).identity.rotate_y(45.degrees)
+    # vector * matrix # => (1.414213562, 1.0, 0.0)
+    # ```
+    def rotate_y(angle : Number | Angle) : CommonMatrix
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a * cos + c * sin, b, a * -sin + c * cos,
+        d * cos + f * sin, e, d * -sin + f * cos,
+        g * cos + i * sin, h, g * -sin + i * cos,
+      ])
+    end
+
+    # Returns a matrix that has a rotation transform applied.
+    #
+    # Multiplying a 3D object by this matrix will rotate it around the z-axis.
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Float64).identity.rotate_z(45.degrees)
+    # vector * matrix # => (0.0, 1.414213562, 1.0)
+    # ```
+    def rotate_z(angle : Number | Angle) : CommonMatrix
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a * cos + b * -sin, a * sin + b * cos, c,
+        d * cos + e * -sin, d * sin + e * cos, f,
+        g * cos + h * -sin, g * sin + h * cos, i,
+      ])
+    end
+
+    # Returns a matrix that has a scale transform applied.
+    #
+    # Uniformly scales an object.
+    # Multiplying a 3D object by this matrix will scale it by *amount*.
+    # Values for *amount* smaller than 1 will shrink it.
+    # Values larger than 1 will enlarge it.
+    # Negative values will flip it.
+    #
+    # ```
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Int32).identity.scale(2)
+    # vector * matrix # => (4, 6, 8)
+    # ```
+    def scale(amount : Number) : CommonMatrix
+      map &.*(amount)
+    end
+
+    # Returns a matrix that has a scale transform applied.
+    #
+    # Non-uniformly scales an object (squash and stretch).
+    # Multiplying a 3D object by this matrix will scale it by *x* amount along the x-axis and *y* amount along the y-axis.
+    # Values for *x* and *y* smaller than 1 will shrink it.
+    # Values larger than 1 will enlarge it.
+    # Negative values will flip it.
+    #
+    # ```
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Float64).identity.scale(1.5, 2, 2.5)
+    # vector * matrix # => (3.0, 6.0, 9.0)
+    # ```
+    def scale(x, y, z) : CommonMatrix
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a * x, b * y, c * z,
+        d * x, e * y, f * z,
+        g * x, h * y, i * z,
+      ])
+    end
+
+    # Returns a matrix that has a reflection transform applied.
+    #
+    # Multiplying a 3D object by this matrix will reflect it along the x-axis.
+    #
+    # ```
+    # vector = Vector3[1, 2, 3]
+    # matrix = Matrix3(Int32).identity.reflect_x
+    # vector * matrix # => (-1, 2, 3)
+    # ```
+    def reflect_x : self
+      self.class.new(StaticArray[
+        -a, b, c,
+        -d, e, f,
+        -g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a reflection transform applied.
+    #
+    # Multiplying a 3D object by this matrix will reflect it along the y-axis.
+    #
+    # ```
+    # vector = Vector3[1, 2, 3]
+    # matrix = Matrix3(Int32).identity.reflect_y
+    # vector * matrix # => (1, -2, 3)
+    # ```
+    def reflect_y : self
+      self.class.new(StaticArray[
+        a, -b, c,
+        d, -e, f,
+        g, -h, i,
+      ])
+    end
+
+    # Returns a matrix that has a reflection transform applied.
+    #
+    # Multiplying a 3D object by this matrix will reflect it along the z-axis.
+    #
+    # ```
+    # vector = Vector3[1, 2, 3]
+    # matrix = Matrix3(Int32).identity.reflect_x
+    # vector * matrix # => (1, 2, -3)
+    # ```
+    def reflect_z : self
+      self.class.new(StaticArray[
+        a, b, -c,
+        d, e, -f,
+        g, h, -i,
+      ])
+    end
+
+    # Returns a matrix that has a shear transform applied.
+    #
+    # Multiplying a 3D object by this matrix
+    # will shear it along the y and z-axis based on the x-axis.
+    # For each unit along the x-axis, the y value will be adjusted by *y*
+    # and the z value will be adjusted by *z*.
+    #
+    # ```
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Int32).identity.shear_x(2, 3)
+    # vector * matrix # => (2, 7, 10)
+    # ```
+    def shear_x(y, z) : CommonMatrix
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a, a * y + b, a * z + c,
+        d, d * y + e, d * z + f,
+        g, g * y + h, g * z + i,
+      ])
+    end
+
+    # Returns a matrix that has a shear transform applied.
+    #
+    # Multiplying a 3D object by this matrix
+    # will shear it along the x and z-axis based on the y-axis.
+    # For each unit along the y-axis, the x value will be adjusted by *x*
+    # and the z value will be adjusted by *z*.
+    #
+    # ```
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Int32).identity.shear_y(2, 3)
+    # vector * matrix # => (8, 3, 13)
+    # ```
+    def shear_y(x, z) : CommonMatrix
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a + b * x, b, b * z + c,
+        d + e * x, e, e * z + f,
+        g + h * x, h, h * z + i,
+      ])
+    end
+
+    # Returns a matrix that has a shear transform applied.
+    #
+    # Multiplying a 3D object by this matrix
+    # will shear it along the x and y-axis based on the z-axis.
+    # For each unit along the z-axis, the x value will be adjusted by *x*
+    # and the y value will be adjusted by *y*.
+    #
+    # ```
+    # vector = Vector3[2, 3, 4]
+    # matrix = Matrix3(Int32).identity.shear_z(2, 3)
+    # vector * matrix # => (10, 15, 4)
+    # ```
+    def shear_z(x, y) : CommonMatrix
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a + c * x, b + c * y, c,
+        d + f * x, e + f * y, f,
+        g + i * x, h + i * y, i,
+      ])
+    end
+  end
+
   # Transformation that can be performed in three-dimensions with 4x4 matrices.
   #
   # Multiplying a 3D object by the matrices produced by these methods will apply the operation to the object.
