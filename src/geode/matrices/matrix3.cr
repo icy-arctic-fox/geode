@@ -1,5 +1,6 @@
 require "./base"
-require "./transforms3"
+require "./transforms2d"
+require "./transforms3d"
 
 module Geode
   # Matrix with 3 rows and 1 column.
@@ -41,8 +42,9 @@ module Geode
   # Indices *i* and *j* refer to the zero-based row and column index respectively.
   # Unless noted otherwise, all operations are in row-major order.
   define_matrix 3, 3 do
-    extend MatrixTransformConstructors3(T)
-    include MatrixTransforms3(T)
+    extend Matrix3x3Transforms2DConstructors(T)
+    extend Matrix3x3Transforms3DConstructors(T)
+    include Matrix3x3Transforms2D(T)
 
     def unsafe_fetch_row(i : Int) : Vector3(T)
       Vector3[unsafe_fetch(i, 0), unsafe_fetch(i, 1), unsafe_fetch(i, 2)]
