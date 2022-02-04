@@ -79,7 +79,7 @@ module Geode
     # ```
     # vector = Vector2[1, 1]
     # matrix = Matrix2(Int32).rotate270
-    # vector * matrix # => (1, 1)
+    # vector * matrix # => (-1, -1)
     # ```
     #
     # See: `#reflect_xy`
@@ -246,7 +246,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D 90-degree rotation matrix.
+    # Returns a matrix that has a 90-degree rotation transform applied.
     #
     # Multiplying a 2D object by this matrix will rotate it 90 degrees.
     #
@@ -262,7 +262,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D 180-degree rotation matrix.
+    # Returns a matrix that has a 180-degree rotation transform applied.
     #
     # Multiplying a 2D object by this matrix will rotate it 180 degrees.
     #
@@ -278,14 +278,14 @@ module Geode
       ])
     end
 
-    # Creates a 2D 270-degree rotation matrix.
+    # Returns a matrix that has a 270-degree rotation transform applied.
     #
     # Multiplying a 2D object by this matrix will rotate it 270 degrees.
     #
     # ```
     # vector = Vector2[1, 1]
     # matrix = Matrix2(Int32).identity.rotate270
-    # vector * matrix # => (1, 1)
+    # vector * matrix # => (-1, -1)
     # ```
     #
     # See: `#reflect_xy`
@@ -296,7 +296,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D scaling matrix.
+    # Returns a matrix that has a scale transform applied.
     #
     # Uniformly scales an object.
     # Multiplying a 2D object by this matrix will scale it by *amount*.
@@ -313,10 +313,9 @@ module Geode
       map &.*(amount)
     end
 
-    # Creates a 2D scaling matrix.
+    # Returns a matrix that has a scale transform applied.
     #
     # Non-uniformly scales an object (squash and stretch).
-    # Multiplying a 2D object by this matrix will scale it by *x* amount along the x-axis and *y* amount along the y-axis.
     # Values for *x* and *y* smaller than 1 will shrink it.
     # Values larger than 1 will enlarge it.
     # Negative values will flip it.
@@ -333,7 +332,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D reflecting matrix.
+    # Returns a matrix that has a reflection transform applied.
     #
     # Multiplying a 2D object by this matrix will reflect it along the x-axis.
     #
@@ -349,7 +348,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D reflective matrix.
+    # Returns a matrix that has a scale transform applied.
     #
     # Multiplying a 2D object by this matrix will reflect it along the y-axis.
     #
@@ -365,7 +364,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D reflective matrix.
+    # Returns a matrix that has a scale transform applied.
     #
     # Multiplying a 2D object by this matrix will reflect it along the x and y-axis.
     # This has the same effect as rotating 180 degrees.
@@ -384,7 +383,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D shearing matrix.
+    # Returns a matrix that has a shear transform applied.
     #
     # Multiplying a 2D object by this matrix will shear it along the x-axis.
     #
@@ -400,7 +399,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D shearing matrix.
+    # Returns a matrix that has a shear transform applied.
     #
     # Multiplying a 2D object by this matrix will shear it along the y-axis.
     #
@@ -416,7 +415,7 @@ module Geode
       ])
     end
 
-    # Creates a 2D transform matrix with space for translation.
+    # Returns a matrix that has a translation applied.
     #
     # Returns a 3x3 matrix.
     #
