@@ -208,7 +208,7 @@ module Geode
     #
     # ```
     # vector = Vector3[1, 2, 3]
-    # matrix = Matrix3(Int32).reflect_x
+    # matrix = Matrix3(Int32).reflect_z
     # vector * matrix # => (1, 2, -3)
     # ```
     def reflect_z : self
@@ -486,7 +486,7 @@ module Geode
     #
     # ```
     # vector = Vector3[1, 2, 3]
-    # matrix = Matrix3(Int32).identity.reflect_x
+    # matrix = Matrix3(Int32).identity.reflect_z
     # vector * matrix # => (1, 2, -3)
     # ```
     def reflect_z : self
@@ -791,7 +791,7 @@ module Geode
     #
     # ```
     # vector = Vector4[1, 2, 3, 1]
-    # matrix = Matrix4(Int32).reflect_x
+    # matrix = Matrix4(Int32).reflect_z
     # vector * matrix # => (1, 2, -3, 1)
     # ```
     def reflect_z : self
@@ -1101,7 +1101,7 @@ module Geode
     #
     # ```
     # vector = Vector4[1, 2, 3, 1]
-    # matrix = Matrix4(Int32).identity.reflect_x
+    # matrix = Matrix4(Int32).identity.reflect_z
     # vector * matrix # => (1, 2, -3, 1)
     # ```
     def reflect_z : self
