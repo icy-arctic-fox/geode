@@ -18,7 +18,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   geode:
     gitlab: arctic-fox/geode
-    version: ~> 0.1.0
+    version: ~> 0.2.0
 ```
 
 Usage
@@ -314,24 +314,40 @@ Some common matrix functions are listed below.
   [`#trace`](https://arctic-fox.gitlab.io/geode/Geode/SquareMatrix.html#trace-instance-method),
   [`#determinant`](https://arctic-fox.gitlab.io/geode/Geode/SquareMatrix.html#determinant-instance-method)
 - Vector operations:
-  [`*`](https://arctic-fox.gitlab.io/geode/Geode/MatrixVectors.html#%2A%28vector%3ACommonVector%28U%2CP%29%29%3ACommonVectorforallU%2CP-instance-method)
+  [`*`](https://arctic-fox.gitlab.io/geode/Geode/MatrixVectors.html#%2A%28vector%3ACommonVector%28U%2CP%29%29%3ACommonVectorforallU%2CP-instance-method),
   [`#row?`](https://arctic-fox.gitlab.io/geode/Geode/MatrixVectors.html#row%3F-instance-method),
   [`#column?`](https://arctic-fox.gitlab.io/geode/Geode/MatrixVectors.html#column%3F-instance-method),
   [`#to_vector`](https://arctic-fox.gitlab.io/geode/Geode/MatrixVectors.html#to_vector%3ACommonVector-instance-method)
 - Transforms (2D):
-  [`.reflect_x`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms2.html#reflect_x%3Aself-instance-method),
-  [`.reflect_y`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms2.html#reflect_y%3Aself-instance-method),
-  [`.rotate`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms2.html#rotate%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
-  [`.scale`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms2.html#scale%28amount%3AT%29%3Aself-instance-method)
+  [`.reflect_x`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2DConstructors.html#reflect_x%3Aself-instance-method),
+  [`.reflect_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2DConstructors.html#reflect_y%3Aself-instance-method),
+  [`.rotate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2DConstructors.html#rotate%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
+  [`.scale`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2DConstructors.html#scale%28x%3AT%2Cy%3AT%29%3Aself-instance-method),
+  [`.translate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms2DConstructors.html#translate%28x%3AT%2Cy%3AT%29%3Aself-instance-method)
+  [`#reflect_x`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2D.html#reflect_x%3Aself-instance-method),
+  [`#reflect_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2D.html#reflect_y%3Aself-instance-method),
+  [`#rotate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2D.html#rotate%28angle%3ANumber%7CAngle%29%3ACommonMatrix-instance-method),
+  [`#scale`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2D.html#scale%28x%2Cy%29%3ACommonMatrix-instance-method),
+  [`#translate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix2x2Transforms2D.html#translate%28x%2Cy%29%3ACommonMatrix-instance-method)
 - Transforms (3D):
-  [`.reflect_x`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#reflect_x%3Aself-instance-method),
-  [`.reflect_y`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#reflect_y%3Aself-instance-method),
-  [`.reflect_z`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#reflect_z%3Aself-instance-method),
-  [`.rotate`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#rotate%28angle%3ANumber%7CAngle%2Caxis%3ACommonVector%28T%2C3%29%29%3Aself-instance-method),
-  [`.rotate_x`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#rotate_x%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
-  [`.rotate_y`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#rotate_y%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
-  [`.rotate_z`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#rotate_z%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
-  [`.scale`](https://arctic-fox.gitlab.io/geode/Geode/MatrixTransforms3.html#scale%28amount%3AT%29%3Aself-instance-method)
+  [`.reflect_x`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#reflect_x%3Aself-instance-method),
+  [`.reflect_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#reflect_y%3Aself-instance-method),
+  [`.reflect_z`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#reflect_z%3Aself-instance-method),
+  [`.rotate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#rotate%28angle%3ANumber%7CAngle%2Caxis%3ACommonVector%28T%2C3%29%29%3Aself-instance-method),
+  [`.rotate_x`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#rotate_x%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
+  [`.rotate_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#rotate_y%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
+  [`.rotate_z`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#rotate_z%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
+  [`.scale`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#scale%28x%3AT%2Cy%3AT%2Cz%3AT%29%3Aself-instance-method),
+  [`.translate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix4x4Transforms3DConstructors.html#translate%28x%3AT%2Cy%3AT%2Cz%3AT%29%3Aself-instance-method)
+  [`#reflect_x`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#reflect_x%3Aself-instance-method),
+  [`#reflect_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#reflect_y%3Aself-instance-method),
+  [`#reflect_z`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#reflect_z%3Aself-instance-method),
+  [`#rotate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#rotate%28angle%3ANumber%7CAngle%2Caxis%3ACommonVector%28U%2C3%29%29%3ACommonMatrixforallU-instance-method),
+  [`#rotate_x`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#rotate_x%28angle%3ANumber%7CAngle%29%3ACommonMatrix-instance-method),
+  [`#rotate_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#rotate_y%28angle%3ANumber%7CAngle%29%3ACommonMatrix-instance-method),
+  [`#rotate_z`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#rotate_z%28angle%3ANumber%7CAngle%29%3ACommonMatrix-instance-method),
+  [`#scale`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#scale%28x%2Cy%2Cz%29%3ACommonMatrix-instance-method),
+  [`#translate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#translate%28x%2Cy%2Cz%29%3ACommonMatrix-instance-method)
 
 #### Multiplication
 
@@ -357,6 +373,53 @@ mat = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 vec = Vector[1, 10, 100]
 mat * vec # => (321, 654, 987)
 vec * mat # => (741, 852, 963)
+```
+
+#### Transforms
+
+2D and 3D transforms methods are available on 2x2, 3x3, and 4x4 matrices.
+2D transforms can be performed with 2x2 matrices and 3x3 matrices if there is a translation.
+Likewise, 3D transforms can be performed with 3x3 matrices and 4x4 matrices if there is a translation.
+There are two categories for each of these transforms.
+
+The first are exposed as class methods on their respective, fixed-size matrix type.
+These create a matrix as-if the transformation was applied to an identity matrix.
+They're useful for starting a chain of transformations.
+
+```crystal
+vector = Vector2[1.0, 1.0].normalize
+matrix = Matrix2(Float64).rotate(45.degrees)
+vector * matrix # => (0.0, 1.0)
+```
+
+The second category are instance methods.
+These apply the transform and return it as a new matrix.
+
+```crystal
+vector = Vector2[1.0, 1.0].normalize
+matrix = Matrix2(Float64).scale(2).rotate(45.degrees) # Scale then rotate.
+vector * matrix # => (0.0, 2.0)
+```
+
+Transforms can be chained together.
+
+```crystal
+Matrix2(Float64).identity.scale(5).rotate(180.degrees)
+```
+
+2D translations on a 2x2 matrix will return a 3x3 matrix.
+Similarly, 3D translations on a 3x3 matrix will returns a 4x4 matrix.
+When applying to a vector (or other primitive), it must use the expanded size.
+Typically, 1 or 0 is used for the "extra" dimension.
+
+```crystal
+vector = Vector3[1, 2, 1]
+matrix = Matrix2(Float64).rotate(45.degrees).translate(2, 3)
+vector * matrix # => (1.292893219, 5.121320343, 1.0)
+
+vector = Vector4[1, 2, 3, 1]
+matrix = Matrix3(Float64).rotate_y(45.degrees).translate(2, 3, 4)
+vector * matrix # => (4.828427124, 5.0, 5.414213562, 1.0)
 ```
 
 #### Indexing
