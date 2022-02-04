@@ -422,6 +422,17 @@ matrix = Matrix3(Float64).rotate_y(45.degrees).translate(2, 3, 4)
 vector * matrix # => (4.828427124, 5.0, 5.414213562, 1.0)
 ```
 
+*Note:* The transform matrices are constructed so that the matrix is on the *right-hand-side* of the multiplication operation.
+If it is desired to have them on the left, transpose the matrix before multiplying.
+
+```crystal
+vector = Vector3[1, 2, 1]
+matrix = Matrix2(Float64).rotate(45.degrees).translate(2, 3)
+
+vector * matrix           # => (1.292893219, 5.121320343, 1.0)
+matrix.transpose * vector # => (1.292893219, 5.121320343, 1.0)
+```
+
 #### Indexing
 
 Matrices use two indexing modes: row-column and flat.
