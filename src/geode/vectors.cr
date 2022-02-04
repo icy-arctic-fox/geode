@@ -6,7 +6,7 @@ module Geode
   # ```
   # Geode.min(Vector[1, 2, 3], Vector[3, 2, 1]) # => (1, 2, 1)
   # ```
-  def self.min(a : CommonVector(T, N), b : CommonVector(T, N)) : CommonVector forall T, N
+  def self.min(a : CommonVector(T, N), b : CommonVector(U, N)) : CommonVector forall T, U, N
     a.zip_map(b) { |component_a, component_b| Math.min(component_a, component_b) }
   end
 
@@ -15,7 +15,7 @@ module Geode
   # ```
   # Geode.min(Vector[1, 2, 3], 2) # => (1, 2, 2)
   # ```
-  def self.min(vector : CommonVector(T, N), value : T) : CommonVector forall T, N
+  def self.min(vector : CommonVector(T, N), value : U) : CommonVector forall T, U, N
     vector.map { |component| Math.min(component, value) }
   end
 
@@ -24,7 +24,7 @@ module Geode
   # ```
   # Geode.max(Vector[1, 2, 3], Vector[3, 2, 1]) # => (3, 2, 3)
   # ```
-  def self.max(a : CommonVector(T, N), b : CommonVector(T, N)) : CommonVector forall T, N
+  def self.max(a : CommonVector(T, N), b : CommonVector(U, N)) : CommonVector forall T, U, N
     a.zip_map(b) { |component_a, component_b| Math.max(component_a, component_b) }
   end
 
@@ -33,7 +33,7 @@ module Geode
   # ```
   # Geode.max(Vector[1, 2, 3], 2) # => (2, 2, 3)
   # ```
-  def self.max(vector : CommonVector(T, N), value : T) : CommonVector forall T, N
+  def self.max(vector : CommonVector(T, N), value : U) : CommonVector forall T, U, N
     vector.map { |component| Math.max(component, value) }
   end
 end

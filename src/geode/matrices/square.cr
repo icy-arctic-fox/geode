@@ -56,7 +56,7 @@ module Geode
     # matrix = Matrix[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     # matrix.each_diagonal.to_a # => [1, 5, 9]
     # ```
-    def each_diagonal
+    def each_diagonal : Iterator(T)
       square!(M, N)
 
       diagonal.each

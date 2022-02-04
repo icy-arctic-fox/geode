@@ -143,7 +143,7 @@ module Geode
     # The *angle* bus be a `Number` in radians or an `Angle`.
     #
     # TODO: Not implemented.
-    def rotate(angle : Number | Angle, axis : self) : self
+    def rotate(angle : Number | Angle, axis : CommonVector(U, 3)) : CommonVector forall U
       raise NotImplementedError.new("#rotate")
     end
 
@@ -154,7 +154,7 @@ module Geode
     # ```
     # Vector3[1.0, 1.0, 1.0].rotate_x(90.degrees) # => (1.0, -1.0, 1.0)
     # ```
-    def rotate_x(angle : Number | Angle) : self
+    def rotate_x(angle : Number | Angle) : Vector3
       rad = angle.to_f
       sin = Math.sin(rad)
       cos = Math.cos(rad)
@@ -170,7 +170,7 @@ module Geode
     # ```
     # Vector3[1.0, 1.0, 1.0].rotate_y(90.degrees) # => (1.0, 1.0, -1.0)
     # ```
-    def rotate_y(angle : Number | Angle) : self
+    def rotate_y(angle : Number | Angle) : Vector3
       rad = angle.to_f
       sin = Math.sin(rad)
       cos = Math.cos(rad)
@@ -186,7 +186,7 @@ module Geode
     # ```
     # Vector3[1.0, 1.0, 1.0].rotate_z(90.degrees) # => (-1.0, 1.0, 1.0)
     # ```
-    def rotate_z(angle : Number | Angle) : self
+    def rotate_z(angle : Number | Angle) : Vector3
       rad = angle.to_f
       sin = Math.sin(rad)
       cos = Math.cos(rad)

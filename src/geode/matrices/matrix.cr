@@ -117,7 +117,7 @@ module Geode
     # Matrix(Int32, 2, 2).zero
     # # => [[0, 0], [0, 0]]
     # ```
-    def self.zero
+    def self.zero : self
       new { T.zero }
     end
 
@@ -130,7 +130,7 @@ module Geode
     # Matrix(Int32, 3, 3).identity
     # # => [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     # ```
-    def self.identity
+    def self.identity : self
       {% raise "Identity matrix must be a square matrix (M == N)" if M != N %}
 
       new do |i, j|
@@ -144,7 +144,7 @@ module Geode
     # matrix = Matrix[[1, 2], [3, 4], [5, 6]]
     # matrix.map { |e| e * 2 } # => [[2, 4], [6, 8], [10, 12]]
     # ```
-    def map(& : T -> U) : CommonMatrix forall U
+    def map(& : T -> U) : Matrix forall U
       index = 0
       {% begin %}
         {{@type.name(generic_args: false)}}(U, M, N).new do

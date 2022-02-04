@@ -135,7 +135,7 @@ module Geode
     # ```
     # Vector2[1.0, 1.0].rotate(180.degrees) # => (-1.0, -1.0)
     # ```
-    def rotate(angle : Number | Angle) : self
+    def rotate(angle : Number | Angle) : Vector2
       rad = angle.to_f
       cos = Math.cos(rad)
       sin = Math.sin(rad)

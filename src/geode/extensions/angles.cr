@@ -8,7 +8,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Degrees`
-  def degrees
+  def degrees : Geode::Degrees
     Geode::Degrees.new(self)
   end
 
@@ -19,7 +19,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Degrees`
-  def to_degrees
+  def to_degrees : Geode::Degrees
     radians.to_degrees
   end
 
@@ -30,7 +30,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Radians`
-  def radians
+  def radians : Geode::Radians
     Geode::Radians.new(self)
   end
 
@@ -41,7 +41,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Radians`
-  def to_radians
+  def to_radians : Geode::Radians
     radians
   end
 
@@ -52,7 +52,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Turns`
-  def turns
+  def turns : Geode::Turns
     Geode::Turns.new(self)
   end
 
@@ -63,7 +63,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Turns`
-  def to_turns
+  def to_turns : Geode::Turns
     radians.to_turns
   end
 
@@ -74,7 +74,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Gradians`
-  def gradians
+  def gradians : Geode::Gradians
     Geode::Gradians.new(self)
   end
 
@@ -85,7 +85,7 @@ abstract struct Number
   # ```
   #
   # See: `Geode::Gradians`
-  def to_gradians
+  def to_gradians : Geode::Gradians
     radians.to_gradians
   end
 end

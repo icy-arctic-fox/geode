@@ -149,7 +149,7 @@ module Geode
     # ```
     # Matrix[[0, 1], [2, 3]].edge(2) # => [[0, 0], [1, 1]]
     # ```
-    def edge(edge : T) : self forall T
+    def edge(edge) : self
       map { |v| Geode.edge(v, edge) }
     end
 

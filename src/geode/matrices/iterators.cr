@@ -14,7 +14,7 @@ module Geode
     # Matrix[[0, 1], [2, 3]].each_indices.to_a
     # # => [{0, 0}, {0, 1}, {1, 0}, {1, 1}]
     # ```
-    def each_indices
+    def each_indices : Iterator(Tuple(Int32, Int32))
       IndicesIterator(M, N).new
     end
 
@@ -50,7 +50,7 @@ module Geode
     # Matrix[[0, 1], [2, 3]].each_with_indices.to_a
     # # => [{0, 0, 0}, {1, 0, 1}, {2, 1, 0}, {3, 1, 1}]
     # ```
-    def each_with_indices
+    def each_with_indices : Iterator(Tuple(T, Int32, Int32))
       ElementIndicesIterator(T, M, N, typeof(self)).new(self)
     end
 
@@ -96,7 +96,7 @@ module Geode
     # Matrix[[1, 2, 3], [4, 5, 6]].each_row.to_a
     # # => [(1, 2, 3), (4, 5, 6)]
     # ```
-    def each_row
+    def each_row : Iterator(CommonVector(T, N))
       RowIterator(T, M, N, typeof(self)).new(self)
     end
 
@@ -131,7 +131,7 @@ module Geode
     # Matrix[[1, 2, 3], [4, 5, 6]].each_row_with_index(1).to_a
     # # => [{(1, 2, 3), 1}, {(4, 5, 6), 2}]
     # ```
-    def each_row_with_index(offset = 0)
+    def each_row_with_index(offset = 0) : Iterator(Tuple(CommonVector(T, N), Int32))
       RowIndexIterator(T, M, N, typeof(self)).new(self, offset)
     end
 
@@ -167,7 +167,7 @@ module Geode
     # Matrix[[1, 2, 3], [4, 5, 6]].each_column.to_a
     # # => [(1, 4), (2, 5), (3, 6)]
     # ```
-    def each_column
+    def each_column : Iterator(CommonVector(T, M))
       ColumnIterator(T, M, N, typeof(self)).new(self)
     end
 
@@ -202,7 +202,7 @@ module Geode
     # Matrix[[1, 2, 3], [4, 5, 6]].each_column_with_index(1).to_a
     # # => [{(1, 4), 1}, {(2, 5), 2}, {(3, 6), 3}]
     # ```
-    def each_column_with_index(offset = 0)
+    def each_column_with_index(offset = 0) : Iterator(Tuple(CommonVector(T, M), Int32))
       ColumnIndexIterator(T, M, N, typeof(self)).new(self, offset)
     end
 

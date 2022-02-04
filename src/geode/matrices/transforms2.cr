@@ -418,12 +418,14 @@ module Geode
 
     # Creates a 2D transform matrix with space for translation.
     #
+    # Returns a 3x3 matrix.
+    #
     # ```
     # vector = Vector3[3, 5, 1]
     # matrix = Matrix2(Int32).identity.translate(1, 2)
     # vector * matrix # => (4, 7, 1)
     # ```
-    def translate(x : T, y : T) : CommonMatrix(T, 3, 3)
+    def translate(x, y) : CommonMatrix
       Matrix3x3.new(StaticArray[
         a, b, T.zero,
         c, d, T.zero,

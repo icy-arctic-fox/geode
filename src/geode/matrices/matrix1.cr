@@ -16,7 +16,7 @@ module Geode
       Vector1[a]
     end
 
-    def diagonal
+    def diagonal : Vector1(T)
       Vector1[a]
     end
 

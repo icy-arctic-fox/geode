@@ -9,7 +9,7 @@ module Geode
   # 0.edge(1) # => 0
   # 2.edge(1) # => 1
   # ```
-  def self.edge(value : T, edge : T) forall T
+  def self.edge(value : T, edge) forall T
     value < edge ? T.zero : T.multiplicative_identity
   end
 

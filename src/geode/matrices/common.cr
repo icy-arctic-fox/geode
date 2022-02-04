@@ -121,7 +121,7 @@ module Geode
     # matrix.map_with_index { |e, i| e * i }    # => [[0, 2], [6, 12]]
     # matrix.map_with_index(3) { |e, i| e + i } # => [[4, 6], [8, 10]]
     # ```
-    def map_with_index(offset = 0, & : T, Int32 -> U) : CommonMatrix forall U
+    def map_with_index(offset = 0, & : T, Int32 -> U) : CommonMatrix(U, M, N) forall U
       index = offset
       map do |element|
         value = yield element, index
@@ -136,7 +136,7 @@ module Geode
     # matrix = Matrix[[1, 2], [3, 4]]
     # matrix.map_with_indices { |e, i, j| e * i + j } # => [[0, 1], [3, 5]]
     # ```
-    def map_with_indices(& : T, Int32, Int32 -> U) : CommonMatrix forall U
+    def map_with_indices(& : T, Int32, Int32 -> U) : CommonMatrix(U, M, N) forall U
       i = 0
       j = 0
 
@@ -160,7 +160,7 @@ module Geode
     # m2 = Matrix[[4, 3], [2, 1]]
     # m1.zip_map { |a, b| Math.min(a, b) } # => [[1, 2], [2, 1]]
     # ```
-    def zip_map(other : CommonMatrix(U, M, N), & : T, U -> V) : CommonMatrix forall U, V
+    def zip_map(other : CommonMatrix(U, M, N), & : T, U -> V) : CommonMatrix(V, M, N) forall U, V
       same_size!(M, N)
 
       map_with_index do |element, index|
