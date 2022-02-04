@@ -803,12 +803,6 @@ Spectator.describe Geode::Matrix2x1 do
           expect(matrix.scale(other)).to eq(Geode::Matrix2x1[[9], [20]])
         end
       end
-
-      context "with a scalar" do
-        it "scales each element by the same amount" do
-          expect(matrix.scale(5)).to eq(Geode::Matrix2x1[[15], [25]])
-        end
-      end
     end
 
     describe "#scale!" do
@@ -817,12 +811,6 @@ Spectator.describe Geode::Matrix2x1 do
 
         it "scales each element separately" do
           expect(matrix.scale!(other)).to eq(Geode::Matrix2x1[[9], [20]])
-        end
-      end
-
-      context "with a scalar" do
-        it "scales each element by the same amount" do
-          expect(matrix.scale!(5)).to eq(Geode::Matrix2x1[[15], [25]])
         end
       end
     end

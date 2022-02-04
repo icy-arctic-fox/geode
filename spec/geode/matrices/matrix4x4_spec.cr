@@ -969,12 +969,6 @@ Spectator.describe Geode::Matrix4x4 do
           expect(matrix.scale(other)).to eq(Geode::Matrix4x4[[8, 9, 8, 9], [8, 5, 8, 5], [48, 49, 48, 49], [48, 45, 48, 45]])
         end
       end
-
-      context "with a scalar" do
-        it "scales each element by the same amount" do
-          expect(matrix.scale(5)).to eq(Geode::Matrix4x4[[20, 15, 20, 15], [10, 5, 10, 5], [40, 35, 40, 35], [30, 25, 30, 25]])
-        end
-      end
     end
 
     describe "#scale!" do
@@ -983,12 +977,6 @@ Spectator.describe Geode::Matrix4x4 do
 
         it "scales each element separately" do
           expect(matrix.scale!(other)).to eq(Geode::Matrix4x4[[8, 9, 8, 9], [8, 5, 8, 5], [48, 49, 48, 49], [48, 45, 48, 45]])
-        end
-      end
-
-      context "with a scalar" do
-        it "scales each element by the same amount" do
-          expect(matrix.scale!(5)).to eq(Geode::Matrix4x4[[20, 15, 20, 15], [10, 5, 10, 5], [40, 35, 40, 35], [30, 25, 30, 25]])
         end
       end
     end

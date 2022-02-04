@@ -182,26 +182,6 @@ module Geode
       zip_map(matrix) { |a, b| a &* b }
     end
 
-    # Scales each element by the specified amount.
-    #
-    # ```
-    # Matrix[[5, -2], [0, 1]].scale(3) # => [[15, -6], [0, 3]]
-    # ```
-    def scale(amount : Number) : CommonMatrix
-      map &.*(amount)
-    end
-
-    # Scales each element by the specified amount.
-    #
-    # Values will wrap instead of overflowing and raising an error.
-    #
-    # ```
-    # Matrix[[5, -2], [0, 1]].scale!(3) # => [[15, -6], [0, 3]]
-    # ```
-    def scale!(amount : Number) : CommonMatrix
-      map &.&*(amount)
-    end
-
     # Calculates the linear interpolation between two matrices.
     #
     # *t* is a value from 0 to 1, where 0 represents this matrix and 1 represents *other*.
