@@ -556,6 +556,22 @@ module Geode
         g + i * x, h + i * y, i,
       ])
     end
+
+    # Returns a matrix with a translation applied.
+    #
+    # ```
+    # vector = Vector4[3, 5, 7, 1]
+    # matrix = Matrix3(Int32).identity.translate(3, 2, 1)
+    # vector * matrix # => (6, 7, 8, 1)
+    # ```
+    def translate(x, y, z) : CommonMatrix
+      Matrix4x4.new(StaticArray[
+        a, b, c, T.zero,
+        d, e, f, T.zero,
+        g, h, i, T.zero,
+        x, y, z, T.multiplicative_identity,
+      ])
+    end
   end
 
   # Transformation that can be performed in three-dimensions with 4x4 matrices.
