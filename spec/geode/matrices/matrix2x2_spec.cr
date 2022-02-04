@@ -1273,6 +1273,7 @@ Spectator.describe Geode::Matrix2x2 do
         aggregate_failures do
           expect(transformed.x).to eq(8)
           expect(transformed.y).to eq(11)
+          expect(transformed.z).to eq(1)
         end
       end
     end

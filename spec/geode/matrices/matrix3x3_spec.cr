@@ -1401,4 +1401,157 @@ Spectator.describe Geode::Matrix3x3 do
       end
     end
   end
+
+  context Geode::MatrixTransforms3 do
+    let(vector) { Geode::Vector3[1, 1, 1] }
+    let(original) { Geode::Matrix3[[2, 0, 0], [0, 2, 0], [0, 0, 1]] }
+    let(transformed) { vector * matrix }
+
+    describe "#rotate" do
+      let(matrix) { original.rotate(135.degrees) }
+
+      it "rotates a vector" do
+        aggregate_failures do
+          expect(transformed.x).to be_within(TOLERANCE).of(-Math.sqrt(8))
+          expect(transformed.y).to be_within(TOLERANCE).of(0)
+          expect(transformed.z).to be_within(TOLERANCE).of(1)
+        end
+      end
+    end
+
+    describe "#rotate90" do
+      let(matrix) { original.rotate90 }
+
+      it "rotates a vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(-2)
+          expect(transformed.y).to eq(2)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#rotate180" do
+      let(matrix) { original.rotate180 }
+
+      it "rotates a vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(-2)
+          expect(transformed.y).to eq(-2)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#rotate270" do
+      let(matrix) { original.rotate270 }
+
+      it "rotates a vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(2)
+          expect(transformed.y).to eq(-2)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#scale2(amount)" do
+      let(matrix) { original.scale2(3) }
+
+      it "scales the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(6)
+          expect(transformed.y).to eq(6)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#scale(x, y)" do
+      let(matrix) { original.scale(2, 3) }
+
+      it "scales the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(4)
+          expect(transformed.y).to eq(6)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#reflect_x" do
+      let(matrix) { original.reflect_x }
+
+      it "flips the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(-2)
+          expect(transformed.y).to eq(2)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#reflect_y" do
+      let(matrix) { original.reflect_y }
+
+      it "flips the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(2)
+          expect(transformed.y).to eq(-2)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#reflect_xy" do
+      let(matrix) { original.reflect_xy }
+
+      it "flips the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(-2)
+          expect(transformed.y).to eq(-2)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#shear_x" do
+      let(vector) { Geode::Vector3[2, 3, 1] }
+      let(matrix) { original.shear_x(3) }
+
+      it "shears the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(22)
+          expect(transformed.y).to eq(6)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#shear_y" do
+      let(vector) { Geode::Vector3[2, 3, 1] }
+      let(matrix) { original.shear_y(3) }
+
+      it "shears the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(4)
+          expect(transformed.y).to eq(18)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+
+    describe "#translate" do
+      let(vector) { Geode::Vector3[2, 3, 1] }
+      let(matrix) { original.translate(4, 5) }
+
+      it "translates the vector" do
+        aggregate_failures do
+          expect(transformed.x).to eq(8)
+          expect(transformed.y).to eq(11)
+          expect(transformed.z).to eq(1)
+        end
+      end
+    end
+  end
 end

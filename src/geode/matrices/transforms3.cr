@@ -499,4 +499,250 @@ module Geode
       ])
     end
   end
+
+  # Transformation that can be performed in two-dimensions with matrices.
+  #
+  # These methods produce a new matrix that has the operation performed on it.
+  # This:
+  # ```
+  # matrix.rotate_x(45.degrees)
+  # ```
+  # is effectively the same as:
+  # ```
+  # matrix * Matrix3(Float64).rotate_x(45.degrees)
+  # ```
+  module MatrixTransforms3(T)
+    # Returns a matrix that has a 2D rotation transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # The *angle* must be a `Number` in radians or an `Angle`.
+    #
+    # ```
+    # vector = Vector3[3 / 5, 4 / 5, 1]
+    # matrix = Matrix3(Float64).identity.rotate(45.degrees)
+    # vector * matrix # => (0.0, 1.0, 1.0)
+    # ```
+    def rotate(angle : Number | Angle) : CommonMatrix
+      rad = angle.to_f
+      sin = Math.sin(rad)
+      cos = Math.cos(rad)
+
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a * cos + b * -sin, a * sin + b * cos, c,
+        d * cos + e * -sin, d * sin + e * cos, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a 90-degree rotation transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will rotate it 90 degrees.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Int32).identity.rotate90
+    # vector * matrix # => (-1, 1, 1)
+    # ```
+    def rotate90 : self
+      self.class.new(StaticArray[
+        -b, a, c,
+        -e, d, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a 180-degree rotation transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will rotate it 180 degrees.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Int32).identity.rotate180
+    # vector * matrix # => (-1, -1, 1)
+    # ```
+    def rotate180 : self
+      self.class.new(StaticArray[
+        -a, -b, c,
+        -d, -e, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a 270-degree rotation transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will rotate it 270 degrees.
+    #
+    # ```
+    # vector = Vector3[1, 1, 1]
+    # matrix = Matrix3(Int32).identity.rotate270
+    # vector * matrix # => (-1, -1, 1)
+    # ```
+    #
+    # See: `#reflect_xy`
+    def rotate270 : self
+      self.class.new(StaticArray[
+        b, -a, c,
+        e, -d, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a scale transform applied.
+    #
+    # Returns a 3x3 matrix.
+    #
+    # Uniformly scales an object.
+    # Multiplying a 2D object by this matrix will scale it by *amount*.
+    # Values for *amount* smaller than 1 will shrink it.
+    # Values larger than 1 will enlarge it.
+    # Negative values will flip it.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Int32).identity.scale2(2)
+    # vector * matrix # => (4, 6, 1)
+    # ```
+    def scale2(amount : Number) : CommonMatrix
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a * amount, b * amount, c,
+        d * amount, e * amount, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a scale transform applied.
+    #
+    # Returns a 3x3 matrix.
+    #
+    # Non-uniformly scales an object (squash and stretch).
+    # Values for *x* and *y* smaller than 1 will shrink it.
+    # Values larger than 1 will enlarge it.
+    # Negative values will flip it.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Float64).identity.scale(1.5, 2)
+    # vector * matrix # => (3.0, 6.0, 1.0)
+    # ```
+    def scale(x, y) : CommonMatrix
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a * x, b * y, c,
+        d * x, e * y, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a reflection transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will reflect it along the x-axis.
+    #
+    # ```
+    # vector = Vector3[5, 1, 1]
+    # matrix = Matrix3(Int32).identity.reflect_x
+    # vector * matrix # => (-5, 1, 1)
+    # ```
+    def reflect_x : self
+      self.class.new(StaticArray[
+        -a, b, c,
+        -d, e, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a scale transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will reflect it along the y-axis.
+    #
+    # ```
+    # vector = Vector3[5, 1, 1]
+    # matrix = Matrix3(Int32).identity.reflect_y
+    # vector * matrix # => (5, -1, 1)
+    # ```
+    def reflect_y : self
+      self.class.new(StaticArray[
+        a, -b, c,
+        d, -e, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a scale transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will reflect it along the x and y-axis.
+    # This has the same effect as rotating 180 degrees.
+    #
+    # ```
+    # vector = Vector3[5, 1, 1]
+    # matrix = Matrix3(Int32).identity.reflect_xy
+    # vector * matrix # => (-5, -1, 1)
+    # ```
+    #
+    # See: `#rotate270`
+    def reflect_xy : self
+      self.class.new(StaticArray[
+        -a, -b, c,
+        -d, -e, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a shear transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will shear it along the x-axis.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Int32).identity.shear_x(2)
+    # vector * matrix # => (8, 3, 1)
+    # ```
+    def shear_x(amount) : CommonMatrix
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a + b * amount, b, c,
+        d + e * amount, e, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a shear transform applied.
+    #
+    # Returns a 3x3 matrix.
+    # Multiplying a 2D object by this matrix will shear it along the y-axis.
+    #
+    # ```
+    # vector = Vector3[2, 3, 1]
+    # matrix = Matrix3(Int32).identity.shear_y(2)
+    # vector * matrix # => (2, 7, 1)
+    # ```
+    def shear_y(amount : T) : self
+      {{@type.name(generic_args: false)}}.new(StaticArray[
+        a, a * amount + b, c,
+        d, d * amount + e, f,
+        g, h, i,
+      ])
+    end
+
+    # Returns a matrix that has a translation applied.
+    #
+    # Returns a 3x3 matrix.
+    #
+    # ```
+    # vector = Vector3[3, 5, 1]
+    # matrix = Matrix3(Int32).identity.translate(1, 2)
+    # vector * matrix # => (4, 7, 1)
+    # ```
+    def translate(x, y) : CommonMatrix
+      Matrix3x3.new(StaticArray[
+        a, b, c,
+        d, e, f,
+        g + x, h + y, i,
+      ])
+    end
+  end
 end
