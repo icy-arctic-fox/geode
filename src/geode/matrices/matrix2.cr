@@ -89,4 +89,20 @@ module Geode
 
   # Short-hand for a 2x2 matrix.
   alias Matrix2 = Matrix2x2
+
+  # A 2x2 matrix.
+  # The elements are 32-bit integers.
+  alias Matrix2I = Matrix2x2(Int32)
+
+  # A 2x2 matrix.
+  # The elements are 64-bit integers.
+  alias Matrix2L = Matrix2x2(Int64)
+
+  # A 2x2 matrix.
+  # The elements are 32-bit floating-point numbers.
+  alias Matrix2F = Matrix2x2(Float32)
+
+  # A 2x2 matrix.
+  # The element are 64-bit floating-point numbers.
+  alias Matrix2D = Matrix2x2(Float64)
 end

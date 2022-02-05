@@ -84,4 +84,20 @@ module Geode
 
   # Short-hand for a 4x4 matrix.
   alias Matrix4 = Matrix4x4
+
+  # A 4x4 matrix.
+  # The elements are 32-bit integers.
+  alias Matrix4I = Matrix4x4(Int32)
+
+  # A 4x4 matrix.
+  # The elements are 64-bit integers.
+  alias Matrix4L = Matrix4x4(Int64)
+
+  # A 4x4 matrix.
+  # The elements are 32-bit floating-point numbers.
+  alias Matrix4F = Matrix4x4(Float32)
+
+  # A 4x4 matrix.
+  # The element are 64-bit floating-point numbers.
+  alias Matrix4D = Matrix4x4(Float64)
 end

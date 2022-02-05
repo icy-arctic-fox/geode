@@ -82,4 +82,20 @@ module Geode
 
   # Short-hand for a 1x1 matrix.
   alias Matrix1 = Matrix1x1
+
+  # A 1x1 matrix.
+  # The element is a 32-bit integer.
+  alias Matrix1I = Matrix1x1(Int32)
+
+  # A 1x1 matrix.
+  # The element is a 64-bit integer.
+  alias Matrix1L = Matrix1x1(Int64)
+
+  # A 1x1 matrix.
+  # The element is a 32-bit floating-point number.
+  alias Matrix1F = Matrix1x1(Float32)
+
+  # A 1x1 matrix.
+  # The element is a 64-bit floating-point number.
+  alias Matrix1D = Matrix1x1(Float64)
 end

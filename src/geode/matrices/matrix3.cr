@@ -104,4 +104,20 @@ module Geode
 
   # Short-hand for a 3x3 matrix.
   alias Matrix3 = Matrix3x3
+
+  # A 3x3 matrix.
+  # The elements are 32-bit integers.
+  alias Matrix3I = Matrix3x3(Int32)
+
+  # A 3x3 matrix.
+  # The elements are 64-bit integers.
+  alias Matrix3L = Matrix3x3(Int64)
+
+  # A 3x3 matrix.
+  # The elements are 32-bit floating-point numbers.
+  alias Matrix3F = Matrix3x3(Float32)
+
+  # A 3x3 matrix.
+  # The element are 64-bit floating-point numbers.
+  alias Matrix3D = Matrix3x3(Float64)
 end
