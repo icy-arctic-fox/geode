@@ -1,5 +1,6 @@
 require "./base"
 require "./transforms3d"
+require "./projections"
 
 module Geode
   # Matrix with 4 rows and 1 column.
@@ -58,6 +59,7 @@ module Geode
   # Unless noted otherwise, all operations are in row-major order.
   define_matrix 4, 4 do
     extend Matrix4x4Transforms3DConstructors(T)
+    extend MatrixProjections(T)
     include Matrix4x4Transforms3D(T)
 
     def unsafe_fetch_row(i : Int) : Vector4(T)
