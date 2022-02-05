@@ -16,14 +16,22 @@ module Geode
 
       # Constructs a matrix with existing elements.
       #
-      # The type of the components is derived from the type of each argument.
+      # The type of the elements is derived from the type of each argument.
       # The size of *rows* must be {{rows}} and the size of each row must be {{columns}}.
       macro [](*rows)
         \{% raise "Row count doesn't match type (#{rows.size} != {{rows}})" if rows.size != {{rows}} %}
         \{% raise "Column count doesn't match type" if rows.any? { |row| row.size != {{columns}} } %}
 
-        \%rows = { \{{rows.map(&.splat).splat}} }
-        \{{@type.name(generic_args: false)}}(typeof(\%rows.first)).new(\%rows)
+        \%elements = { \{{rows.map(&.splat).splat}} }
+        \{{@type.name(generic_args: false)}}(typeof(\%elements.first)).new(\%elements)
+      end
+
+      # Constructs a matrix with existing elements.
+      #
+      # The type of the elements is specified by the type parameter.
+      # Each value is cast to the type *T*.
+      def self.[]({{(0...rows).map { |i| "row_#{i} : Indexable".id }.splat}})
+        new({ {{(0...rows).map { |i| "row_#{i}.map { |v| T.new(v) }".id }.splat}} })
       end
 
       # Copies contents from another matrix.

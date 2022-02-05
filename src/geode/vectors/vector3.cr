@@ -17,6 +17,18 @@ module Geode
       Vector3.new(x, y, z)
     end
 
+    # Constructs a vector with existing components.
+    #
+    # The type of the components is specified by the type parameter.
+    # Each value is cast to the type *T*.
+    #
+    # ```
+    # Vector3F[1, 2, 3] # => (1.0, 2.0, 3.0)
+    # ```
+    def self.[](x, y, z)
+      Vector3.new(T.new(x), T.new(y), T.new(z))
+    end
+
     # Ensures that another vector and this one have the same size at compile-time.
     #
     # The *size* argument should be the type argument from the other vector type.

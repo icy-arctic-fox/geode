@@ -27,6 +27,18 @@ module Geode
       {{@type.name(generic_args: false)}}.new(StaticArray[{{*components}}])
     end
 
+    # Constructs a vector with existing components.
+    #
+    # The type of the components is specified by the type parameter.
+    # Each value is cast to the type *T*.
+    #
+    # ```
+    # Vector(Float32, 5)[1, 2, 3, 4, 5] # => (1.0, 2.0, 3.0, 4.0, 5.0)
+    # ```
+    def self.[](*elements)
+      new(elements.map { |e| T.new(e) })
+    end
+
     # Copies the contents of another vector.
     def initialize(vector : CommonVector(T, N))
       {% raise "Source vector to copy from must be the same size" if N != @type.type_vars.last %}
@@ -50,7 +62,7 @@ module Geode
     # ```
     # Vector(Int32, 5).new([1, 2, 3, 4, 5]) # => (1, 2, 3, 4, 5)
     # ```
-    def initialize(elements : Indexable(T))
+    def initialize(components : Indexable(T))
       raise IndexError.new("Components must be #{N} in size") if components.size != N
 
       @components = Pointer(T).malloc(size) { |i| components.unsafe_fetch(i) }

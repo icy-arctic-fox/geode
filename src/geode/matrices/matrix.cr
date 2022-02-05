@@ -37,6 +37,22 @@ module Geode
       {{@type.name(generic_args: false)}}(typeof(%rows.first), {{m}}, {{n}}).new(%rows)
     end
 
+    # Constructs a matrix with existing elements.
+    #
+    # The type of the elements is specified by the type parameter.
+    # Each value is cast to the type *T*.
+    #
+    # ```
+    # Matrix(Float32, 3, 3)[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    # # => [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]]
+    # ```
+    def self.[](*rows)
+      elements = rows.map do |row|
+        row.map { |e| T.new(e) }
+      end
+      new(elements)
+    end
+
     # Copies contents from another matrix.
     def initialize(matrix : CommonMatrix(T, M, N))
       {% raise "Source matrix to copy from must be the same size (#{@type.type_vars[1]}x#{@type.type_vars[2]} != #{M}x#{N})" if @type.type_vars[1] != M || @type.type_vars[2] != N %}

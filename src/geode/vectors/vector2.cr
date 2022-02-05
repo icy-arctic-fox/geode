@@ -18,6 +18,18 @@ module Geode
       Vector2.new(x, y)
     end
 
+    # Constructs a vector with existing components.
+    #
+    # The type of the components is specified by the type parameter.
+    # Each value is cast to the type *T*.
+    #
+    # ```
+    # Vector2F[1, 2] # => (1.0, 2.0)
+    # ```
+    def self.[](x, y)
+      Vector2.new(T.new(x), T.new(y))
+    end
+
     # Ensures that another vector and this one have the same size at compile-time.
     #
     # The *size* argument should be the type argument from the other vector type.
