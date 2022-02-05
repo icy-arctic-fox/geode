@@ -43,6 +43,14 @@ Spectator.describe Geode::Matrix1x1 do
     end
   end
 
+  describe ".new(scalar)" do
+    subject(square) { Geode::Matrix1x1(Int32).new(7) }
+
+    it "returns a matrix with the diagonal filled" do
+      expect(square).to eq(Geode::Matrix[[7]])
+    end
+  end
+
   describe "#map" do
     it "creates a matrix" do
       mapped = matrix.map(&.itself)

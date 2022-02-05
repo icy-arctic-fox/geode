@@ -101,11 +101,20 @@ module Geode
         # Creates an identity matrix.
         #
         # An identity matrix is a square matrix with ones along the diagonal and zeroes elsewhere.
+        @[AlwaysInline]
         def self.identity : self
+          new(T.multiplicative_identity)
+        end
+
+        # Creates a new matrix with the diagonal elements set to a scalar value.
+        #
+        # The main diagonal will be filled with *scalar*.
+        # All other elements will be zeroes.
+        def self.new(scalar : T) : self
           array = StaticArray(T, {{size}}).new(T.zero)
           {% index = 0 %}
           {% for i in 0...rows %}
-            array.unsafe_put({{index}}, T.multiplicative_identity)
+            array.unsafe_put({{index}}, scalar)
             {% index += columns + 1 %}
           {% end %}
           new(array)

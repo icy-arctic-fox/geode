@@ -146,11 +146,28 @@ module Geode
     # Matrix(Int32, 3, 3).identity
     # # => [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     # ```
+    @[AlwaysInline]
     def self.identity : self
       {% raise "Identity matrix must be a square matrix (M == N)" if M != N %}
 
+      new(T.multiplicative_identity)
+    end
+
+    # Creates a new matrix with the diagonal elements set to a scalar value.
+    #
+    # The main diagonal will be filled with *scalar*.
+    # All other elements will be zeroes.
+    # Raises a compilation error if *M* and *N* are not the same (producing a square matrix).
+    #
+    # ```
+    # Matrix(Int32, 3, 3).new(5)
+    # # => [[5, 0, 0], [0, 5, 0], [0, 0, 5]]
+    # ```
+    def self.new(scalar : T) : self
+      {% raise "Matrix must be a square matrix (M == N)" if M != N %}
+
       new do |i, j|
-        i == j ? T.multiplicative_identity : T.zero
+        i == j ? scalar : T.zero
       end
     end
 
