@@ -881,6 +881,89 @@ module Geode
         x, y, z, T.multiplicative_identity,
       ])
     end
+
+    # Creates a 3D view matrix oriented to look at a point.
+    #
+    # The *eye* is the position of the camera.
+    # *target* is the point being looked at.
+    # The *up* vector indicates which direction is "up" for the camera.
+    #
+    # The matrix produced is for right-handed systems.
+    #
+    # ```
+    # Matrix4F.look_at(Vector3F[1, 2, 3], Vector3F[0, 0, 0].Vector3F[0, 1, 0])
+    # ```
+    #
+    # TODO: Support `Point` types for *eye* and *target*.
+    def look_at_rh(eye : CommonVector(T, 3), target : CommonVector(T, 3), up : CommonVector(T, 3)) : self
+      f = (target - eye).normalize
+      s = f.cross(up).normalize
+      u = s.cross(f)
+
+      f_dot = f.dot(eye)
+      s_dot = s.dot(eye)
+      u_dot = u.dot(eye)
+
+      new(StaticArray[
+        s.x, u.x, -f.x, T.zero,
+        s.y, u.y, -f.y, T.zero,
+        s.z, u.z, -f.z, T.zero,
+        -s_dot, -u_dot, f_dot, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 3D view matrix oriented to look at a point.
+    #
+    # The *eye* is the position of the camera.
+    # *target* is the point being looked at.
+    # The *up* vector indicates which direction is "up" for the camera.
+    #
+    # The matrix produced is for left-handed systems.
+    #
+    # ```
+    # Matrix4F.look_at(Vector3F[1, 2, 3], Vector3F[0, 0, 0].Vector3F[0, 1, 0])
+    # ```
+    #
+    # TODO: Support `Point` types for *eye* and *target*.
+    def look_at_lh(eye : CommonVector(T, 3), target : CommonVector(T, 3), up : CommonVector(T, 3)) : self
+      f = (target - eye).normalize
+      s = up.cross(f).normalize
+      u = f.cross(s)
+
+      f_dot = f.dot(eye)
+      s_dot = s.dot(eye)
+      u_dot = u.dot(eye)
+
+      new(StaticArray[
+        s.x, u.x, f.x, T.zero,
+        s.y, u.y, f.y, T.zero,
+        s.z, u.z, f.z, T.zero,
+        -s_dot, -u_dot, -f_dot, T.multiplicative_identity,
+      ])
+    end
+
+    # Creates a 3D view matrix oriented to look at a point.
+    #
+    # The *eye* is the position of the camera.
+    # *target* is the point being looked at.
+    # The *up* vector indicates which direction is "up" for the camera.
+    #
+    # The handedness is controlled by compiler flags.
+    # Right-handed orientation is the default (common in OpenGL).
+    # Specify `-Dleft_handed` to use a left-handed system.
+    #
+    # ```
+    # Matrix4F.look_at(Vector3F[1, 2, 3], Vector3F[0, 0, 0].Vector3F[0, 1, 0])
+    # ```
+    #
+    # TODO: Support `Point` types for *eye* and *target*.
+    def look_at(eye : CommonVector(T, 3), target : CommonVector(T, 3), up : CommonVector(T, 3)) : self
+      {% if flag?(:left_handed) %}
+        look_at_lh(eye, target, up)
+      {% else %}
+        look_at_rh(eye, target, up)
+      {% end %}
+    end
   end
 
   # Transformation that can be performed in three-dimensions with 4x4 matrices.

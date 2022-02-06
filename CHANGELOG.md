@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ortho` and `perspective` projection methods for 4x4 matrices.
 - Add x, y, z, and w component getters for generic vector type.
 - Add cross-product for generic vector type.
+- `look_at` methods for 4x4 matrices.
 
 ## [0.2.0] - 2022-02-04
 ### Added

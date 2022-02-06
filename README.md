@@ -338,7 +338,8 @@ Some common matrix functions are listed below.
   [`.rotate_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#rotate_y%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
   [`.rotate_z`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#rotate_z%28angle%3ANumber%7CAngle%29%3Aself-instance-method),
   [`.scale`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3DConstructors.html#scale%28x%3AT%2Cy%3AT%2Cz%3AT%29%3Aself-instance-method),
-  [`.translate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix4x4Transforms3DConstructors.html#translate%28x%3AT%2Cy%3AT%2Cz%3AT%29%3Aself-instance-method)
+  [`.translate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix4x4Transforms3DConstructors.html#translate%28x%3AT%2Cy%3AT%2Cz%3AT%29%3Aself-instance-method),
+  [`.look_at`](https://arctic-fox.gitlab.io/geode/Geode/Matrix4x4Transforms3DConstructors.html#look_at%28eye%3ACommonVector%28T%2C3%29%2Ctarget%3ACommonVector%28T%2C3%29%2Cup%3ACommonVector%28T%2C3%29%29%3Aself-instance-method),
   [`#reflect_x`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#reflect_x%3Aself-instance-method),
   [`#reflect_y`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#reflect_y%3Aself-instance-method),
   [`#reflect_z`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#reflect_z%3Aself-instance-method),

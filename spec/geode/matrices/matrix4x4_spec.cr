@@ -1415,6 +1415,53 @@ Spectator.describe Geode::Matrix4x4 do
         end
       end
     end
+
+    describe ".look_at" do
+      let(args) { {Geode::Vector3D[1, 2, 3], Geode::Vector3D[0, 0, 0], Geode::Vector3D[0, 1, 0]} }
+      subject { Geode::Matrix4x4(Float64).look_at(*args) }
+
+      it "uses the method matching the compiler flags" do
+        {% if flag?(:left_handed) %}
+          left_handed = Geode::Matrix4x4(Float64).look_at_lh(*args)
+          is_expected.to eq(left_handed)
+        {% else %}
+          right_handed = Geode::Matrix4x4(Float64).look_at_rh(*args)
+          is_expected.to eq(right_handed)
+        {% end %}
+      end
+    end
+
+    describe ".look_at_rh" do
+      TOLERANCE = 0.000000001
+      let(eye) { Geode::Vector3D[1, 2, 3] }
+      let(target) { Geode::Vector3D[0, 0, 0] }
+      let(up) { Geode::Vector3D[0, 1, 0] }
+      let(matrix) { Geode::Matrix4x4(Float64).look_at_rh(eye, target, up) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          0.948683298, -0.169030851, 0.267261242, 0,
+          0, 0.845154255, 0.534522484, 0,
+          -0.316227766, -0.507092553, 0.801783726, 0,
+          0, 0, -3.741657387, 1)
+      end
+    end
+
+    describe ".look_at_lh" do
+      TOLERANCE = 0.000000001
+      let(eye) { Geode::Vector3D[1, 2, 3] }
+      let(target) { Geode::Vector3D[0, 0, 0] }
+      let(up) { Geode::Vector3D[0, 1, 0] }
+      let(matrix) { Geode::Matrix4x4(Float64).look_at_lh(eye, target, up) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          -0.948683298, -0.169030851, -0.267261242, 0,
+          0, 0.845154255, -0.534522484, 0,
+          0.316227766, -0.507092553, -0.801783726, 0,
+          0, 0, 3.741657387, 1)
+      end
+    end
   end
 
   context Geode::Matrix4x4Transforms3D do

@@ -382,22 +382,5 @@ module Geode
         {% end %}
       {% end %}
     end
-
-    def look_at(position : CommonVector(T, 3), target : CommonVector(T, 3), up : CommonVector(T, 3)) : self
-      forward = (target - position).normalize
-      side = forward.cross(up).normalize
-      up = side.cross(forward)
-
-      px = -side.dot(position)
-      py = -up.dot(position)
-      pz = forward.dot(position)
-
-      new(StaticArray[
-        side.x, up.x, -forward.x, T.zero,
-        side.y, up.y, -forward.y, T.zero,
-        side.z, up.z, -forward.z, T.zero,
-        px, py, pz, T.new(1),
-      ])
-    end
   end
 end
