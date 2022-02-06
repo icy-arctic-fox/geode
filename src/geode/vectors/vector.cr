@@ -136,6 +136,30 @@ module Geode
       unsafe_fetch(3)
     end
 
+    # Computes the cross-product of this and another vector.
+    #
+    # Raises a compilation error if the vector size (*N*) isn't 3.
+    #
+    # ```
+    # Vector[1, 3, 4].cross(Vector[2, -5, 8]) # => (44, 0, -11)
+    # ```
+    def cross(other : CommonVector(U, 3)) : CommonVector forall U
+      {% raise "Vector must have a size of 3 (N = 3) to perform cross-product" if N != 3 %}
+
+      x1 = unsafe_fetch(0)
+      y1 = unsafe_fetch(1)
+      z1 = unsafe_fetch(2)
+      x2 = other.unsafe_fetch(0)
+      y2 = other.unsafe_fetch(1)
+      z2 = other.unsafe_fetch(2)
+      x = y1 * z2 - z1 * y2
+      y = z1 * x2 - x1 * z2
+      z = x1 * y2 - y1 * x2
+
+      array = StaticArray[x, y, z]
+      self.class.new(array)
+    end
+
     # Returns a new vector where components are mapped by the given block.
     #
     # ```

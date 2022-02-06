@@ -71,6 +71,14 @@ Spectator.describe Geode::Vector do
     end
   end
 
+  describe "#cross" do
+    it "computes the cross-product" do
+      v1 = Geode::Vector[1, 3, 4]
+      v2 = Geode::Vector[2, -5, 8]
+      expect(v1.cross(v2)).to eq(Geode::Vector[44, 0, -11])
+    end
+  end
+
   describe "#map" do
     it "creates a Vector" do
       mapped = vector.map(&.itself)
