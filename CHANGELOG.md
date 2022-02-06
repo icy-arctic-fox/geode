@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatically cast values when type parameter doesn't match arguments.
 - `new` method for square matrices that accepts a scalar to populate the diagonal.
 - `ortho` and `perspective` projection methods for 4x4 matrices.
+- Add x, y, z, and w component getters for generic vector type.
 
 ## [0.2.0] - 2022-02-04
 ### Added

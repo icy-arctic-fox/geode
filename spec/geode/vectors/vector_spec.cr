@@ -38,6 +38,39 @@ Spectator.describe Geode::Vector do
     end
   end
 
+  describe "#x" do
+    subject { vector.x }
+
+    it "returns the x component" do
+      is_expected.to eq(1)
+    end
+  end
+
+  describe "#y" do
+    subject { vector.y }
+
+    it "returns the y component" do
+      is_expected.to eq(2)
+    end
+  end
+
+  describe "#z" do
+    subject { vector.z }
+
+    it "returns the z component" do
+      is_expected.to eq(3)
+    end
+  end
+
+  describe "#w" do
+    let(vector) { Geode::Vector[1, 2, 3, 4] }
+    subject { vector.w }
+
+    it "returns the w component" do
+      is_expected.to eq(4)
+    end
+  end
+
   describe "#map" do
     it "creates a Vector" do
       mapped = vector.map(&.itself)

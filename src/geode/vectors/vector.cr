@@ -100,6 +100,42 @@ module Geode
       new { T.zero }
     end
 
+    # Retrieves the x component.
+    #
+    # Raises a compilation error if the vector size (*N*) is less than 1.
+    def x : T
+      {% raise "Vector does not have an x component (N < 1)" if N < 1 %}
+
+      unsafe_fetch(0)
+    end
+
+    # Retrieves the y component.
+    #
+    # Raises a compilation error if the vector size (*N*) is less than 2.
+    def y : T
+      {% raise "Vector does not have an x component (N < 2)" if N < 2 %}
+
+      unsafe_fetch(1)
+    end
+
+    # Retrieves the z component.
+    #
+    # Raises a compilation error if the vector size (*N*) is less than 3.
+    def z : T
+      {% raise "Vector does not have a z component (N < 3)" if N < 3 %}
+
+      unsafe_fetch(2)
+    end
+
+    # Retrieves the w component.
+    #
+    # Raises a compilation error if the vector size (*N*) is less than 4.
+    def w : T
+      {% raise "Vector does not have a w component (N < 4)" if N < 4 %}
+
+      unsafe_fetch(3)
+    end
+
     # Returns a new vector where components are mapped by the given block.
     #
     # ```
