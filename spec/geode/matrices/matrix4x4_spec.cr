@@ -1595,4 +1595,174 @@ Spectator.describe Geode::Matrix4x4 do
       end
     end
   end
+
+  context Geode::MatrixProjections do
+    TOLERANCE = 0.000000001
+
+    describe ".ortho (2D)" do
+      let(matrix) { Geode::Matrix4x4(Float64).ortho(-400.0, 400.0, -300.0, 300.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / 400, 0, 0, 0,
+          0, 1 / 300, 0, 0,
+          0, 0, -1, 0,
+          0, 0, 0, 1)
+      end
+    end
+
+    describe ".ortho (3D)" do
+      let(args) { {-400.0, 400.0, -300.0, 300.0, 1.0, 100.0} }
+      subject { Geode::Matrix4x4(Float64).ortho(*args) }
+
+      it "uses the method matching the compiler flags" do
+        {% if flag?(:left_handed) %}
+          {% if flag?(:z_zero_one) %}
+            lh_zo = Geode::Matrix4x4(Float64).ortho_lh_zo(*args)
+            is_expected.to eq(lh_zo)
+          {% else %}
+            lh_no = Geode::Matrix4x4(Float64).ortho_lh_no(*args)
+            is_expected.to eq(lh_no)
+          {% end %}
+        {% else %}
+          {% if flag?(:z_zero_one) %}
+            rh_zo = Geode::Matrix4x4(Float64).ortho_rh_zo(*args)
+            is_expected.to eq(rh_zo)
+          {% else %}
+            rh_no = Geode::Matrix4x4(Float64).ortho_rh_no(*args)
+            is_expected.to eq(rh_no)
+          {% end %}
+        {% end %}
+      end
+    end
+
+    describe ".ortho_rh_no" do
+      let(matrix) { Geode::Matrix4x4(Float64).ortho_rh_no(-400.0, 400.0, -300.0, 300.0, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / 400, 0, 0, 0,
+          0, 1 / 300, 0, 0,
+          0, 0, -2 / 99, 0,
+          0, 0, -101 / 99, 1)
+      end
+    end
+
+    describe ".ortho_rh_zo" do
+      let(matrix) { Geode::Matrix4x4(Float64).ortho_rh_zo(-400.0, 400.0, -300.0, 300.0, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / 400, 0, 0, 0,
+          0, 1 / 300, 0, 0,
+          0, 0, -1 / 99, 0,
+          0, 0, -1 / 99, 1)
+      end
+    end
+
+    describe ".ortho_lh_no" do
+      let(matrix) { Geode::Matrix4x4(Float64).ortho_lh_no(-400.0, 400.0, -300.0, 300.0, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / 400, 0, 0, 0,
+          0, 1 / 300, 0, 0,
+          0, 0, 2 / 99, 0,
+          0, 0, -101 / 99, 1)
+      end
+    end
+
+    describe ".ortho_lh_zo" do
+      let(matrix) { Geode::Matrix4x4(Float64).ortho_lh_zo(-400.0, 400.0, -300.0, 300.0, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / 400, 0, 0, 0,
+          0, 1 / 300, 0, 0,
+          0, 0, 1 / 99, 0,
+          0, 0, -1 / 99, 1)
+      end
+    end
+
+    describe ".perspective" do
+      let(args) { {Geode::Degrees.new(45.0), 800 / 600, 1.0, 100.0} }
+      subject { Geode::Matrix4x4(Float64).perspective(*args) }
+
+      it "uses the method matching the compiler flags" do
+        {% if flag?(:left_handed) %}
+          {% if flag?(:z_zero_one) %}
+            lh_zo = Geode::Matrix4x4(Float64).perspective_lh_zo(*args)
+            is_expected.to eq(lh_zo)
+          {% else %}
+            lh_no = Geode::Matrix4x4(Float64).perspective_lh_no(*args)
+            is_expected.to eq(lh_no)
+          {% end %}
+        {% else %}
+          {% if flag?(:z_zero_one) %}
+            rh_zo = Geode::Matrix4x4(Float64).perspective_rh_zo(*args)
+            is_expected.to eq(rh_zo)
+          {% else %}
+            rh_no = Geode::Matrix4x4(Float64).perspective_rh_no(*args)
+            is_expected.to eq(rh_no)
+          {% end %}
+        {% end %}
+      end
+    end
+
+    describe ".perspective_rh_no" do
+      let(fov) { Geode::Degrees.new(45.0) }
+      let(aspect) { 800 / 600 }
+      let(matrix) { Geode::Matrix4x4(Float64).perspective_rh_no(fov, aspect, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / (Math.tan(fov / 2) * aspect), 0, 0, 0,
+          0, 1 / Math.tan(fov / 2), 0, 0,
+          0, 0, -101 / 99, -1,
+          0, 0, -200 / 99, 0)
+      end
+    end
+
+    describe ".perspective_rh_zo" do
+      let(fov) { Geode::Degrees.new(45.0) }
+      let(aspect) { 800 / 600 }
+      let(matrix) { Geode::Matrix4x4(Float64).perspective_rh_zo(fov, aspect, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / (Math.tan(fov / 2) * aspect), 0, 0, 0,
+          0, 1 / Math.tan(fov / 2), 0, 0,
+          0, 0, -100 / 99, -1,
+          0, 0, -100 / 99, 0)
+      end
+    end
+
+    describe ".perspective_lh_no" do
+      let(fov) { Geode::Degrees.new(45.0) }
+      let(aspect) { 800 / 600 }
+      let(matrix) { Geode::Matrix4x4(Float64).perspective_lh_no(fov, aspect, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / (Math.tan(fov / 2) * aspect), 0, 0, 0,
+          0, 1 / Math.tan(fov / 2), 0, 0,
+          0, 0, 101 / 99, 1,
+          0, 0, -200 / 99, 0)
+      end
+    end
+
+    describe ".perspective_lh_zo" do
+      let(fov) { Geode::Degrees.new(45.0) }
+      let(aspect) { 800 / 600 }
+      let(matrix) { Geode::Matrix4x4(Float64).perspective_lh_zo(fov, aspect, 1.0, 100.0) }
+
+      it "produces the correct matrix" do
+        expect_within_tolerance(matrix,
+          1 / (Math.tan(fov / 2) * aspect), 0, 0, 0,
+          0, 1 / Math.tan(fov / 2), 0, 0,
+          0, 0, 100 / 99, 1,
+          0, 0, -100 / 99, 0)
+      end
+    end
+  end
 end

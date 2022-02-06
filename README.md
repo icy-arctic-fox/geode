@@ -348,6 +348,9 @@ Some common matrix functions are listed below.
   [`#rotate_z`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#rotate_z%28angle%3ANumber%7CAngle%29%3ACommonMatrix-instance-method),
   [`#scale`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#scale%28x%2Cy%2Cz%29%3ACommonMatrix-instance-method),
   [`#translate`](https://arctic-fox.gitlab.io/geode/Geode/Matrix3x3Transforms3D.html#translate%28x%2Cy%2Cz%29%3ACommonMatrix-instance-method)
+- Projections:
+  [`.ortho`](https://arctic-fox.gitlab.io/geode/Geode/MatrixProjections.html#ortho(left%3AT%2Cright%3AT%2Cbottom%3AT%2Ctop%3AT%2Cnear%3AT%2Cfar%3AT)%3Aself-instance-method),
+  [`.perspective`](https://arctic-fox.gitlab.io/geode/Geode/MatrixProjections.html#perspective%28fov%3ANumber%7CAngle%2Caspect%3AT%2Cnear%3AT%2Cfar%3AT%29%3Aself-instance-method)
 
 #### Multiplication
 
@@ -432,6 +435,39 @@ matrix = Matrix2(Float64).rotate(45.degrees).translate(2, 3)
 vector * matrix           # => (1.292893219, 5.121320343, 1.0)
 matrix.transpose * vector # => (1.292893219, 5.121320343, 1.0)
 ```
+
+#### Projection
+
+The following projection methods are available:
+
+##### Orthographic
+
+The [`Matrix4x4.ortho`](https://arctic-fox.gitlab.io/geode/Geode/MatrixProjections.html#ortho%28left%3AT%2Cright%3AT%2Cbottom%3AT%2Ctop%3AT%2Cnear%3AT%2Cfar%3AT%29%3Aself-instance-method) method can be used to generate an orthographic projection.
+There is also a [2D variant by the same name](https://arctic-fox.gitlab.io/geode/Geode/MatrixProjections.html#ortho%28left%3AT%2Cright%3AT%2Cbottom%3AT%2Ctop%3AT%29%3Aself-instance-method).
+These methods take the bounds of the region to project (clipping planes).
+
+##### Perspective
+
+The [`Matrix4x4.perspective`](https://arctic-fox.gitlab.io/geode/Geode/MatrixProjections.html#perspective%28fov%3ANumber%7CAngle%2Caspect%3AT%2Cnear%3AT%2Cfar%3AT%29%3Aself-instance-method) constructs a perspective projection matrix.
+This method takes a field-of-view, aspect ratio, and near and far clipping planes.
+The field-of-view is the **vertical** angle, not horizontal.
+
+##### Handedness and Z-normalization
+
+By default, the 3D projection methods produce matrices for right-handed coordinate systems with z normalized between -1 and 1.
+This is typical for OpenGL.
+If a different layout is needed, there are variants of these methods.
+Add one of the following suffixes to change the behavior (e.g. `perspective_lh_zo`):
+
+- `_lh_zo` - left-handed, z from 0 to 1.
+- `_lh_no` - left-handed, z from -1 to 1.
+- `_rh_zo` - right-handed, z from 0 to 1.
+- `_rh_no` - right-handed, z from -1 to 1 (the default).
+
+The method used by the methods without a suffix is controlled by compiler flags.
+This is an ideal way to change the layout method globally.
+`-Dleft_handed` will use a left-handed coordinate system.
+`-Dz_zero_one` will normalize z between 0 and 1.
 
 #### Indexing
 
