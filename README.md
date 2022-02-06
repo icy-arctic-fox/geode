@@ -18,7 +18,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   geode:
     gitlab: arctic-fox/geode
-    version: ~> 0.2.0
+    version: ~> 0.2.1
 ```
 
 Usage
