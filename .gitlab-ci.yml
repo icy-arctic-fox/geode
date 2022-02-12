@@ -22,42 +22,42 @@ spec:
     reports:
       junit: output.xml
 
-spec-angles:
+spec angles:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/angles/**
 
-spec-matrices:
+spec matrices:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix_spec.cr spec/geode/matrices/matrices_spec.cr
 
-spec-matrix1:
+spec matrix 1/4:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix1*_spec.cr
 
-spec-matrix2:
+spec matrix 2/4:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix2*_spec.cr
 
-spec-matrix3:
+spec matrix 3/4:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix3*_spec.cr
 
-spec-matrix4:
+spec matrix 4/4:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix4*_spec.cr
 
-spec-points:
+spec points:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/points/**
 
-spec-vectors:
+spec vectors:
   extends: spec
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/vectors/**
