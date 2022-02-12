@@ -89,9 +89,9 @@ module Geode
 
     # Constructs a zero-vector.
     #
-    # Each component will have a scalar value equal to the type's'zero value.
+    # Each component will have a scalar value equal to the type's zero value.
     # This is done by calling `T.zero` for each component.
-    # The type *T* must have a class method
+    # The type *T* must have a `.zero` class method.
     #
     # ```
     # Vector(Float32, 3).zero # => (0.0, 0.0, 0.0)
