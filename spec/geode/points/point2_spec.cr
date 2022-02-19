@@ -120,6 +120,51 @@ Spectator.describe Geode::Point2 do
     end
   end
 
+  describe "#zero?" do
+    subject { point.zero? }
+
+    context "with an origin point" do
+      let(point) { Geode::Point2(Int32).origin }
+
+      it "is true" do
+        is_expected.to be_true
+      end
+    end
+
+    context "with a non-origin point" do
+      it "is false" do
+        is_expected.to be_false
+      end
+    end
+  end
+
+  describe "#near_zero?" do
+    let(tolerance) { 0.001 }
+    subject { point.near_zero?(tolerance) }
+
+    context "with an origin point" do
+      let(point) { Geode::Point2(Float64).origin }
+
+      it "is true" do
+        is_expected.to be_true
+      end
+    end
+
+    context "with a point within tolerance" do
+      let(point) { Geode::Point2(Float64).new(0.0001, -0.0002) }
+
+      it "is true" do
+        is_expected.to be_true
+      end
+    end
+
+    context "with a non-origin point" do
+      it "is false" do
+        is_expected.to be_false
+      end
+    end
+  end
+
   describe "#to_vector" do
     subject { point.to_vector }
 
@@ -189,6 +234,44 @@ Spectator.describe Geode::Point2 do
       aggregate_failures do
         expect(pointer[0]).to eq(5)
         expect(pointer[1]).to eq(7)
+      end
+    end
+  end
+
+  describe "#==" do
+    subject { point == other }
+
+    context "with the same point" do
+      let(other) { point }
+
+      it "returns true" do
+        is_expected.to be_true
+      end
+    end
+
+    context "with different coordinate type" do
+      context "and equal values" do
+        let(other) { Geode::Point2(Float32).new(5.0, 7.0) }
+
+        it "returns true" do
+          is_expected.to be_true
+        end
+      end
+
+      context "and different values" do
+        let(other) { Geode::Point2(Float32).new(1.0, 2.0) }
+
+        it "returns false" do
+          is_expected.to be_false
+        end
+      end
+    end
+
+    context "with a different size" do
+      let(other) { Geode::Point3(Int32).origin }
+
+      it "return false" do
+        is_expected.to be_false
       end
     end
   end

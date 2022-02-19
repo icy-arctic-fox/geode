@@ -79,6 +79,32 @@ module Geode
       end
     end
 
+    # Checks if this point is located at the origin.
+    #
+    # Returns true if all coordinates of this point are zero.
+    #
+    # See: `#near_zero?`
+    #
+    # ```
+    # Point3[0, 0, 0].zero? # => true
+    # Point3[1, 0, 2].zero? # => false
+    # ```
+    def zero?
+      all? &.zero?
+    end
+
+    # Checks if this point is located near the origin.
+    #
+    # Returns true if all coordinates of this point are close to zero.
+    #
+    # ```
+    # Point3[0.0, 0.01, 0.001].near_zero?(0.01) # => true
+    # Point3[0.1, 0.0, 0.01].near_zero?(0.01)   # => false
+    # ```
+    def near_zero?(tolerance)
+      all? { |v| v.abs <= tolerance }
+    end
+
     # Retrieves the scalar value of the coordinate at the given *index*,
     # without checking size boundaries.
     #
@@ -127,6 +153,24 @@ module Geode
     @[AlwaysInline]
     def to_unsafe : Pointer(T)
       @array.to_unsafe
+    end
+
+    # Checks if coordinates between two points are equal.
+    #
+    # Compares this point coordinate-wise to another.
+    # Returns true if all coordinates are equal, false otherwise.
+    #
+    # ```
+    # Point3[1, 2, 3] == Point3[1, 2, 3] # => true
+    # Point3[1, 2, 3] == Point3[3, 2, 1] # => false
+    # ```
+    def ==(other : Point)
+      return false if size != other.size
+
+      each_with_index do |v, i|
+        return false if v != other.unsafe_fetch(i)
+      end
+      true
     end
   end
 end
