@@ -105,7 +105,7 @@ Spectator.describe Geode::Point2 do
 
   describe "#map_with_index" do
     it "transforms coordinates" do
-      mapped = point.map_with_index { |v, i| v * 2.0 }
+      mapped = point.map_with_index { |v, _i| v * 2.0 }
       expect(mapped).to eq(Geode::Point2[10.0, 14.0])
     end
 
