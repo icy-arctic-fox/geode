@@ -27,4 +27,5 @@ end
 
 require "./geode/angles"
 require "./geode/matrices"
+require "./geode/points"
 require "./geode/vectors"

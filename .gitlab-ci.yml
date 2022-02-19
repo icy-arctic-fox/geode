@@ -52,6 +52,11 @@ spec-matrix4:
   script:
     - crystal spec --error-on-warnings --junit_output=. spec/geode/matrices/matrix4*_spec.cr
 
+spec-points:
+  extends: spec
+  script:
+    - crystal spec --error-on-warnings --junit_output=. spec/geode/points/**
+
 spec-vectors:
   extends: spec
   script:

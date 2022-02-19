@@ -1,0 +1,195 @@
+require "../../spec_helper"
+
+Spectator.describe Geode::Point2 do
+  subject(point) { Geode::Point2.new(5, 7) }
+
+  it "stores the coordinates" do
+    aggregate_failures do
+      expect(point[0]).to eq(5)
+      expect(point[1]).to eq(7)
+    end
+  end
+
+  describe "#initialize" do
+    context "with a block" do
+      it "yields the index" do
+        args = [] of Int32
+        Geode::Point2(Int32).new do |i|
+          args << i
+          42
+        end
+        expect(args).to eq([0, 1])
+      end
+
+      it "use the block value" do
+        point = Geode::Point2(Int32).new &.itself
+        expect(point).to eq(Geode::Point2[0, 1])
+      end
+    end
+
+    context "with mismatched types" do
+      it "converts the types" do
+        point = Geode::Point2(Float64).new(1, 2)
+        aggregate_failures do
+          expect(point[0]).to eq(1.0)
+          expect(point[1]).to eq(2.0)
+        end
+      end
+    end
+  end
+
+  describe ".[]" do
+    it "creates a point" do
+      point = Geode::Point2[42, 24]
+      aggregate_failures do
+        expect(point[0]).to eq(42)
+        expect(point[1]).to eq(24)
+      end
+    end
+
+    it "casts types" do
+      point = Geode::Point2(Float64)[2, 4]
+      aggregate_failures do
+        expect(point[0]).to be(2.0)
+        expect(point[1]).to be(4.0)
+      end
+    end
+  end
+
+  describe ".zero" do
+    subject { Geode::Point2(Int32).zero }
+
+    it "returns a point with all zeroes" do
+      is_expected.to eq(Geode::Point2[0, 0])
+    end
+  end
+
+  describe ".origin" do
+    subject { Geode::Point2(Int32).origin }
+
+    it "returns a point with all zeroes" do
+      is_expected.to eq(Geode::Point2[0, 0])
+    end
+  end
+
+  describe "#size" do
+    subject { point.size }
+
+    it "is 2" do
+      is_expected.to eq(2)
+    end
+  end
+
+  describe "#x" do
+    subject { point.x }
+
+    it "returns the x-coordinate" do
+      is_expected.to eq(5)
+    end
+  end
+
+  describe "#y" do
+    subject { point.y }
+
+    it "returns the y-coordinate" do
+      is_expected.to eq(7)
+    end
+  end
+
+  describe "#map" do
+    it "transforms coordinates" do
+      mapped = point.map { |v| v * 2.0 }
+      expect(mapped).to eq(Geode::Point2[10.0, 14.0])
+    end
+  end
+
+  describe "#map_with_index" do
+    it "transforms coordinates" do
+      mapped = point.map_with_index { |v, i| v * 2.0 }
+      expect(mapped).to eq(Geode::Point2[10.0, 14.0])
+    end
+
+    it "provides an offset" do
+      mapped = point.map_with_index { |v, i| v * i }
+      expect(mapped).to eq(Geode::Point2[0, 7])
+    end
+
+    it "applies the offset" do
+      mapped = point.map_with_index(2) { |v, i| v * i }
+      expect(mapped).to eq(Geode::Point2[10, 21])
+    end
+  end
+
+  describe "#to_vector" do
+    subject { point.to_vector }
+
+    it "returns a vector" do
+      is_expected.to eq(Geode::Vector2[5, 7])
+    end
+  end
+
+  describe "#tuple" do
+    subject { point.tuple }
+
+    it "returns a tuple" do
+      is_expected.to eq({5, 7})
+    end
+  end
+
+  describe "to_row" do
+    subject { point.to_row }
+
+    it "returns a row vector" do
+      is_expected.to eq(Geode::Matrix1x2[[5, 7]])
+    end
+  end
+
+  describe "to_column" do
+    subject { point.to_column }
+
+    it "returns a column vector" do
+      is_expected.to eq(Geode::Matrix2x1[[5], [7]])
+    end
+  end
+
+  describe "#to_s" do
+    subject { point.to_s }
+
+    it "is formatted correctly" do
+      is_expected.to eq("(5, 7)")
+    end
+  end
+
+  describe "#inspect" do
+    subject { point.inspect }
+
+    it "is formatted correctly" do
+      is_expected.to eq("Geode::Point2(Int32)#<x: 5, y: 7>")
+    end
+  end
+
+  describe "#to_slice" do
+    it "returns a slice containing the coordinates" do
+      slice = point.to_slice
+      aggregate_failures do
+        expect(slice[0]).to eq(5)
+        expect(slice[1]).to eq(7)
+      end
+    end
+
+    it "has a size of 2" do
+      slice = point.to_slice
+      expect(slice.size).to eq(2)
+    end
+  end
+
+  describe "#to_unsafe" do
+    it "returns a pointer referencing the coordinates" do
+      pointer = point.to_unsafe
+      aggregate_failures do
+        expect(pointer[0]).to eq(5)
+        expect(pointer[1]).to eq(7)
+      end
+    end
+  end
+end
