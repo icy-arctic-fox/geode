@@ -1,0 +1,9 @@
+Lint/DebugCalls:
+  Description: Disallows debug-related calls
+  MethodNames:
+    - p # Ameba falsely identifies `p` as a debug call when it is a reference to a matrix element.
+  Excluded:
+    - src/geode/matrices/transforms3d.cr
+    - src/geode/matrices/matrix4.cr
+  Enabled: false
+  Severity: Warning
