@@ -12,4 +12,4 @@ development_dependencies:
     gitlab: arctic-fox/spectator
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.14.3
+    version: ~> 1.0.0
